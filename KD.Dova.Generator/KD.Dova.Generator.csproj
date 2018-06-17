@@ -1,20 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Copyright>https://github.com/Sejoslaw/KD.Dova/blob/master/LICENSE</Copyright>
+    <PackageLicenseUrl>https://github.com/Sejoslaw/KD.Dova/blob/master/LICENSE</PackageLicenseUrl>
     <Authors>Krzysztof Dobrzyński</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Copyright>https://github.com/Sejoslaw/KD.Dova/blob/master/LICENSE</Copyright>
-    <PackageLicenseUrl>https://github.com/Sejoslaw/KD.Dova/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/Sejoslaw/KD.Dova</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/Sejoslaw/KD.Dova</RepositoryUrl>
-    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Natives\Structures\" />
+    <ProjectReference Include="..\KD.Dova\KD.Dova.csproj" />
   </ItemGroup>
 
 </Project>
