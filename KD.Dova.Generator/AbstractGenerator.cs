@@ -3,6 +3,7 @@ using KD.Dova.Generator.Definitions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace KD.Dova.Generator
 {
@@ -53,13 +54,18 @@ namespace KD.Dova.Generator
                     func.ReturnType = this.ParseFunctionReturnType(funcDef);
                     func.Name = this.ParseFunctionName(funcDef);
 
-                    this.ParseFunctionParameters(func, funcIndex, lines, funcDef);
-
-                    if (!func.ReturnType.Contains("(") &&
-                        !string.IsNullOrEmpty(func.Name))
+                    if (!this.MethodRegistered(func, def))
                     {
-                        def.Functions.Add(func);
+                        this.ParseFunctionParameters(func, funcIndex, lines, funcDef);
+
+                        if (!func.ReturnType.Contains("(") &&
+                            !string.IsNullOrEmpty(func.Name))
+                        {
+                            def.Functions.Add(func);
+                        }
                     }
+
+                    func.Clean();
                 }
 
                 funcIndex++;
@@ -69,37 +75,73 @@ namespace KD.Dova.Generator
             return funcDef;
         }
 
-        private void ParseFunctionParameters(FunctionDefinition func, int funcIndex, string[] lines, string funcDef)
+        internal bool MethodRegistered(FunctionDefinition func, StructureDefinition def)
+        {
+            return def.Functions.Where(funcDef => func.Name.StartsWith(funcDef.Name)).FirstOrDefault() != null;
+        }
+
+        internal void ParseFunctionParameters(FunctionDefinition func, int funcIndex, string[] lines, string funcDef)
         {
             funcDef = funcDef.Trim();
 
-            if (funcDef.EndsWith(");")) // Single-line function.
+            if ((!funcDef.StartsWith("(") && (!funcDef.EndsWith(")"))) ||
+                funcDef.EndsWith(");")) // Single-line function.
             {
                 string[] splitted = funcDef.Split("(");
 
-                if (splitted.Length > 2)
-                {
-                    funcDef = splitted[2];
-                }
-                else
-                {
-                    funcDef = splitted[1];
-                }
+                funcDef = splitted.Last();
 
                 funcDef = funcDef.Substring(0, funcDef.Length - 2);
-
-                string[] parameters = funcDef.Split(",");
-                foreach (string param in parameters)
-                {
-                    string trimmed = param.Trim();
-                    string type = this.ParseFieldType(trimmed);
-                    string name = this.ParseFieldName(trimmed);
-
-                    func.Params.Add(new FieldDefinition { Name = name, Type = type });
-                }
+                this.ParseFunctionParametersFromLine(func, funcDef);
             }
             else // Multi-line function
             {
+                do
+                {
+                    funcIndex++;
+                    funcDef = lines[funcIndex].Trim();
+
+                    if (!funcDef.EndsWith(")"))
+                    {
+                        if (!funcDef.StartsWith("j"))
+                        {
+                            funcDef = funcDef.Substring(1, funcDef.Length - 1);
+                        }
+
+                        if (funcDef.EndsWith(","))
+                        {
+                            funcDef = funcDef.Substring(0, funcDef.Length - 1);
+                        }
+
+                        this.ParseFunctionParametersFromLine(func, funcDef);
+                    }
+                }
+                while (!funcDef.EndsWith(");"));
+            }
+        }
+
+        internal void ParseFunctionParametersFromLine(FunctionDefinition func, string parametersLine)
+        {
+            string[] parameters = parametersLine.Split(",");
+            foreach (string param in parameters)
+            {
+                string trimmed = param.Trim();
+
+                if (trimmed.StartsWith("("))
+                {
+                    trimmed = trimmed.Substring(1, trimmed.Length - 1);
+                }
+
+                string type = this.ParseFieldType(trimmed);
+                string name = this.ParseFieldName(trimmed);
+
+                if (type.Contains("..."))
+                {
+                    type = "params NativeValue[]";
+                    name = "args";
+                }
+
+                func.Params.Add(new FieldDefinition { Name = name, Type = type });
             }
         }
 
@@ -132,7 +174,12 @@ namespace KD.Dova.Generator
         internal string ParseFunctionName(string line)
         {
             string funcDef = line.Trim();
-            funcDef = funcDef.Split("*")[1];
+            funcDef = funcDef.Split("*").LastOrDefault();
+
+            if (string.IsNullOrEmpty(funcDef))
+            {
+                return "";
+            }
 
             if (funcDef.StartsWith("(") ||
                 !funcDef.Contains(")"))
@@ -175,7 +222,7 @@ namespace KD.Dova.Generator
 
             if (fieldName.Contains(" "))
             {
-                fieldName = fieldName.Split(" ")[1].Trim();
+                fieldName = fieldName.Split(" ").Last().Trim();
             }
 
             if (fieldName.StartsWith("*"))
@@ -186,6 +233,15 @@ namespace KD.Dova.Generator
             if (fieldName.EndsWith(";"))
             {
                 fieldName = fieldName.Substring(0, fieldName.Length - 1);
+            }
+
+            if (fieldName.StartsWith("ref"))
+            {
+                fieldName = "reference";
+            }
+            else if (fieldName.StartsWith("string"))
+            {
+                fieldName = "str";
             }
 
             return fieldName;
@@ -206,7 +262,9 @@ namespace KD.Dova.Generator
 
                 string pointerType = fieldType.Split("*")[0];
 
-                if (pointerType.IsPrimitive())
+                if (pointerType.IsPrimitive() ||
+                    fieldType.StartsWith("JNIEnv") ||
+                    pointerType.StartsWith("j"))
                 {
                     return POINTER;
                 }
