@@ -71,7 +71,8 @@ namespace KD.Dova.Generator
         /// </summary>
         public void InitializeGenerators()
         {
-            this.Generators.Add(new BasicStructuresGenerator());
+            //this.Generators.Add(new BasicStructuresGenerator());
+            this.Generators.Add(new JniInterfacesGenerator());
         }
     }
 }

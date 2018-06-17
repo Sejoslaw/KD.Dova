@@ -2,24 +2,23 @@
 
 namespace KD.Dova.Generator.Generators
 {
-    /// <summary>
-    /// Used to generate basic structure files.
-    /// </summary>
-    internal class BasicStructuresGenerator : AbstractGenerator
+    internal class JniInterfacesGenerator : AbstractGenerator
     {
         public override void Generate(string[] lines)
         {
-            string lineBeginning = "typedef struct ";
+            string lineBeginning = "struct ";
+            string lineEnding = " {";
 
             for (int i = 0; i < lines.Length; ++i)
             {
                 string line = lines[i];
 
-                if (line.StartsWith(lineBeginning) && !line.EndsWith(";"))
+                if (line.StartsWith(lineBeginning) && line.EndsWith(lineEnding))
                 {
                     StructureDefinition def = new StructureDefinition();
-                    string structName = this.ParseStructureFields(def, lines, i);
-                    def.Name = this.ParseStructureName(structName);
+                    def.Name = this.ParseStructureName(line);
+                    this.ParseStructureFields(def, lines, i);
+                    this.ParseStructureFunctions(def, lines, i);
 
                     this.GenerateFile(def);
                 }
