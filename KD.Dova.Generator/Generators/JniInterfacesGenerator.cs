@@ -17,6 +17,7 @@ namespace KD.Dova.Generator.Generators
                 {
                     StructureDefinition def = new StructureDefinition();
                     def.Name = this.ParseStructureName(line);
+
                     this.ParseStructureFields(def, lines, i);
                     this.ParseStructureFunctions(def, lines, i);
 

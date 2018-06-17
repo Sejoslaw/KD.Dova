@@ -1,6 +1,5 @@
 ﻿using KD.Dova.Extensions;
 using KD.Dova.Generator.Definitions;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,18 +14,29 @@ namespace KD.Dova.Generator
         {
             int fieldIndex = startIndex + 1; // set to first property
             string fieldDef = lines[fieldIndex];
+            bool isCppDefinitions = false;
 
             // Read structure properties.
             while (!fieldDef.StartsWith("}"))
             {
-                if (!string.IsNullOrEmpty(fieldDef))
+                if (fieldDef.Contains("#ifdef __cplusplus"))
+                {
+                    isCppDefinitions = true;
+                }
+                else if (fieldDef.Contains("#endif"))
+                {
+                    isCppDefinitions = false;
+                }
+
+                if (!string.IsNullOrEmpty(fieldDef) && !isCppDefinitions)
                 {
                     string fieldType = this.ParseFieldType(fieldDef);
                     string fieldName = this.ParseFieldName(fieldDef);
 
                     if ((!string.IsNullOrEmpty(fieldType) && !fieldType.Contains("/") && !string.IsNullOrEmpty(fieldName)) &&
                         (!fieldName.Contains("(") && !fieldName.Contains(")")) &&
-                        (!fieldDef.EndsWith(");")))
+                        (!fieldDef.EndsWith(");")) &&
+                        (!fieldDef.Contains("#")))
                     {
                         def.Fields.Add(new FieldDefinition { Type = fieldType, Name = fieldName });
                     }
@@ -43,12 +53,23 @@ namespace KD.Dova.Generator
         {
             int funcIndex = startIndex + 1;
             string funcDef = lines[funcIndex];
+            bool isCppDefinitions = false;
 
             // Read structure function signatures.
             while (!funcDef.StartsWith("};"))
             {
+                if (funcDef.Contains("#ifdef __cplusplus"))
+                {
+                    isCppDefinitions = true;
+                }
+                else if (funcDef.Contains("#endif"))
+                {
+                    isCppDefinitions = false;
+                }
+
                 if (!string.IsNullOrEmpty(funcDef) &&
-                    funcDef.Contains("(")) // Fields won't have it.
+                    funcDef.Contains("(") && // Fields won't have it.
+                    !isCppDefinitions) 
                 {
                     FunctionDefinition func = new FunctionDefinition();
                     func.ReturnType = this.ParseFunctionReturnType(funcDef);

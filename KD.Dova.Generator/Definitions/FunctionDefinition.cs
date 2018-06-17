@@ -43,6 +43,14 @@ namespace KD.Dova.Generator.Definitions
         {
             string prim = this.GetPrimitiveType(this.Name.ToLower());
 
+            foreach (FieldDefinition field in this.Params)
+            {
+                if (char.IsUpper(field.Type.ToCharArray().First()))
+                {
+                    field.Type += "_";
+                }
+            }
+
             if (this.Name.ToLower().StartsWith("release"))
             {
                 FieldDefinition def = this.Params.Where(field => field.Name.Equals("elems")).FirstOrDefault();
