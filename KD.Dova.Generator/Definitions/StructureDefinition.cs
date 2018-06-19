@@ -8,8 +8,8 @@ namespace KD.Dova.Generator.Definitions
     /// </summary>
     internal class StructureDefinition : FileConvertable
     {
-        public ICollection<FieldDefinition> Fields { get; }
-        public ICollection<FunctionDefinition> Functions { get; }
+        public List<FieldDefinition> Fields { get; }
+        public List<FunctionDefinition> Functions { get; }
 
         public StructureDefinition()
         {

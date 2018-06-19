@@ -146,7 +146,15 @@ namespace KD.Dova.Generator
 
         internal bool MethodRegistered(FunctionDefinition func, StructureDefinition def)
         {
-            return def.Functions.Where(funcDef => func.Name.StartsWith(funcDef.Name)).FirstOrDefault() != null;
+            foreach (FunctionDefinition function in def.Functions)
+            {
+                if (func.Name.StartsWith(function.Name) && ((func.Name.Length - function.Name.Length) == 1))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         internal void ParseFunctionParameters(FunctionDefinition func, int funcIndex, string[] lines, string funcDef)
@@ -243,22 +251,32 @@ namespace KD.Dova.Generator
         internal string ParseFunctionName(string line)
         {
             string funcDef = line.Trim();
-            funcDef = funcDef.Split("*").LastOrDefault();
 
-            if (string.IsNullOrEmpty(funcDef))
+            if (funcDef.Contains(")(")) // Inline function definition
             {
-                return "";
+                funcDef = funcDef.Split("*")[1];
+                funcDef = funcDef.Split(")")[0];
+                return funcDef;
             }
-
-            if (funcDef.StartsWith("(") ||
-                !funcDef.Contains(")"))
+            else // Multi-line function
             {
-                return "";
-            }
+                funcDef = funcDef.Split("*").LastOrDefault();
 
-            int funcNameEndIndex = funcDef.IndexOf(")");
-            funcDef = funcDef.Substring(0, funcNameEndIndex);
-            return funcDef;
+                if (string.IsNullOrEmpty(funcDef))
+                {
+                    return "";
+                }
+
+                if (funcDef.StartsWith("(") ||
+                    !funcDef.Contains(")"))
+                {
+                    return "";
+                }
+
+                int funcNameEndIndex = funcDef.IndexOf(")");
+                funcDef = funcDef.Substring(0, funcNameEndIndex);
+                return funcDef;
+            }
         }
 
         internal string ParseStructureName(string line)
