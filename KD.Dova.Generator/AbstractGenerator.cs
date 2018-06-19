@@ -271,7 +271,20 @@ namespace KD.Dova.Generator
                     name = "args";
                 }
 
-                func.Params.Add(new FieldDefinition { Name = name, Type = type });
+                bool isOut = false;
+                if (param.Contains("**") ||
+                    name.StartsWith("p"))
+                {
+                    isOut = true;
+                }
+
+                FieldDefinition def = new FieldDefinition
+                {
+                    Name = name,
+                    Type = type,
+                    IsOut = isOut
+                };
+                func.Params.Add(def);
             }
         }
 

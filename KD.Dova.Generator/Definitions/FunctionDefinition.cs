@@ -41,7 +41,7 @@ namespace KD.Dova.Generator.Definitions
             {
                 FieldDefinition fieldDef = this.Params[i];
 
-                if (fieldDef.Name.StartsWith("p")) // out pointer
+                if (fieldDef.IsOut) // out pointer
                 {
                     ret += $"out ";
                 }
