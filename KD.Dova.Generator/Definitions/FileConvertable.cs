@@ -21,7 +21,7 @@ namespace KD.Dova.Generator.Definitions
             this.AddLibraries(fileLines);
 
             fileLines.Add("");
-            fileLines.Add("namespace KD.Dova.Natives.Structures");
+            fileLines.Add("namespace KD.Dova.Proxy.Natives");
             fileLines.Add("{");
 
             this.AddMainContent(fileLines);

@@ -4,14 +4,14 @@
 
 
 using System;
+using KD.Dova.Natives;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-namespace KD.Dova.Natives.Structures
+namespace KD.Dova.Proxy.Natives
 {
-    [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    internal unsafe struct JavaVMInitArgs
+    public unsafe struct JavaVMInitArgs
     {
         public IntPtr version;
         public IntPtr nOptions;

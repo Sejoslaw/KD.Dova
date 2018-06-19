@@ -8,7 +8,7 @@ namespace KD.Dova.Natives
     /// This is equal with "jni.h" -> "jvalue" union.
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    internal struct NativeValue
+    public struct NativeValue
     {
         [FieldOffset(0)]
         public byte z;

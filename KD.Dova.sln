@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KD.Dova", "KD.Dova\KD.Dova.csproj", "{060D588A-8210-483F-884E-63A516143266}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KD.Dova.Generator", "KD.Dova.Generator\KD.Dova.Generator.csproj", "{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KD.Dova.Generator", "KD.Dova.Generator\KD.Dova.Generator.csproj", "{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KD.Dova.Proxy", "KD.Dova.Proxy\KD.Dova.Proxy.csproj", "{8A004AD1-0149-4747-BC26-F48DF7386FF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A004AD1-0149-4747-BC26-F48DF7386FF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A004AD1-0149-4747-BC26-F48DF7386FF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A004AD1-0149-4747-BC26-F48DF7386FF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A004AD1-0149-4747-BC26-F48DF7386FF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

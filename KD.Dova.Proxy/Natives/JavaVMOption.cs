@@ -4,15 +4,16 @@
 
 
 using System;
+using KD.Dova.Natives;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-namespace KD.Dova.Natives.Structures
+namespace KD.Dova.Proxy.Natives
 {
-    [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    internal unsafe struct JNIEnv_
+    public unsafe struct JavaVMOption
     {
-        public JNINativeInterface_* functions;
+        public IntPtr optionString;
+        public IntPtr extraInfo;
     }
 }

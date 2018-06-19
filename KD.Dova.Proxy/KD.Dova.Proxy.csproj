@@ -8,13 +8,19 @@
     <Copyright>https://github.com/Sejoslaw/KD.Dova/blob/master/LICENSE</Copyright>
     <PackageLicenseUrl>https://github.com/Sejoslaw/KD.Dova/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/Sejoslaw/KD.Dova</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/Sejoslaw/KD.Dova</RepositoryUrl>
-    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Natives\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KD.Dova\KD.Dova.csproj" />
+  </ItemGroup>
 
 </Project>

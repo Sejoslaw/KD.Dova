@@ -5,7 +5,7 @@
 
 using System;
 
-namespace KD.Dova.Natives.Structures
+namespace KD.Dova.Proxy.Natives
 {
     internal static class JNIConstants
     {

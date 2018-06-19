@@ -440,8 +440,7 @@ namespace KD.Dova.Generator
         internal void GenerateFile(IFileConvertable convert)
         {
             List<string> lines = convert.ToFileDefinition();
-            string path = Path.Combine(GeneratorFactory.Instance.OutputDirectory, "Structures");
-            path = Path.Combine(path, $"{ convert.Name }.cs");
+            string path = Path.Combine(GeneratorFactory.Instance.OutputDirectory, $"{ convert.Name }.cs");
 
             File.WriteAllLines(path, lines.ToArray());
         }

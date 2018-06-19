@@ -4,32 +4,48 @@
 
 
 using System;
+using KD.Dova.Natives;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-namespace KD.Dova.Natives.Structures
+namespace KD.Dova.Proxy.Natives
 {
-    internal unsafe struct JNIInvokeInterface_
+    public unsafe struct JNIInvokeInterface_
+    {
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        [SuppressUnmanagedCodeSecurity]
+        public delegate IntPtr DestroyJavaVM(JavaVM_ vm);
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        [SuppressUnmanagedCodeSecurity]
+        public delegate IntPtr AttachCurrentThread(JavaVM_ vm, out IntPtr penv, IntPtr args);
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        [SuppressUnmanagedCodeSecurity]
+        public delegate IntPtr DetachCurrentThread(JavaVM_ vm);
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        [SuppressUnmanagedCodeSecurity]
+        public delegate IntPtr GetEnv(JavaVM_ vm, out IntPtr penv, IntPtr version);
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        [SuppressUnmanagedCodeSecurity]
+        public delegate IntPtr AttachCurrentThreadAsDaemon(JavaVM_ vm, out IntPtr penv, IntPtr args);
+
+    }
+
+    [StructLayout(LayoutKind.Sequential), NativeCppClass]
+    public unsafe struct JNIInvokeInterface
     {
         public IntPtr reserved0;
         public IntPtr reserved1;
         public IntPtr reserved2;
 
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        [SuppressUnmanagedCodeSecurity]
-        public delegate IntPtr DestroyJavaVM(JavaVM_ vm);
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        [SuppressUnmanagedCodeSecurity]
-        public delegate IntPtr AttachCurrentThread(JavaVM_ vm, out IntPtr penv, IntPtr args);
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        [SuppressUnmanagedCodeSecurity]
-        public delegate IntPtr DetachCurrentThread(JavaVM_ vm);
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        [SuppressUnmanagedCodeSecurity]
-        public delegate IntPtr GetEnv(JavaVM_ vm, out IntPtr penv, IntPtr version);
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        [SuppressUnmanagedCodeSecurity]
-        public delegate IntPtr AttachCurrentThreadAsDaemon(JavaVM_ vm, out IntPtr penv, IntPtr args);
+        public IntPtr DestroyJavaVM;
+        public IntPtr AttachCurrentThread;
+        public IntPtr DetachCurrentThread;
+        public IntPtr GetEnv;
+        public IntPtr AttachCurrentThreadAsDaemon;
     }
 }
