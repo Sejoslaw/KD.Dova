@@ -37,7 +37,7 @@ namespace KD.Dova.Generator.Definitions
         {
             string ret = "";
 
-            for (int i = 0; i < this.Params.Count - 1; ++i)
+            for (int i = 0; i < this.Params.Count; ++i)
             {
                 FieldDefinition fieldDef = this.Params[i];
 
@@ -59,28 +59,10 @@ namespace KD.Dova.Generator.Definitions
                 ret += $"{ fieldDef.Name }, ";
             }
 
-            FieldDefinition field = this.Params.LastOrDefault();
-            if (field == null)
+            if (ret.Length > 0)
             {
-                return ret;
+                ret = ret.Substring(0, ret.Length - 2);
             }
-
-            if (field.IsUsingOutAttribute)
-            {
-                ret += $"[Out] ";
-            }
-
-            if (field.IsOut) // out pointer
-            {
-                ret += $"out ";
-            }
-
-            if (includeType)
-            {
-                ret += $"{ field.Type } ";
-            }
-
-            ret += $"{ field.Name }";
 
             return ret;
         }
