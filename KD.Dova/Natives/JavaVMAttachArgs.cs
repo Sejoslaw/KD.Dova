@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    internal unsafe struct JavaVMAttachArgs
+    public unsafe struct JavaVMAttachArgs
     {
         public IntPtr version;
         public IntPtr name;

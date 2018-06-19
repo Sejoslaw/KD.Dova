@@ -270,6 +270,11 @@ namespace KD.Dova.Generator
                 string type = this.ParseFieldType(trimmed);
                 string name = this.ParseFieldName(trimmed);
 
+                if (param.Contains("**"))
+                {
+                    type = POINTER;
+                }
+
                 if (type.Contains("..."))
                 {
                     type = "params NativeValue[]";

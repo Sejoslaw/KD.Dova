@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    internal unsafe struct JNIInvokeInterface
+    public unsafe struct JNIInvokeInterface
     {
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         [SuppressUnmanagedCodeSecurity]
@@ -36,7 +36,7 @@ namespace KD.Dova.Proxy.Natives
     }
 
     [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    internal unsafe struct JNIInvokeInterface_
+    public unsafe struct JNIInvokeInterface_
     {
         public IntPtr reserved0;
         public IntPtr reserved1;
@@ -49,7 +49,7 @@ namespace KD.Dova.Proxy.Natives
         public IntPtr AttachCurrentThreadAsDaemon;
     }
 
-    internal unsafe class JavaVirtualMachine
+    public unsafe class JavaVirtualMachine
     {
         public IntPtr JVM { get; private set; }
         public JNIInvokeInterface_ InvokeInterface { get; private set; }

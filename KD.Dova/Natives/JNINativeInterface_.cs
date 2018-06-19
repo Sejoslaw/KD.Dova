@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    internal unsafe struct JNINativeInterface
+    public unsafe struct JNINativeInterface
     {
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetVersion(IntPtr env);
@@ -473,7 +473,7 @@ namespace KD.Dova.Proxy.Natives
         public delegate IntPtr MonitorExit(IntPtr env, IntPtr obj);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetJavaVM(IntPtr env, out JavaVM_ vm);
+        public delegate IntPtr GetJavaVM(IntPtr env, out IntPtr vm);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate void GetStringRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf);
@@ -517,7 +517,7 @@ namespace KD.Dova.Proxy.Natives
     }
 
     [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    internal unsafe struct JNINativeInterface_
+    public unsafe struct JNINativeInterface_
     {
         public IntPtr reserved0;
         public IntPtr reserved1;
@@ -693,7 +693,7 @@ namespace KD.Dova.Proxy.Natives
         public IntPtr GetObjectRefType;
     }
 
-    internal unsafe class JNIEnvironment
+    public unsafe class JNIEnvironment
     {
         public IntPtr Environment { get; private set; }
         public JNINativeInterface_ NativeInterface { get; private set; }
@@ -2181,7 +2181,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetJavaVM(IntPtr env, out JavaVM_ vm) 
+        public IntPtr GetJavaVM(IntPtr env, out IntPtr vm) 
         {
             if (getJavaVM == null)
             {

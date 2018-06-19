@@ -52,7 +52,7 @@ namespace KD.Dova.Generator.Definitions
 
             string name = this.Name.Substring(0, this.Name.Length - 1);
 
-            fileLines.Add($"    internal unsafe class JavaVirtualMachine");
+            fileLines.Add($"    public unsafe class JavaVirtualMachine");
             fileLines.Add("    {");
 
             fileLines.Add("        public IntPtr JVM { get; private set; }");
@@ -75,7 +75,7 @@ namespace KD.Dova.Generator.Definitions
 
             string name = this.Name.Substring(0, this.Name.Length - 1);
 
-            fileLines.Add($"    internal unsafe class JNIEnvironment");
+            fileLines.Add($"    public unsafe class JNIEnvironment");
             fileLines.Add("    {");
 
             fileLines.Add("        public IntPtr Environment { get; private set; }");
@@ -155,7 +155,7 @@ namespace KD.Dova.Generator.Definitions
                 name = this.Name.Substring(0, this.Name.Length - 1); // This should remove underline from the end of the name
             }
 
-            fileLines.Add($"    internal unsafe struct { name }");
+            fileLines.Add($"    public unsafe struct { name }");
             fileLines.Add("    {");
 
             if (this.Functions.Count > 0) // Functions
@@ -184,7 +184,7 @@ namespace KD.Dova.Generator.Definitions
                 fileLines.Add("    [StructLayout(LayoutKind.Sequential), NativeCppClass]");
             }
 
-            fileLines.Add($"    internal unsafe struct { this.Name }");
+            fileLines.Add($"    public unsafe struct { this.Name }");
             fileLines.Add("    {");
 
             if (this.Fields.Count > 0) // Fields
