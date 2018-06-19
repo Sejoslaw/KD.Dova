@@ -47,7 +47,7 @@ namespace KD.Dova.Generator.Definitions
 
             string name = this.Name.Substring(0, this.Name.Length - 1);
 
-            fileLines.Add($"    internal unsafe struct JNIEnvironment");
+            fileLines.Add($"    internal unsafe class JNIEnvironment");
             fileLines.Add("    {");
 
             fileLines.Add("        public IntPtr Environment { get; private set; }");
@@ -67,7 +67,13 @@ namespace KD.Dova.Generator.Definitions
                 {
                     string function = func.ToString();
                     function = function.Substring(0, function.Length - 1);
-                    string variableName = func.Name.WithFirstCharLower();
+                    string variableName = func.Name.WithFirstCharLower().ReplaceIfKeyWord();
+
+                    string parameters = func.BuildParameters(false);
+                    if (parameters.EndsWith(")"))
+                    {
+                        parameters = parameters.Substring(0, parameters.Length - 1);
+                    }
 
                     fileLines.Add($"        public { function } ");
                     fileLines.Add("        {");
@@ -75,8 +81,17 @@ namespace KD.Dova.Generator.Definitions
                     fileLines.Add("            {");
                     fileLines.Add($"                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.{ func.Name }, ref { variableName });");
                     fileLines.Add("            }");
-                    fileLines.Add($"            var ret = { variableName }?.Invoke()");
-                    fileLines.Add($"            ");
+
+                    if (!func.ReturnType.Equals("void"))
+                    {
+                        fileLines.Add($"            var ret = { variableName }.Invoke({ parameters });");
+                        fileLines.Add($"            return ret;");
+                    }
+                    else
+                    {
+                        fileLines.Add($"            { variableName }.Invoke({ parameters });");
+                    }
+
                     fileLines.Add("        }");
                     fileLines.Add("");
                 }
@@ -87,7 +102,9 @@ namespace KD.Dova.Generator.Definitions
             {
                 foreach (FunctionDefinition func in this.Functions)
                 {
-                    fileLines.Add($"        public JNINativeInterface.{ func.Name } { func.Name.WithFirstCharLower() };");
+                    string variableName = func.Name.WithFirstCharLower().ReplaceIfKeyWord();
+
+                    fileLines.Add($"        public JNINativeInterface.{ func.Name } { variableName };");
                 }
             }
             fileLines.Add("");
@@ -150,7 +167,9 @@ namespace KD.Dova.Generator.Definitions
                         field += "*";
                     }
 
-                    field += $" { fieldDef.Name };";
+                    string variableName = fieldDef.Name.ReplaceIfKeyWord();
+
+                    field += $" { variableName };";
 
                     fileLines.Add(field);
                 }
@@ -162,7 +181,9 @@ namespace KD.Dova.Generator.Definitions
 
                 foreach (FunctionDefinition funcDef in this.Functions)
                 {
-                    fileLines.Add($"        public { AbstractGenerator.POINTER } { funcDef.Name };");
+                    string variableName = funcDef.Name.ReplaceIfKeyWord();
+
+                    fileLines.Add($"        public { AbstractGenerator.POINTER } { variableName };");
                 }
             }
 

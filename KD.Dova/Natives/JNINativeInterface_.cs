@@ -693,7 +693,7 @@ namespace KD.Dova.Proxy.Natives
         public IntPtr GetObjectRefType;
     }
 
-    internal unsafe struct JNIEnvironment
+    internal unsafe class JNIEnvironment
     {
         public IntPtr Environment { get; private set; }
         public JNINativeInterface_ NativeInterface { get; private set; }
@@ -710,8 +710,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetVersion, ref getVersion);
             }
-            var ret = getVersion?.Invoke()
-            
+            var ret = getVersion.Invoke(env);
+            return ret;
         }
 
         public IntPtr DefineClass(IntPtr env, IntPtr name, IntPtr loader, IntPtr buf, IntPtr len) 
@@ -720,8 +720,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.DefineClass, ref defineClass);
             }
-            var ret = defineClass?.Invoke()
-            
+            var ret = defineClass.Invoke(env, name, loader, buf, len);
+            return ret;
         }
 
         public IntPtr FindClass(IntPtr env, IntPtr name) 
@@ -730,8 +730,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.FindClass, ref findClass);
             }
-            var ret = findClass?.Invoke()
-            
+            var ret = findClass.Invoke(env, name);
+            return ret;
         }
 
         public IntPtr FromReflectedMethod(IntPtr env, IntPtr method) 
@@ -740,8 +740,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.FromReflectedMethod, ref fromReflectedMethod);
             }
-            var ret = fromReflectedMethod?.Invoke()
-            
+            var ret = fromReflectedMethod.Invoke(env, method);
+            return ret;
         }
 
         public IntPtr FromReflectedField(IntPtr env, IntPtr field) 
@@ -750,8 +750,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.FromReflectedField, ref fromReflectedField);
             }
-            var ret = fromReflectedField?.Invoke()
-            
+            var ret = fromReflectedField.Invoke(env, field);
+            return ret;
         }
 
         public IntPtr ToReflectedMethod(IntPtr env, IntPtr cls, IntPtr methodID, IntPtr isStatic) 
@@ -760,8 +760,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ToReflectedMethod, ref toReflectedMethod);
             }
-            var ret = toReflectedMethod?.Invoke()
-            
+            var ret = toReflectedMethod.Invoke(env, cls, methodID, isStatic);
+            return ret;
         }
 
         public IntPtr GetSuperclass(IntPtr env, IntPtr sub) 
@@ -770,8 +770,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetSuperclass, ref getSuperclass);
             }
-            var ret = getSuperclass?.Invoke()
-            
+            var ret = getSuperclass.Invoke(env, sub);
+            return ret;
         }
 
         public IntPtr IsAssignableFrom(IntPtr env, IntPtr sub, IntPtr sup) 
@@ -780,8 +780,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.IsAssignableFrom, ref isAssignableFrom);
             }
-            var ret = isAssignableFrom?.Invoke()
-            
+            var ret = isAssignableFrom.Invoke(env, sub, sup);
+            return ret;
         }
 
         public IntPtr ToReflectedField(IntPtr env, IntPtr cls, IntPtr fieldID, IntPtr isStatic) 
@@ -790,18 +790,18 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ToReflectedField, ref toReflectedField);
             }
-            var ret = toReflectedField?.Invoke()
-            
+            var ret = toReflectedField.Invoke(env, cls, fieldID, isStatic);
+            return ret;
         }
 
         public IntPtr Throw(IntPtr env, IntPtr obj) 
         {
-            if (throw == null)
+            if (_throw == null)
             {
-                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.Throw, ref throw);
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.Throw, ref _throw);
             }
-            var ret = throw?.Invoke()
-            
+            var ret = _throw.Invoke(env, obj);
+            return ret;
         }
 
         public IntPtr ThrowNew(IntPtr env, IntPtr clazz, IntPtr msg) 
@@ -810,8 +810,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ThrowNew, ref throwNew);
             }
-            var ret = throwNew?.Invoke()
-            
+            var ret = throwNew.Invoke(env, clazz, msg);
+            return ret;
         }
 
         public IntPtr ExceptionOccurred(IntPtr env) 
@@ -820,8 +820,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ExceptionOccurred, ref exceptionOccurred);
             }
-            var ret = exceptionOccurred?.Invoke()
-            
+            var ret = exceptionOccurred.Invoke(env);
+            return ret;
         }
 
         public void ExceptionDescribe(IntPtr env) 
@@ -830,8 +830,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ExceptionDescribe, ref exceptionDescribe);
             }
-            var ret = exceptionDescribe?.Invoke()
-            
+            exceptionDescribe.Invoke(env);
         }
 
         public void ExceptionClear(IntPtr env) 
@@ -840,8 +839,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ExceptionClear, ref exceptionClear);
             }
-            var ret = exceptionClear?.Invoke()
-            
+            exceptionClear.Invoke(env);
         }
 
         public void FatalError(IntPtr env, IntPtr msg) 
@@ -850,8 +848,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.FatalError, ref fatalError);
             }
-            var ret = fatalError?.Invoke()
-            
+            fatalError.Invoke(env, msg);
         }
 
         public IntPtr PushLocalFrame(IntPtr env, IntPtr capacity) 
@@ -860,8 +857,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.PushLocalFrame, ref pushLocalFrame);
             }
-            var ret = pushLocalFrame?.Invoke()
-            
+            var ret = pushLocalFrame.Invoke(env, capacity);
+            return ret;
         }
 
         public IntPtr PopLocalFrame(IntPtr env, IntPtr result) 
@@ -870,8 +867,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.PopLocalFrame, ref popLocalFrame);
             }
-            var ret = popLocalFrame?.Invoke()
-            
+            var ret = popLocalFrame.Invoke(env, result);
+            return ret;
         }
 
         public IntPtr NewGlobalRef(IntPtr env, IntPtr lobj) 
@@ -880,8 +877,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewGlobalRef, ref newGlobalRef);
             }
-            var ret = newGlobalRef?.Invoke()
-            
+            var ret = newGlobalRef.Invoke(env, lobj);
+            return ret;
         }
 
         public void DeleteGlobalRef(IntPtr env, IntPtr gref) 
@@ -890,8 +887,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.DeleteGlobalRef, ref deleteGlobalRef);
             }
-            var ret = deleteGlobalRef?.Invoke()
-            
+            deleteGlobalRef.Invoke(env, gref);
         }
 
         public void DeleteLocalRef(IntPtr env, IntPtr obj) 
@@ -900,8 +896,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.DeleteLocalRef, ref deleteLocalRef);
             }
-            var ret = deleteLocalRef?.Invoke()
-            
+            deleteLocalRef.Invoke(env, obj);
         }
 
         public IntPtr IsSameObject(IntPtr env, IntPtr obj1, IntPtr obj2) 
@@ -910,8 +905,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.IsSameObject, ref isSameObject);
             }
-            var ret = isSameObject?.Invoke()
-            
+            var ret = isSameObject.Invoke(env, obj1, obj2);
+            return ret;
         }
 
         public IntPtr NewLocalRef(IntPtr env, IntPtr reference) 
@@ -920,8 +915,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewLocalRef, ref newLocalRef);
             }
-            var ret = newLocalRef?.Invoke()
-            
+            var ret = newLocalRef.Invoke(env, reference);
+            return ret;
         }
 
         public IntPtr EnsureLocalCapacity(IntPtr env, IntPtr capacity) 
@@ -930,8 +925,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.EnsureLocalCapacity, ref ensureLocalCapacity);
             }
-            var ret = ensureLocalCapacity?.Invoke()
-            
+            var ret = ensureLocalCapacity.Invoke(env, capacity);
+            return ret;
         }
 
         public IntPtr AllocObject(IntPtr env, IntPtr clazz) 
@@ -940,8 +935,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.AllocObject, ref allocObject);
             }
-            var ret = allocObject?.Invoke()
-            
+            var ret = allocObject.Invoke(env, clazz);
+            return ret;
         }
 
         public IntPtr NewObject(IntPtr env, IntPtr clazz, IntPtr methodID, IntPtr args) 
@@ -950,8 +945,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewObject, ref newObject);
             }
-            var ret = newObject?.Invoke()
-            
+            var ret = newObject.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public IntPtr GetObjectClass(IntPtr env, IntPtr obj) 
@@ -960,8 +955,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetObjectClass, ref getObjectClass);
             }
-            var ret = getObjectClass?.Invoke()
-            
+            var ret = getObjectClass.Invoke(env, obj);
+            return ret;
         }
 
         public IntPtr IsInstanceOf(IntPtr env, IntPtr obj, IntPtr clazz) 
@@ -970,8 +965,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.IsInstanceOf, ref isInstanceOf);
             }
-            var ret = isInstanceOf?.Invoke()
-            
+            var ret = isInstanceOf.Invoke(env, obj, clazz);
+            return ret;
         }
 
         public IntPtr GetMethodID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig) 
@@ -980,8 +975,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetMethodID, ref getMethodID);
             }
-            var ret = getMethodID?.Invoke()
-            
+            var ret = getMethodID.Invoke(env, clazz, name, sig);
+            return ret;
         }
 
         public IntPtr CallObjectMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -990,8 +985,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallObjectMethod, ref callObjectMethod);
             }
-            var ret = callObjectMethod?.Invoke()
-            
+            var ret = callObjectMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public bool CallBooleanMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1000,8 +995,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallBooleanMethod, ref callBooleanMethod);
             }
-            var ret = callBooleanMethod?.Invoke()
-            
+            var ret = callBooleanMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public byte CallByteMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1010,8 +1005,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallByteMethod, ref callByteMethod);
             }
-            var ret = callByteMethod?.Invoke()
-            
+            var ret = callByteMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public ushort CallCharMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1020,8 +1015,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallCharMethod, ref callCharMethod);
             }
-            var ret = callCharMethod?.Invoke()
-            
+            var ret = callCharMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public short CallShortMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1030,8 +1025,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallShortMethod, ref callShortMethod);
             }
-            var ret = callShortMethod?.Invoke()
-            
+            var ret = callShortMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public int CallIntMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1040,8 +1035,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallIntMethod, ref callIntMethod);
             }
-            var ret = callIntMethod?.Invoke()
-            
+            var ret = callIntMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public long CallLongMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1050,8 +1045,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallLongMethod, ref callLongMethod);
             }
-            var ret = callLongMethod?.Invoke()
-            
+            var ret = callLongMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public float CallFloatMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1060,8 +1055,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallFloatMethod, ref callFloatMethod);
             }
-            var ret = callFloatMethod?.Invoke()
-            
+            var ret = callFloatMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public double CallDoubleMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1070,8 +1065,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallDoubleMethod, ref callDoubleMethod);
             }
-            var ret = callDoubleMethod?.Invoke()
-            
+            var ret = callDoubleMethod.Invoke(env, obj, methodID, args);
+            return ret;
         }
 
         public void CallVoidMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
@@ -1080,8 +1075,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallVoidMethod, ref callVoidMethod);
             }
-            var ret = callVoidMethod?.Invoke()
-            
+            callVoidMethod.Invoke(env, obj, methodID, args);
         }
 
         public IntPtr CallNonvirtualObjectMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1090,8 +1084,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualObjectMethod, ref callNonvirtualObjectMethod);
             }
-            var ret = callNonvirtualObjectMethod?.Invoke()
-            
+            var ret = callNonvirtualObjectMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public bool CallNonvirtualBooleanMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1100,8 +1094,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualBooleanMethod, ref callNonvirtualBooleanMethod);
             }
-            var ret = callNonvirtualBooleanMethod?.Invoke()
-            
+            var ret = callNonvirtualBooleanMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public byte CallNonvirtualByteMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1110,8 +1104,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualByteMethod, ref callNonvirtualByteMethod);
             }
-            var ret = callNonvirtualByteMethod?.Invoke()
-            
+            var ret = callNonvirtualByteMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public ushort CallNonvirtualCharMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1120,8 +1114,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualCharMethod, ref callNonvirtualCharMethod);
             }
-            var ret = callNonvirtualCharMethod?.Invoke()
-            
+            var ret = callNonvirtualCharMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public short CallNonvirtualShortMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1130,8 +1124,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualShortMethod, ref callNonvirtualShortMethod);
             }
-            var ret = callNonvirtualShortMethod?.Invoke()
-            
+            var ret = callNonvirtualShortMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public int CallNonvirtualIntMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1140,8 +1134,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualIntMethod, ref callNonvirtualIntMethod);
             }
-            var ret = callNonvirtualIntMethod?.Invoke()
-            
+            var ret = callNonvirtualIntMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public long CallNonvirtualLongMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1150,8 +1144,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualLongMethod, ref callNonvirtualLongMethod);
             }
-            var ret = callNonvirtualLongMethod?.Invoke()
-            
+            var ret = callNonvirtualLongMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public float CallNonvirtualFloatMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1160,8 +1154,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualFloatMethod, ref callNonvirtualFloatMethod);
             }
-            var ret = callNonvirtualFloatMethod?.Invoke()
-            
+            var ret = callNonvirtualFloatMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public double CallNonvirtualDoubleMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1170,8 +1164,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualDoubleMethod, ref callNonvirtualDoubleMethod);
             }
-            var ret = callNonvirtualDoubleMethod?.Invoke()
-            
+            var ret = callNonvirtualDoubleMethod.Invoke(env, obj, clazz, methodID, args);
+            return ret;
         }
 
         public void CallNonvirtualVoidMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1180,8 +1174,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualVoidMethod, ref callNonvirtualVoidMethod);
             }
-            var ret = callNonvirtualVoidMethod?.Invoke()
-            
+            callNonvirtualVoidMethod.Invoke(env, obj, clazz, methodID, args);
         }
 
         public IntPtr GetFieldID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig) 
@@ -1190,8 +1183,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetFieldID, ref getFieldID);
             }
-            var ret = getFieldID?.Invoke()
-            
+            var ret = getFieldID.Invoke(env, clazz, name, sig);
+            return ret;
         }
 
         public IntPtr GetObjectField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1200,8 +1193,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetObjectField, ref getObjectField);
             }
-            var ret = getObjectField?.Invoke()
-            
+            var ret = getObjectField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public bool GetBooleanField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1210,8 +1203,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetBooleanField, ref getBooleanField);
             }
-            var ret = getBooleanField?.Invoke()
-            
+            var ret = getBooleanField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public byte GetByteField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1220,8 +1213,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetByteField, ref getByteField);
             }
-            var ret = getByteField?.Invoke()
-            
+            var ret = getByteField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public ushort GetCharField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1230,8 +1223,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetCharField, ref getCharField);
             }
-            var ret = getCharField?.Invoke()
-            
+            var ret = getCharField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public short GetShortField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1240,8 +1233,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetShortField, ref getShortField);
             }
-            var ret = getShortField?.Invoke()
-            
+            var ret = getShortField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public int GetIntField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1250,8 +1243,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetIntField, ref getIntField);
             }
-            var ret = getIntField?.Invoke()
-            
+            var ret = getIntField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public long GetLongField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1260,8 +1253,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetLongField, ref getLongField);
             }
-            var ret = getLongField?.Invoke()
-            
+            var ret = getLongField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public float GetFloatField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1270,8 +1263,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetFloatField, ref getFloatField);
             }
-            var ret = getFloatField?.Invoke()
-            
+            var ret = getFloatField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public double GetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID) 
@@ -1280,8 +1273,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDoubleField, ref getDoubleField);
             }
-            var ret = getDoubleField?.Invoke()
-            
+            var ret = getDoubleField.Invoke(env, obj, fieldID);
+            return ret;
         }
 
         public void SetObjectField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val) 
@@ -1290,8 +1283,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetObjectField, ref setObjectField);
             }
-            var ret = setObjectField?.Invoke()
-            
+            setObjectField.Invoke(env, obj, fieldID, val);
         }
 
         public void SetBooleanField(IntPtr env, IntPtr obj, IntPtr fieldID, bool val) 
@@ -1300,8 +1292,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetBooleanField, ref setBooleanField);
             }
-            var ret = setBooleanField?.Invoke()
-            
+            setBooleanField.Invoke(env, obj, fieldID, val);
         }
 
         public void SetByteField(IntPtr env, IntPtr obj, IntPtr fieldID, byte val) 
@@ -1310,8 +1301,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetByteField, ref setByteField);
             }
-            var ret = setByteField?.Invoke()
-            
+            setByteField.Invoke(env, obj, fieldID, val);
         }
 
         public void SetCharField(IntPtr env, IntPtr obj, IntPtr fieldID, ushort val) 
@@ -1320,8 +1310,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetCharField, ref setCharField);
             }
-            var ret = setCharField?.Invoke()
-            
+            setCharField.Invoke(env, obj, fieldID, val);
         }
 
         public void SetShortField(IntPtr env, IntPtr obj, IntPtr fieldID, short val) 
@@ -1330,8 +1319,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetShortField, ref setShortField);
             }
-            var ret = setShortField?.Invoke()
-            
+            setShortField.Invoke(env, obj, fieldID, val);
         }
 
         public void SetIntField(IntPtr env, IntPtr obj, IntPtr fieldID, int val) 
@@ -1340,8 +1328,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetIntField, ref setIntField);
             }
-            var ret = setIntField?.Invoke()
-            
+            setIntField.Invoke(env, obj, fieldID, val);
         }
 
         public void SetLongField(IntPtr env, IntPtr obj, IntPtr fieldID, long val) 
@@ -1350,8 +1337,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetLongField, ref setLongField);
             }
-            var ret = setLongField?.Invoke()
-            
+            setLongField.Invoke(env, obj, fieldID, val);
         }
 
         public void SetFloatField(IntPtr env, IntPtr obj, IntPtr fieldID, float val) 
@@ -1360,8 +1346,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetFloatField, ref setFloatField);
             }
-            var ret = setFloatField?.Invoke()
-            
+            setFloatField.Invoke(env, obj, fieldID, val);
         }
 
         public void SetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID, double val) 
@@ -1370,8 +1355,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetDoubleField, ref setDoubleField);
             }
-            var ret = setDoubleField?.Invoke()
-            
+            setDoubleField.Invoke(env, obj, fieldID, val);
         }
 
         public IntPtr GetStaticMethodID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig) 
@@ -1380,8 +1364,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticMethodID, ref getStaticMethodID);
             }
-            var ret = getStaticMethodID?.Invoke()
-            
+            var ret = getStaticMethodID.Invoke(env, clazz, name, sig);
+            return ret;
         }
 
         public IntPtr CallStaticObjectMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1390,8 +1374,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticObjectMethod, ref callStaticObjectMethod);
             }
-            var ret = callStaticObjectMethod?.Invoke()
-            
+            var ret = callStaticObjectMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public bool CallStaticBooleanMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1400,8 +1384,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticBooleanMethod, ref callStaticBooleanMethod);
             }
-            var ret = callStaticBooleanMethod?.Invoke()
-            
+            var ret = callStaticBooleanMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public byte CallStaticByteMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1410,8 +1394,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticByteMethod, ref callStaticByteMethod);
             }
-            var ret = callStaticByteMethod?.Invoke()
-            
+            var ret = callStaticByteMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public ushort CallStaticCharMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1420,8 +1404,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticCharMethod, ref callStaticCharMethod);
             }
-            var ret = callStaticCharMethod?.Invoke()
-            
+            var ret = callStaticCharMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public short CallStaticShortMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1430,8 +1414,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticShortMethod, ref callStaticShortMethod);
             }
-            var ret = callStaticShortMethod?.Invoke()
-            
+            var ret = callStaticShortMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public int CallStaticIntMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1440,8 +1424,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticIntMethod, ref callStaticIntMethod);
             }
-            var ret = callStaticIntMethod?.Invoke()
-            
+            var ret = callStaticIntMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public long CallStaticLongMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1450,8 +1434,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticLongMethod, ref callStaticLongMethod);
             }
-            var ret = callStaticLongMethod?.Invoke()
-            
+            var ret = callStaticLongMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public float CallStaticFloatMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1460,8 +1444,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticFloatMethod, ref callStaticFloatMethod);
             }
-            var ret = callStaticFloatMethod?.Invoke()
-            
+            var ret = callStaticFloatMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public double CallStaticDoubleMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
@@ -1470,8 +1454,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticDoubleMethod, ref callStaticDoubleMethod);
             }
-            var ret = callStaticDoubleMethod?.Invoke()
-            
+            var ret = callStaticDoubleMethod.Invoke(env, clazz, methodID, args);
+            return ret;
         }
 
         public void CallStaticVoidMethod(IntPtr env, IntPtr cls, IntPtr methodID, params NativeValue[] args) 
@@ -1480,8 +1464,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticVoidMethod, ref callStaticVoidMethod);
             }
-            var ret = callStaticVoidMethod?.Invoke()
-            
+            callStaticVoidMethod.Invoke(env, cls, methodID, args);
         }
 
         public IntPtr GetStaticFieldID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig) 
@@ -1490,8 +1473,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticFieldID, ref getStaticFieldID);
             }
-            var ret = getStaticFieldID?.Invoke()
-            
+            var ret = getStaticFieldID.Invoke(env, clazz, name, sig);
+            return ret;
         }
 
         public IntPtr GetStaticObjectField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1500,8 +1483,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticObjectField, ref getStaticObjectField);
             }
-            var ret = getStaticObjectField?.Invoke()
-            
+            var ret = getStaticObjectField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public bool GetStaticBooleanField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1510,8 +1493,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticBooleanField, ref getStaticBooleanField);
             }
-            var ret = getStaticBooleanField?.Invoke()
-            
+            var ret = getStaticBooleanField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public byte GetStaticByteField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1520,8 +1503,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticByteField, ref getStaticByteField);
             }
-            var ret = getStaticByteField?.Invoke()
-            
+            var ret = getStaticByteField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public ushort GetStaticCharField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1530,8 +1513,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticCharField, ref getStaticCharField);
             }
-            var ret = getStaticCharField?.Invoke()
-            
+            var ret = getStaticCharField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public short GetStaticShortField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1540,8 +1523,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticShortField, ref getStaticShortField);
             }
-            var ret = getStaticShortField?.Invoke()
-            
+            var ret = getStaticShortField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public int GetStaticIntField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1550,8 +1533,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticIntField, ref getStaticIntField);
             }
-            var ret = getStaticIntField?.Invoke()
-            
+            var ret = getStaticIntField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public long GetStaticLongField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1560,8 +1543,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticLongField, ref getStaticLongField);
             }
-            var ret = getStaticLongField?.Invoke()
-            
+            var ret = getStaticLongField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public float GetStaticFloatField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1570,8 +1553,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticFloatField, ref getStaticFloatField);
             }
-            var ret = getStaticFloatField?.Invoke()
-            
+            var ret = getStaticFloatField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public double GetStaticDoubleField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
@@ -1580,8 +1563,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticDoubleField, ref getStaticDoubleField);
             }
-            var ret = getStaticDoubleField?.Invoke()
-            
+            var ret = getStaticDoubleField.Invoke(env, clazz, fieldID);
+            return ret;
         }
 
         public void SetStaticObjectField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value) 
@@ -1590,8 +1573,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticObjectField, ref setStaticObjectField);
             }
-            var ret = setStaticObjectField?.Invoke()
-            
+            setStaticObjectField.Invoke(env, clazz, fieldID, value);
         }
 
         public void SetStaticBooleanField(IntPtr env, IntPtr clazz, IntPtr fieldID, bool value) 
@@ -1600,8 +1582,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticBooleanField, ref setStaticBooleanField);
             }
-            var ret = setStaticBooleanField?.Invoke()
-            
+            setStaticBooleanField.Invoke(env, clazz, fieldID, value);
         }
 
         public void SetStaticByteField(IntPtr env, IntPtr clazz, IntPtr fieldID, byte value) 
@@ -1610,8 +1591,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticByteField, ref setStaticByteField);
             }
-            var ret = setStaticByteField?.Invoke()
-            
+            setStaticByteField.Invoke(env, clazz, fieldID, value);
         }
 
         public void SetStaticCharField(IntPtr env, IntPtr clazz, IntPtr fieldID, ushort value) 
@@ -1620,8 +1600,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticCharField, ref setStaticCharField);
             }
-            var ret = setStaticCharField?.Invoke()
-            
+            setStaticCharField.Invoke(env, clazz, fieldID, value);
         }
 
         public void SetStaticShortField(IntPtr env, IntPtr clazz, IntPtr fieldID, short value) 
@@ -1630,8 +1609,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticShortField, ref setStaticShortField);
             }
-            var ret = setStaticShortField?.Invoke()
-            
+            setStaticShortField.Invoke(env, clazz, fieldID, value);
         }
 
         public void SetStaticIntField(IntPtr env, IntPtr clazz, IntPtr fieldID, int value) 
@@ -1640,8 +1618,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticIntField, ref setStaticIntField);
             }
-            var ret = setStaticIntField?.Invoke()
-            
+            setStaticIntField.Invoke(env, clazz, fieldID, value);
         }
 
         public void SetStaticLongField(IntPtr env, IntPtr clazz, IntPtr fieldID, long value) 
@@ -1650,8 +1627,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticLongField, ref setStaticLongField);
             }
-            var ret = setStaticLongField?.Invoke()
-            
+            setStaticLongField.Invoke(env, clazz, fieldID, value);
         }
 
         public void SetStaticFloatField(IntPtr env, IntPtr clazz, IntPtr fieldID, float value) 
@@ -1660,8 +1636,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticFloatField, ref setStaticFloatField);
             }
-            var ret = setStaticFloatField?.Invoke()
-            
+            setStaticFloatField.Invoke(env, clazz, fieldID, value);
         }
 
         public void SetStaticDoubleField(IntPtr env, IntPtr clazz, IntPtr fieldID, double value) 
@@ -1670,8 +1645,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticDoubleField, ref setStaticDoubleField);
             }
-            var ret = setStaticDoubleField?.Invoke()
-            
+            setStaticDoubleField.Invoke(env, clazz, fieldID, value);
         }
 
         public IntPtr NewString(IntPtr env, IntPtr unicode, IntPtr len) 
@@ -1680,8 +1654,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewString, ref newString);
             }
-            var ret = newString?.Invoke()
-            
+            var ret = newString.Invoke(env, unicode, len);
+            return ret;
         }
 
         public int GetStringLength(IntPtr env, IntPtr str) 
@@ -1690,8 +1664,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringLength, ref getStringLength);
             }
-            var ret = getStringLength?.Invoke()
-            
+            var ret = getStringLength.Invoke(env, str);
+            return ret;
         }
 
         public ushort GetStringChars(IntPtr env, IntPtr str, IntPtr isCopy) 
@@ -1700,8 +1674,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringChars, ref getStringChars);
             }
-            var ret = getStringChars?.Invoke()
-            
+            var ret = getStringChars.Invoke(env, str, isCopy);
+            return ret;
         }
 
         public void ReleaseStringChars(IntPtr env, IntPtr str, IntPtr chars) 
@@ -1710,8 +1684,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseStringChars, ref releaseStringChars);
             }
-            var ret = releaseStringChars?.Invoke()
-            
+            releaseStringChars.Invoke(env, str, chars);
         }
 
         public IntPtr NewStringUTF(IntPtr env, IntPtr utf) 
@@ -1720,8 +1693,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewStringUTF, ref newStringUTF);
             }
-            var ret = newStringUTF?.Invoke()
-            
+            var ret = newStringUTF.Invoke(env, utf);
+            return ret;
         }
 
         public int GetStringUTFLength(IntPtr env, IntPtr str) 
@@ -1730,8 +1703,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringUTFLength, ref getStringUTFLength);
             }
-            var ret = getStringUTFLength?.Invoke()
-            
+            var ret = getStringUTFLength.Invoke(env, str);
+            return ret;
         }
 
         public ushort GetStringUTFChars(IntPtr env, IntPtr str, IntPtr isCopy) 
@@ -1740,8 +1713,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringUTFChars, ref getStringUTFChars);
             }
-            var ret = getStringUTFChars?.Invoke()
-            
+            var ret = getStringUTFChars.Invoke(env, str, isCopy);
+            return ret;
         }
 
         public void ReleaseStringUTFChars(IntPtr env, IntPtr str, IntPtr chars) 
@@ -1750,8 +1723,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseStringUTFChars, ref releaseStringUTFChars);
             }
-            var ret = releaseStringUTFChars?.Invoke()
-            
+            releaseStringUTFChars.Invoke(env, str, chars);
         }
 
         public int GetArrayLength(IntPtr env, IntPtr array) 
@@ -1760,8 +1732,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetArrayLength, ref getArrayLength);
             }
-            var ret = getArrayLength?.Invoke()
-            
+            var ret = getArrayLength.Invoke(env, array);
+            return ret;
         }
 
         public IntPtr NewObjectArray(IntPtr env, IntPtr len, IntPtr clazz, IntPtr init) 
@@ -1770,8 +1742,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewObjectArray, ref newObjectArray);
             }
-            var ret = newObjectArray?.Invoke()
-            
+            var ret = newObjectArray.Invoke(env, len, clazz, init);
+            return ret;
         }
 
         public IntPtr GetObjectArrayElement(IntPtr env, IntPtr array, IntPtr index) 
@@ -1780,8 +1752,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetObjectArrayElement, ref getObjectArrayElement);
             }
-            var ret = getObjectArrayElement?.Invoke()
-            
+            var ret = getObjectArrayElement.Invoke(env, array, index);
+            return ret;
         }
 
         public void SetObjectArrayElement(IntPtr env, IntPtr array, IntPtr index, IntPtr val) 
@@ -1790,8 +1762,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetObjectArrayElement, ref setObjectArrayElement);
             }
-            var ret = setObjectArrayElement?.Invoke()
-            
+            setObjectArrayElement.Invoke(env, array, index, val);
         }
 
         public IntPtr NewBooleanArray(IntPtr env, int len) 
@@ -1800,8 +1771,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewBooleanArray, ref newBooleanArray);
             }
-            var ret = newBooleanArray?.Invoke()
-            
+            var ret = newBooleanArray.Invoke(env, len);
+            return ret;
         }
 
         public IntPtr NewByteArray(IntPtr env, int len) 
@@ -1810,8 +1781,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewByteArray, ref newByteArray);
             }
-            var ret = newByteArray?.Invoke()
-            
+            var ret = newByteArray.Invoke(env, len);
+            return ret;
         }
 
         public IntPtr NewCharArray(IntPtr env, int len) 
@@ -1820,8 +1791,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewCharArray, ref newCharArray);
             }
-            var ret = newCharArray?.Invoke()
-            
+            var ret = newCharArray.Invoke(env, len);
+            return ret;
         }
 
         public IntPtr NewShortArray(IntPtr env, int len) 
@@ -1830,8 +1801,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewShortArray, ref newShortArray);
             }
-            var ret = newShortArray?.Invoke()
-            
+            var ret = newShortArray.Invoke(env, len);
+            return ret;
         }
 
         public IntPtr NewIntArray(IntPtr env, int len) 
@@ -1840,8 +1811,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewIntArray, ref newIntArray);
             }
-            var ret = newIntArray?.Invoke()
-            
+            var ret = newIntArray.Invoke(env, len);
+            return ret;
         }
 
         public IntPtr NewLongArray(IntPtr env, int len) 
@@ -1850,8 +1821,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewLongArray, ref newLongArray);
             }
-            var ret = newLongArray?.Invoke()
-            
+            var ret = newLongArray.Invoke(env, len);
+            return ret;
         }
 
         public IntPtr NewFloatArray(IntPtr env, int len) 
@@ -1860,8 +1831,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewFloatArray, ref newFloatArray);
             }
-            var ret = newFloatArray?.Invoke()
-            
+            var ret = newFloatArray.Invoke(env, len);
+            return ret;
         }
 
         public IntPtr NewDoubleArray(IntPtr env, int len) 
@@ -1870,8 +1841,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewDoubleArray, ref newDoubleArray);
             }
-            var ret = newDoubleArray?.Invoke()
-            
+            var ret = newDoubleArray.Invoke(env, len);
+            return ret;
         }
 
         public IntPtr GetBooleanArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -1880,8 +1851,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetBooleanArrayElements, ref getBooleanArrayElements);
             }
-            var ret = getBooleanArrayElements?.Invoke()
-            
+            var ret = getBooleanArrayElements.Invoke(env, array, isCopy);
+            return ret;
         }
 
         public IntPtr GetByteArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -1890,8 +1861,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetByteArrayElements, ref getByteArrayElements);
             }
-            var ret = getByteArrayElements?.Invoke()
-            
+            var ret = getByteArrayElements.Invoke(env, array, isCopy);
+            return ret;
         }
 
         public IntPtr GetCharArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -1900,8 +1871,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetCharArrayElements, ref getCharArrayElements);
             }
-            var ret = getCharArrayElements?.Invoke()
-            
+            var ret = getCharArrayElements.Invoke(env, array, isCopy);
+            return ret;
         }
 
         public IntPtr GetShortArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -1910,8 +1881,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetShortArrayElements, ref getShortArrayElements);
             }
-            var ret = getShortArrayElements?.Invoke()
-            
+            var ret = getShortArrayElements.Invoke(env, array, isCopy);
+            return ret;
         }
 
         public IntPtr GetIntArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -1920,8 +1891,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetIntArrayElements, ref getIntArrayElements);
             }
-            var ret = getIntArrayElements?.Invoke()
-            
+            var ret = getIntArrayElements.Invoke(env, array, isCopy);
+            return ret;
         }
 
         public IntPtr GetLongArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -1930,8 +1901,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetLongArrayElements, ref getLongArrayElements);
             }
-            var ret = getLongArrayElements?.Invoke()
-            
+            var ret = getLongArrayElements.Invoke(env, array, isCopy);
+            return ret;
         }
 
         public IntPtr GetFloatArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -1940,8 +1911,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetFloatArrayElements, ref getFloatArrayElements);
             }
-            var ret = getFloatArrayElements?.Invoke()
-            
+            var ret = getFloatArrayElements.Invoke(env, array, isCopy);
+            return ret;
         }
 
         public IntPtr GetDoubleArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -1950,8 +1921,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDoubleArrayElements, ref getDoubleArrayElements);
             }
-            var ret = getDoubleArrayElements?.Invoke()
-            
+            var ret = getDoubleArrayElements.Invoke(env, array, isCopy);
+            return ret;
         }
 
         public void ReleaseBooleanArrayElements(IntPtr env, IntPtr array, bool* elems, IntPtr mode) 
@@ -1960,8 +1931,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseBooleanArrayElements, ref releaseBooleanArrayElements);
             }
-            var ret = releaseBooleanArrayElements?.Invoke()
-            
+            releaseBooleanArrayElements.Invoke(env, array, elems, mode);
         }
 
         public void ReleaseByteArrayElements(IntPtr env, IntPtr array, byte* elems, IntPtr mode) 
@@ -1970,8 +1940,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseByteArrayElements, ref releaseByteArrayElements);
             }
-            var ret = releaseByteArrayElements?.Invoke()
-            
+            releaseByteArrayElements.Invoke(env, array, elems, mode);
         }
 
         public void ReleaseCharArrayElements(IntPtr env, IntPtr array, ushort* elems, IntPtr mode) 
@@ -1980,8 +1949,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseCharArrayElements, ref releaseCharArrayElements);
             }
-            var ret = releaseCharArrayElements?.Invoke()
-            
+            releaseCharArrayElements.Invoke(env, array, elems, mode);
         }
 
         public void ReleaseShortArrayElements(IntPtr env, IntPtr array, short* elems, IntPtr mode) 
@@ -1990,8 +1958,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseShortArrayElements, ref releaseShortArrayElements);
             }
-            var ret = releaseShortArrayElements?.Invoke()
-            
+            releaseShortArrayElements.Invoke(env, array, elems, mode);
         }
 
         public void ReleaseIntArrayElements(IntPtr env, IntPtr array, int* elems, IntPtr mode) 
@@ -2000,8 +1967,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseIntArrayElements, ref releaseIntArrayElements);
             }
-            var ret = releaseIntArrayElements?.Invoke()
-            
+            releaseIntArrayElements.Invoke(env, array, elems, mode);
         }
 
         public void ReleaseLongArrayElements(IntPtr env, IntPtr array, long* elems, IntPtr mode) 
@@ -2010,8 +1976,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseLongArrayElements, ref releaseLongArrayElements);
             }
-            var ret = releaseLongArrayElements?.Invoke()
-            
+            releaseLongArrayElements.Invoke(env, array, elems, mode);
         }
 
         public void ReleaseFloatArrayElements(IntPtr env, IntPtr array, float* elems, IntPtr mode) 
@@ -2020,8 +1985,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseFloatArrayElements, ref releaseFloatArrayElements);
             }
-            var ret = releaseFloatArrayElements?.Invoke()
-            
+            releaseFloatArrayElements.Invoke(env, array, elems, mode);
         }
 
         public void ReleaseDoubleArrayElements(IntPtr env, IntPtr array, double* elems, IntPtr mode) 
@@ -2030,8 +1994,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseDoubleArrayElements, ref releaseDoubleArrayElements);
             }
-            var ret = releaseDoubleArrayElements?.Invoke()
-            
+            releaseDoubleArrayElements.Invoke(env, array, elems, mode);
         }
 
         public void GetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, IntPtr buf) 
@@ -2040,8 +2003,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetBooleanArrayRegion, ref getBooleanArrayRegion);
             }
-            var ret = getBooleanArrayRegion?.Invoke()
-            
+            getBooleanArrayRegion.Invoke(env, array, start, l, buf);
         }
 
         public void GetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2050,8 +2012,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetByteArrayRegion, ref getByteArrayRegion);
             }
-            var ret = getByteArrayRegion?.Invoke()
-            
+            getByteArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void GetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2060,8 +2021,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetCharArrayRegion, ref getCharArrayRegion);
             }
-            var ret = getCharArrayRegion?.Invoke()
-            
+            getCharArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void GetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2070,8 +2030,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetShortArrayRegion, ref getShortArrayRegion);
             }
-            var ret = getShortArrayRegion?.Invoke()
-            
+            getShortArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void GetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2080,8 +2039,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetIntArrayRegion, ref getIntArrayRegion);
             }
-            var ret = getIntArrayRegion?.Invoke()
-            
+            getIntArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void GetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2090,8 +2048,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetLongArrayRegion, ref getLongArrayRegion);
             }
-            var ret = getLongArrayRegion?.Invoke()
-            
+            getLongArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void GetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2100,8 +2057,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetFloatArrayRegion, ref getFloatArrayRegion);
             }
-            var ret = getFloatArrayRegion?.Invoke()
-            
+            getFloatArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void GetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2110,8 +2066,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDoubleArrayRegion, ref getDoubleArrayRegion);
             }
-            var ret = getDoubleArrayRegion?.Invoke()
-            
+            getDoubleArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void SetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, bool buf) 
@@ -2120,8 +2075,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetBooleanArrayRegion, ref setBooleanArrayRegion);
             }
-            var ret = setBooleanArrayRegion?.Invoke()
-            
+            setBooleanArrayRegion.Invoke(env, array, start, l, buf);
         }
 
         public void SetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, byte buf) 
@@ -2130,8 +2084,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetByteArrayRegion, ref setByteArrayRegion);
             }
-            var ret = setByteArrayRegion?.Invoke()
-            
+            setByteArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void SetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, ushort buf) 
@@ -2140,8 +2093,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetCharArrayRegion, ref setCharArrayRegion);
             }
-            var ret = setCharArrayRegion?.Invoke()
-            
+            setCharArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void SetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, short buf) 
@@ -2150,8 +2102,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetShortArrayRegion, ref setShortArrayRegion);
             }
-            var ret = setShortArrayRegion?.Invoke()
-            
+            setShortArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void SetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, int buf) 
@@ -2160,8 +2111,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetIntArrayRegion, ref setIntArrayRegion);
             }
-            var ret = setIntArrayRegion?.Invoke()
-            
+            setIntArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void SetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, long buf) 
@@ -2170,8 +2120,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetLongArrayRegion, ref setLongArrayRegion);
             }
-            var ret = setLongArrayRegion?.Invoke()
-            
+            setLongArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void SetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, float buf) 
@@ -2180,8 +2129,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetFloatArrayRegion, ref setFloatArrayRegion);
             }
-            var ret = setFloatArrayRegion?.Invoke()
-            
+            setFloatArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public void SetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, double buf) 
@@ -2190,8 +2138,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetDoubleArrayRegion, ref setDoubleArrayRegion);
             }
-            var ret = setDoubleArrayRegion?.Invoke()
-            
+            setDoubleArrayRegion.Invoke(env, array, start, len, buf);
         }
 
         public IntPtr RegisterNatives(IntPtr env, IntPtr clazz, IntPtr methods, IntPtr nMethods) 
@@ -2200,8 +2147,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.RegisterNatives, ref registerNatives);
             }
-            var ret = registerNatives?.Invoke()
-            
+            var ret = registerNatives.Invoke(env, clazz, methods, nMethods);
+            return ret;
         }
 
         public IntPtr UnregisterNatives(IntPtr env, IntPtr clazz) 
@@ -2210,8 +2157,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.UnregisterNatives, ref unregisterNatives);
             }
-            var ret = unregisterNatives?.Invoke()
-            
+            var ret = unregisterNatives.Invoke(env, clazz);
+            return ret;
         }
 
         public IntPtr MonitorEnter(IntPtr env, IntPtr obj) 
@@ -2220,8 +2167,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.MonitorEnter, ref monitorEnter);
             }
-            var ret = monitorEnter?.Invoke()
-            
+            var ret = monitorEnter.Invoke(env, obj);
+            return ret;
         }
 
         public IntPtr MonitorExit(IntPtr env, IntPtr obj) 
@@ -2230,8 +2177,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.MonitorExit, ref monitorExit);
             }
-            var ret = monitorExit?.Invoke()
-            
+            var ret = monitorExit.Invoke(env, obj);
+            return ret;
         }
 
         public IntPtr GetJavaVM(IntPtr env, JavaVM_ vm) 
@@ -2240,8 +2187,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetJavaVM, ref getJavaVM);
             }
-            var ret = getJavaVM?.Invoke()
-            
+            var ret = getJavaVM.Invoke(env, vm);
+            return ret;
         }
 
         public void GetStringRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2250,8 +2197,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringRegion, ref getStringRegion);
             }
-            var ret = getStringRegion?.Invoke()
-            
+            getStringRegion.Invoke(env, str, start, len, buf);
         }
 
         public void GetStringUTFRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf) 
@@ -2260,8 +2206,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringUTFRegion, ref getStringUTFRegion);
             }
-            var ret = getStringUTFRegion?.Invoke()
-            
+            getStringUTFRegion.Invoke(env, str, start, len, buf);
         }
 
         public void GetPrimitiveArrayCritical(IntPtr env, IntPtr array, IntPtr isCopy) 
@@ -2270,8 +2215,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetPrimitiveArrayCritical, ref getPrimitiveArrayCritical);
             }
-            var ret = getPrimitiveArrayCritical?.Invoke()
-            
+            getPrimitiveArrayCritical.Invoke(env, array, isCopy);
         }
 
         public void ReleasePrimitiveArrayCritical(IntPtr env, IntPtr array, IntPtr carray, IntPtr mode) 
@@ -2280,8 +2224,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleasePrimitiveArrayCritical, ref releasePrimitiveArrayCritical);
             }
-            var ret = releasePrimitiveArrayCritical?.Invoke()
-            
+            releasePrimitiveArrayCritical.Invoke(env, array, carray, mode);
         }
 
         public IntPtr GetStringCritical(IntPtr env, IntPtr str, IntPtr isCopy) 
@@ -2290,8 +2233,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringCritical, ref getStringCritical);
             }
-            var ret = getStringCritical?.Invoke()
-            
+            var ret = getStringCritical.Invoke(env, str, isCopy);
+            return ret;
         }
 
         public void ReleaseStringCritical(IntPtr env, IntPtr str, IntPtr cstring) 
@@ -2300,8 +2243,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseStringCritical, ref releaseStringCritical);
             }
-            var ret = releaseStringCritical?.Invoke()
-            
+            releaseStringCritical.Invoke(env, str, cstring);
         }
 
         public IntPtr NewWeakGlobalRef(IntPtr env, IntPtr obj) 
@@ -2310,8 +2252,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewWeakGlobalRef, ref newWeakGlobalRef);
             }
-            var ret = newWeakGlobalRef?.Invoke()
-            
+            var ret = newWeakGlobalRef.Invoke(env, obj);
+            return ret;
         }
 
         public void DeleteWeakGlobalRef(IntPtr env, IntPtr reference) 
@@ -2320,8 +2262,7 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.DeleteWeakGlobalRef, ref deleteWeakGlobalRef);
             }
-            var ret = deleteWeakGlobalRef?.Invoke()
-            
+            deleteWeakGlobalRef.Invoke(env, reference);
         }
 
         public IntPtr ExceptionCheck(IntPtr env) 
@@ -2330,8 +2271,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ExceptionCheck, ref exceptionCheck);
             }
-            var ret = exceptionCheck?.Invoke()
-            
+            var ret = exceptionCheck.Invoke(env);
+            return ret;
         }
 
         public IntPtr NewDirectByteBuffer(IntPtr env, IntPtr address, byte capacity) 
@@ -2340,8 +2281,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewDirectByteBuffer, ref newDirectByteBuffer);
             }
-            var ret = newDirectByteBuffer?.Invoke()
-            
+            var ret = newDirectByteBuffer.Invoke(env, address, capacity);
+            return ret;
         }
 
         public void* GetDirectBufferAddress(IntPtr env, IntPtr buf) 
@@ -2350,8 +2291,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDirectBufferAddress, ref getDirectBufferAddress);
             }
-            var ret = getDirectBufferAddress?.Invoke()
-            
+            var ret = getDirectBufferAddress.Invoke(env, buf);
+            return ret;
         }
 
         public IntPtr GetDirectBufferCapacity(IntPtr env, IntPtr buf) 
@@ -2360,8 +2301,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDirectBufferCapacity, ref getDirectBufferCapacity);
             }
-            var ret = getDirectBufferCapacity?.Invoke()
-            
+            var ret = getDirectBufferCapacity.Invoke(env, buf);
+            return ret;
         }
 
         public IntPtr GetObjectRefType(IntPtr env, IntPtr obj) 
@@ -2370,8 +2311,8 @@ namespace KD.Dova.Proxy.Natives
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetObjectRefType, ref getObjectRefType);
             }
-            var ret = getObjectRefType?.Invoke()
-            
+            var ret = getObjectRefType.Invoke(env, obj);
+            return ret;
         }
 
 
@@ -2384,7 +2325,7 @@ namespace KD.Dova.Proxy.Natives
         public JNINativeInterface.GetSuperclass getSuperclass;
         public JNINativeInterface.IsAssignableFrom isAssignableFrom;
         public JNINativeInterface.ToReflectedField toReflectedField;
-        public JNINativeInterface.Throw throw;
+        public JNINativeInterface.Throw _throw;
         public JNINativeInterface.ThrowNew throwNew;
         public JNINativeInterface.ExceptionOccurred exceptionOccurred;
         public JNINativeInterface.ExceptionDescribe exceptionDescribe;

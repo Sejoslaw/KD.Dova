@@ -20,7 +20,7 @@ namespace KD.Dova.Generator.Definitions
         public override string ToString()
         {
             string func = $"{ this.ReturnType } { this.Name }(";
-            string parameters = this.BuildParameters();
+            string parameters = this.BuildParameters(true);
             func += parameters;
 
             if (!func.EndsWith(")"))
@@ -33,7 +33,7 @@ namespace KD.Dova.Generator.Definitions
             return func;
         }
 
-        public string BuildParameters()
+        public string BuildParameters(bool includeType)
         {
             string ret = "";
 
@@ -46,11 +46,22 @@ namespace KD.Dova.Generator.Definitions
                     ret += $"out ";
                 }
 
-                ret += $"{ fieldDef.Type } { fieldDef.Name }, ";
+                if (includeType)
+                {
+                    ret += $"{ fieldDef.Type } ";
+                }
+
+                ret += $"{ fieldDef.Name }, ";
             }
 
             FieldDefinition field = this.Params.Last();
-            ret += $"{ field.Type } { field.Name }";
+
+            if (includeType)
+            {
+                ret += $"{ field.Type } ";
+            }
+
+            ret += $"{ field.Name }";
 
             return ret;
         }

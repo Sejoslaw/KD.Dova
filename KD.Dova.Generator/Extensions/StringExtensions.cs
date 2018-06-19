@@ -25,5 +25,25 @@
         {
             return source.ToLower().ToCharArray()[0] + source.Substring(1);
         }
+
+        public static bool IsKeyWord(this string source)
+        {
+            return (source.Equals("throw"));
+        }
+
+        public static string ReplaceKeyWord(this string source)
+        {
+            return "_" + source;
+        }
+
+        public static string ReplaceIfKeyWord(this string source)
+        {
+            if (source.IsKeyWord())
+            {
+                source = source.ReplaceKeyWord();
+            }
+
+            return source;
+        }
     }
 }
