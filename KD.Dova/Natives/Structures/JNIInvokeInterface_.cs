@@ -4,6 +4,7 @@
 
 
 using System;
+using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
@@ -16,14 +17,19 @@ namespace KD.Dova.Natives.Structures
         public IntPtr reserved2;
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        [SuppressUnmanagedCodeSecurity]
         public delegate IntPtr DestroyJavaVM(JavaVM_ vm);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr AttachCurrentThread(JavaVM_ vm,IntPtr penv,IntPtr args);
+        [SuppressUnmanagedCodeSecurity]
+        public delegate IntPtr AttachCurrentThread(JavaVM_ vm, out IntPtr penv, IntPtr args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        [SuppressUnmanagedCodeSecurity]
         public delegate IntPtr DetachCurrentThread(JavaVM_ vm);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetEnv(JavaVM_ vm,IntPtr penv,IntPtr version);
+        [SuppressUnmanagedCodeSecurity]
+        public delegate IntPtr GetEnv(JavaVM_ vm, out IntPtr penv, IntPtr version);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr AttachCurrentThreadAsDaemon(JavaVM_ vm,IntPtr penv,IntPtr args);
+        [SuppressUnmanagedCodeSecurity]
+        public delegate IntPtr AttachCurrentThreadAsDaemon(JavaVM_ vm, out IntPtr penv, IntPtr args);
     }
 }

@@ -19,6 +19,7 @@ namespace KD.Dova.Generator.Definitions
 
         internal override void AddLibraries(List<string> fileLines)
         {
+            fileLines.Add("using System.Security;");
             fileLines.Add("using System.Runtime.InteropServices;");
             fileLines.Add("using System.Runtime.CompilerServices;");
         }
@@ -33,9 +34,9 @@ namespace KD.Dova.Generator.Definitions
             fileLines.Add($"    internal unsafe struct { this.Name }");
             fileLines.Add("    {");
 
-            if (this.Fields.Count > 0)
+            if (this.Fields.Count > 0) // Fields
             {
-                foreach (var fieldDef in this.Fields)
+                foreach (FieldDefinition fieldDef in this.Fields)
                 {
                     string field = $"        public { fieldDef.Type }";
 
@@ -51,18 +52,19 @@ namespace KD.Dova.Generator.Definitions
                 }
             }
 
-            if (this.Functions.Count > 0)
-            {
-
-            }
-
-            if (this.Functions.Count > 0)
+            if (this.Functions.Count > 0) // Functions
             {
                 fileLines.Add("");
 
-                foreach (var funcDef in this.Functions)
+                foreach (FunctionDefinition funcDef in this.Functions)
                 {
                     fileLines.Add($"        [UnmanagedFunctionPointer(CallingConvention.Winapi)]");
+
+                    if (this.Name.Equals("JNIInvokeInterface_")) // Special attribute for this structure
+                    {
+                        fileLines.Add("        [SuppressUnmanagedCodeSecurity]");
+                    }
+
                     fileLines.Add($"        public delegate { funcDef.ToString() }");
                 }
             }

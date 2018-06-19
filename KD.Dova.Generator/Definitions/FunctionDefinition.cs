@@ -10,7 +10,7 @@ namespace KD.Dova.Generator.Definitions
     {
         public string ReturnType { get; set; }
         public string Name { get; set; }
-        public ICollection<FieldDefinition> Params { get; }
+        public List<FieldDefinition> Params { get; }
 
         public FunctionDefinition()
         {
@@ -20,7 +20,7 @@ namespace KD.Dova.Generator.Definitions
         public override string ToString()
         {
             string func = $"{ this.ReturnType } { this.Name }(";
-            string parameters = string.Join(',', this.Params);
+            string parameters = this.BuildParameters();
             func += parameters;
 
             if (!func.EndsWith(")"))
@@ -31,6 +31,28 @@ namespace KD.Dova.Generator.Definitions
             func += ";";
 
             return func;
+        }
+
+        public string BuildParameters()
+        {
+            string ret = "";
+
+            for (int i = 0; i < this.Params.Count - 1; ++i)
+            {
+                FieldDefinition fieldDef = this.Params[i];
+
+                if (fieldDef.Name.StartsWith("p")) // out pointer
+                {
+                    ret += $"out ";
+                }
+
+                ret += $"{ fieldDef.Type } { fieldDef.Name }, ";
+            }
+
+            FieldDefinition field = this.Params.Last();
+            ret += $"{ field.Type } { field.Name }";
+
+            return ret;
         }
 
         /// <summary>

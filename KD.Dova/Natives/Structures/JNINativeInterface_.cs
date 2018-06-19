@@ -4,6 +4,7 @@
 
 
 using System;
+using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
@@ -19,25 +20,25 @@ namespace KD.Dova.Natives.Structures
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetVersion(IntPtr env);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr DefineClass(IntPtr env,IntPtr name,IntPtr loader,IntPtr buf,IntPtr len);
+        public delegate IntPtr DefineClass(IntPtr env, IntPtr name, IntPtr loader, IntPtr buf, IntPtr len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr FindClass(IntPtr env,IntPtr name);
+        public delegate IntPtr FindClass(IntPtr env, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr FromReflectedMethod(IntPtr env,IntPtr method);
+        public delegate IntPtr FromReflectedMethod(IntPtr env, IntPtr method);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr FromReflectedField(IntPtr env,IntPtr field);
+        public delegate IntPtr FromReflectedField(IntPtr env, IntPtr field);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr ToReflectedMethod(IntPtr env,IntPtr cls,IntPtr methodID,IntPtr isStatic);
+        public delegate IntPtr ToReflectedMethod(IntPtr env, IntPtr cls, IntPtr methodID, IntPtr isStatic);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetSuperclass(IntPtr env,IntPtr sub);
+        public delegate IntPtr GetSuperclass(IntPtr env, IntPtr sub);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr IsAssignableFrom(IntPtr env,IntPtr sub,IntPtr sup);
+        public delegate IntPtr IsAssignableFrom(IntPtr env, IntPtr sub, IntPtr sup);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr ToReflectedField(IntPtr env,IntPtr cls,IntPtr fieldID,IntPtr isStatic);
+        public delegate IntPtr ToReflectedField(IntPtr env, IntPtr cls, IntPtr fieldID, IntPtr isStatic);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr Throw(IntPtr env,IntPtr obj);
+        public delegate IntPtr Throw(IntPtr env, IntPtr obj);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr ThrowNew(IntPtr env,IntPtr clazz,IntPtr msg);
+        public delegate IntPtr ThrowNew(IntPtr env, IntPtr clazz, IntPtr msg);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr ExceptionOccurred(IntPtr env);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
@@ -45,310 +46,310 @@ namespace KD.Dova.Natives.Structures
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate void ExceptionClear(IntPtr env);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void FatalError(IntPtr env,IntPtr msg);
+        public delegate void FatalError(IntPtr env, IntPtr msg);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr PushLocalFrame(IntPtr env,IntPtr capacity);
+        public delegate IntPtr PushLocalFrame(IntPtr env, IntPtr capacity);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr PopLocalFrame(IntPtr env,IntPtr result);
+        public delegate IntPtr PopLocalFrame(IntPtr env, IntPtr result);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewGlobalRef(IntPtr env,IntPtr lobj);
+        public delegate IntPtr NewGlobalRef(IntPtr env, IntPtr lobj);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void DeleteGlobalRef(IntPtr env,IntPtr gref);
+        public delegate void DeleteGlobalRef(IntPtr env, IntPtr gref);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void DeleteLocalRef(IntPtr env,IntPtr obj);
+        public delegate void DeleteLocalRef(IntPtr env, IntPtr obj);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr IsSameObject(IntPtr env,IntPtr obj1,IntPtr obj2);
+        public delegate IntPtr IsSameObject(IntPtr env, IntPtr obj1, IntPtr obj2);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewLocalRef(IntPtr env,IntPtr reference);
+        public delegate IntPtr NewLocalRef(IntPtr env, IntPtr reference);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr EnsureLocalCapacity(IntPtr env,IntPtr capacity);
+        public delegate IntPtr EnsureLocalCapacity(IntPtr env, IntPtr capacity);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr AllocObject(IntPtr env,IntPtr clazz);
+        public delegate IntPtr AllocObject(IntPtr env, IntPtr clazz);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewObject(IntPtr env,IntPtr clazz,IntPtr methodID,IntPtr args);
+        public delegate IntPtr NewObject(IntPtr env, IntPtr clazz, IntPtr methodID, IntPtr args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetObjectClass(IntPtr env,IntPtr obj);
+        public delegate IntPtr GetObjectClass(IntPtr env, IntPtr obj);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr IsInstanceOf(IntPtr env,IntPtr obj,IntPtr clazz);
+        public delegate IntPtr IsInstanceOf(IntPtr env, IntPtr obj, IntPtr clazz);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetMethodID(IntPtr env,IntPtr clazz,IntPtr name,IntPtr sig);
+        public delegate IntPtr GetMethodID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr CallObjectMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate IntPtr CallObjectMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate bool CallBooleanMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate bool CallBooleanMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate byte CallByteMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate byte CallByteMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate ushort CallCharMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate ushort CallCharMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate short CallShortMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate short CallShortMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate int CallIntMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate int CallIntMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate long CallLongMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate long CallLongMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate float CallFloatMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate float CallFloatMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate double CallDoubleMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate double CallDoubleMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void CallVoidMethod(IntPtr env,IntPtr obj,IntPtr methodID,params NativeValue[] args);
+        public delegate void CallVoidMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr CallNonvirtualObjectMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate IntPtr CallNonvirtualObjectMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate bool CallNonvirtualBooleanMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate bool CallNonvirtualBooleanMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate byte CallNonvirtualByteMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate byte CallNonvirtualByteMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate ushort CallNonvirtualCharMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate ushort CallNonvirtualCharMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate short CallNonvirtualShortMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate short CallNonvirtualShortMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate int CallNonvirtualIntMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate int CallNonvirtualIntMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate long CallNonvirtualLongMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate long CallNonvirtualLongMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate float CallNonvirtualFloatMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate float CallNonvirtualFloatMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate double CallNonvirtualDoubleMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate double CallNonvirtualDoubleMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void CallNonvirtualVoidMethod(IntPtr env,IntPtr obj,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate void CallNonvirtualVoidMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetFieldID(IntPtr env,IntPtr clazz,IntPtr name,IntPtr sig);
+        public delegate IntPtr GetFieldID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetObjectField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate IntPtr GetObjectField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate bool GetBooleanField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate bool GetBooleanField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate byte GetByteField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate byte GetByteField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate ushort GetCharField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate ushort GetCharField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate short GetShortField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate short GetShortField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate int GetIntField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate int GetIntField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate long GetLongField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate long GetLongField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate float GetFloatField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate float GetFloatField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate double GetDoubleField(IntPtr env,IntPtr obj,IntPtr fieldID);
+        public delegate double GetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetObjectField(IntPtr env,IntPtr obj,IntPtr fieldID,IntPtr val);
+        public delegate void SetObjectField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetBooleanField(IntPtr env,IntPtr obj,IntPtr fieldID,bool val);
+        public delegate void SetBooleanField(IntPtr env, IntPtr obj, IntPtr fieldID, bool val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetByteField(IntPtr env,IntPtr obj,IntPtr fieldID,byte val);
+        public delegate void SetByteField(IntPtr env, IntPtr obj, IntPtr fieldID, byte val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetCharField(IntPtr env,IntPtr obj,IntPtr fieldID,ushort val);
+        public delegate void SetCharField(IntPtr env, IntPtr obj, IntPtr fieldID, ushort val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetShortField(IntPtr env,IntPtr obj,IntPtr fieldID,short val);
+        public delegate void SetShortField(IntPtr env, IntPtr obj, IntPtr fieldID, short val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetIntField(IntPtr env,IntPtr obj,IntPtr fieldID,int val);
+        public delegate void SetIntField(IntPtr env, IntPtr obj, IntPtr fieldID, int val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetLongField(IntPtr env,IntPtr obj,IntPtr fieldID,long val);
+        public delegate void SetLongField(IntPtr env, IntPtr obj, IntPtr fieldID, long val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetFloatField(IntPtr env,IntPtr obj,IntPtr fieldID,float val);
+        public delegate void SetFloatField(IntPtr env, IntPtr obj, IntPtr fieldID, float val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetDoubleField(IntPtr env,IntPtr obj,IntPtr fieldID,double val);
+        public delegate void SetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID, double val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetStaticMethodID(IntPtr env,IntPtr clazz,IntPtr name,IntPtr sig);
+        public delegate IntPtr GetStaticMethodID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr CallStaticObjectMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate IntPtr CallStaticObjectMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate bool CallStaticBooleanMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate bool CallStaticBooleanMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate byte CallStaticByteMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate byte CallStaticByteMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate ushort CallStaticCharMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate ushort CallStaticCharMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate short CallStaticShortMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate short CallStaticShortMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate int CallStaticIntMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate int CallStaticIntMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate long CallStaticLongMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate long CallStaticLongMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate float CallStaticFloatMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate float CallStaticFloatMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate double CallStaticDoubleMethod(IntPtr env,IntPtr clazz,IntPtr methodID,params NativeValue[] args);
+        public delegate double CallStaticDoubleMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void CallStaticVoidMethod(IntPtr env,IntPtr cls,IntPtr methodID,params NativeValue[] args);
+        public delegate void CallStaticVoidMethod(IntPtr env, IntPtr cls, IntPtr methodID, params NativeValue[] args);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetStaticFieldID(IntPtr env,IntPtr clazz,IntPtr name,IntPtr sig);
+        public delegate IntPtr GetStaticFieldID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetStaticObjectField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate IntPtr GetStaticObjectField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate bool GetStaticBooleanField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate bool GetStaticBooleanField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate byte GetStaticByteField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate byte GetStaticByteField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate ushort GetStaticCharField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate ushort GetStaticCharField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate short GetStaticShortField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate short GetStaticShortField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate int GetStaticIntField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate int GetStaticIntField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate long GetStaticLongField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate long GetStaticLongField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate float GetStaticFloatField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate float GetStaticFloatField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate double GetStaticDoubleField(IntPtr env,IntPtr clazz,IntPtr fieldID);
+        public delegate double GetStaticDoubleField(IntPtr env, IntPtr clazz, IntPtr fieldID);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticObjectField(IntPtr env,IntPtr clazz,IntPtr fieldID,IntPtr value);
+        public delegate void SetStaticObjectField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticBooleanField(IntPtr env,IntPtr clazz,IntPtr fieldID,bool value);
+        public delegate void SetStaticBooleanField(IntPtr env, IntPtr clazz, IntPtr fieldID, bool value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticByteField(IntPtr env,IntPtr clazz,IntPtr fieldID,byte value);
+        public delegate void SetStaticByteField(IntPtr env, IntPtr clazz, IntPtr fieldID, byte value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticCharField(IntPtr env,IntPtr clazz,IntPtr fieldID,ushort value);
+        public delegate void SetStaticCharField(IntPtr env, IntPtr clazz, IntPtr fieldID, ushort value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticShortField(IntPtr env,IntPtr clazz,IntPtr fieldID,short value);
+        public delegate void SetStaticShortField(IntPtr env, IntPtr clazz, IntPtr fieldID, short value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticIntField(IntPtr env,IntPtr clazz,IntPtr fieldID,int value);
+        public delegate void SetStaticIntField(IntPtr env, IntPtr clazz, IntPtr fieldID, int value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticLongField(IntPtr env,IntPtr clazz,IntPtr fieldID,long value);
+        public delegate void SetStaticLongField(IntPtr env, IntPtr clazz, IntPtr fieldID, long value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticFloatField(IntPtr env,IntPtr clazz,IntPtr fieldID,float value);
+        public delegate void SetStaticFloatField(IntPtr env, IntPtr clazz, IntPtr fieldID, float value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticDoubleField(IntPtr env,IntPtr clazz,IntPtr fieldID,double value);
+        public delegate void SetStaticDoubleField(IntPtr env, IntPtr clazz, IntPtr fieldID, double value);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewString(IntPtr env,IntPtr unicode,IntPtr len);
+        public delegate IntPtr NewString(IntPtr env, IntPtr unicode, IntPtr len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate int GetStringLength(IntPtr env,IntPtr str);
+        public delegate int GetStringLength(IntPtr env, IntPtr str);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate ushort GetStringChars(IntPtr env,IntPtr str,IntPtr isCopy);
+        public delegate ushort GetStringChars(IntPtr env, IntPtr str, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseStringChars(IntPtr env,IntPtr str,IntPtr chars);
+        public delegate void ReleaseStringChars(IntPtr env, IntPtr str, IntPtr chars);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewStringUTF(IntPtr env,IntPtr utf);
+        public delegate IntPtr NewStringUTF(IntPtr env, IntPtr utf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate int GetStringUTFLength(IntPtr env,IntPtr str);
+        public delegate int GetStringUTFLength(IntPtr env, IntPtr str);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate ushort GetStringUTFChars(IntPtr env,IntPtr str,IntPtr isCopy);
+        public delegate ushort GetStringUTFChars(IntPtr env, IntPtr str, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseStringUTFChars(IntPtr env,IntPtr str,IntPtr chars);
+        public delegate void ReleaseStringUTFChars(IntPtr env, IntPtr str, IntPtr chars);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate int GetArrayLength(IntPtr env,IntPtr array);
+        public delegate int GetArrayLength(IntPtr env, IntPtr array);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewObjectArray(IntPtr env,IntPtr len,IntPtr clazz,IntPtr init);
+        public delegate IntPtr NewObjectArray(IntPtr env, IntPtr len, IntPtr clazz, IntPtr init);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetObjectArrayElement(IntPtr env,IntPtr array,IntPtr index);
+        public delegate IntPtr GetObjectArrayElement(IntPtr env, IntPtr array, IntPtr index);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetObjectArrayElement(IntPtr env,IntPtr array,IntPtr index,IntPtr val);
+        public delegate void SetObjectArrayElement(IntPtr env, IntPtr array, IntPtr index, IntPtr val);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewBooleanArray(IntPtr env,int len);
+        public delegate IntPtr NewBooleanArray(IntPtr env, int len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewByteArray(IntPtr env,int len);
+        public delegate IntPtr NewByteArray(IntPtr env, int len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewCharArray(IntPtr env,int len);
+        public delegate IntPtr NewCharArray(IntPtr env, int len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewShortArray(IntPtr env,int len);
+        public delegate IntPtr NewShortArray(IntPtr env, int len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewIntArray(IntPtr env,int len);
+        public delegate IntPtr NewIntArray(IntPtr env, int len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewLongArray(IntPtr env,int len);
+        public delegate IntPtr NewLongArray(IntPtr env, int len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewFloatArray(IntPtr env,int len);
+        public delegate IntPtr NewFloatArray(IntPtr env, int len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewDoubleArray(IntPtr env,int len);
+        public delegate IntPtr NewDoubleArray(IntPtr env, int len);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetBooleanArrayElements(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate IntPtr GetBooleanArrayElements(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetByteArrayElements(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate IntPtr GetByteArrayElements(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetCharArrayElements(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate IntPtr GetCharArrayElements(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetShortArrayElements(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate IntPtr GetShortArrayElements(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetIntArrayElements(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate IntPtr GetIntArrayElements(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetLongArrayElements(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate IntPtr GetLongArrayElements(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetFloatArrayElements(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate IntPtr GetFloatArrayElements(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetDoubleArrayElements(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate IntPtr GetDoubleArrayElements(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseBooleanArrayElements(IntPtr env,IntPtr array,bool* elems,IntPtr mode);
+        public delegate void ReleaseBooleanArrayElements(IntPtr env, IntPtr array, bool* elems, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseByteArrayElements(IntPtr env,IntPtr array,byte* elems,IntPtr mode);
+        public delegate void ReleaseByteArrayElements(IntPtr env, IntPtr array, byte* elems, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseCharArrayElements(IntPtr env,IntPtr array,ushort* elems,IntPtr mode);
+        public delegate void ReleaseCharArrayElements(IntPtr env, IntPtr array, ushort* elems, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseShortArrayElements(IntPtr env,IntPtr array,short* elems,IntPtr mode);
+        public delegate void ReleaseShortArrayElements(IntPtr env, IntPtr array, short* elems, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseIntArrayElements(IntPtr env,IntPtr array,int* elems,IntPtr mode);
+        public delegate void ReleaseIntArrayElements(IntPtr env, IntPtr array, int* elems, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseLongArrayElements(IntPtr env,IntPtr array,long* elems,IntPtr mode);
+        public delegate void ReleaseLongArrayElements(IntPtr env, IntPtr array, long* elems, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseFloatArrayElements(IntPtr env,IntPtr array,float* elems,IntPtr mode);
+        public delegate void ReleaseFloatArrayElements(IntPtr env, IntPtr array, float* elems, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseDoubleArrayElements(IntPtr env,IntPtr array,double* elems,IntPtr mode);
+        public delegate void ReleaseDoubleArrayElements(IntPtr env, IntPtr array, double* elems, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetBooleanArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr l,IntPtr buf);
+        public delegate void GetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetByteArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetCharArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetShortArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetIntArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetLongArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetFloatArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetDoubleArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetBooleanArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr l,bool buf);
+        public delegate void SetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, bool buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetByteArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,byte buf);
+        public delegate void SetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, byte buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetCharArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,ushort buf);
+        public delegate void SetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, ushort buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetShortArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,short buf);
+        public delegate void SetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, short buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetIntArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,int buf);
+        public delegate void SetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, int buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetLongArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,long buf);
+        public delegate void SetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, long buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetFloatArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,float buf);
+        public delegate void SetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, float buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetDoubleArrayRegion(IntPtr env,IntPtr array,IntPtr start,IntPtr len,double buf);
+        public delegate void SetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, double buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr RegisterNatives(IntPtr env,IntPtr clazz,IntPtr methods,IntPtr nMethods);
+        public delegate IntPtr RegisterNatives(IntPtr env, IntPtr clazz, IntPtr methods, IntPtr nMethods);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr UnregisterNatives(IntPtr env,IntPtr clazz);
+        public delegate IntPtr UnregisterNatives(IntPtr env, IntPtr clazz);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr MonitorEnter(IntPtr env,IntPtr obj);
+        public delegate IntPtr MonitorEnter(IntPtr env, IntPtr obj);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr MonitorExit(IntPtr env,IntPtr obj);
+        public delegate IntPtr MonitorExit(IntPtr env, IntPtr obj);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetJavaVM(IntPtr env,JavaVM_ vm);
+        public delegate IntPtr GetJavaVM(IntPtr env, JavaVM_ vm);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetStringRegion(IntPtr env,IntPtr str,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetStringRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetStringUTFRegion(IntPtr env,IntPtr str,IntPtr start,IntPtr len,IntPtr buf);
+        public delegate void GetStringUTFRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetPrimitiveArrayCritical(IntPtr env,IntPtr array,IntPtr isCopy);
+        public delegate void GetPrimitiveArrayCritical(IntPtr env, IntPtr array, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleasePrimitiveArrayCritical(IntPtr env,IntPtr array,IntPtr carray,IntPtr mode);
+        public delegate void ReleasePrimitiveArrayCritical(IntPtr env, IntPtr array, IntPtr carray, IntPtr mode);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetStringCritical(IntPtr env,IntPtr str,IntPtr isCopy);
+        public delegate IntPtr GetStringCritical(IntPtr env, IntPtr str, IntPtr isCopy);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseStringCritical(IntPtr env,IntPtr str,IntPtr cstring);
+        public delegate void ReleaseStringCritical(IntPtr env, IntPtr str, IntPtr cstring);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewWeakGlobalRef(IntPtr env,IntPtr obj);
+        public delegate IntPtr NewWeakGlobalRef(IntPtr env, IntPtr obj);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void DeleteWeakGlobalRef(IntPtr env,IntPtr reference);
+        public delegate void DeleteWeakGlobalRef(IntPtr env, IntPtr reference);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr ExceptionCheck(IntPtr env);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewDirectByteBuffer(IntPtr env,IntPtr address,byte capacity);
+        public delegate IntPtr NewDirectByteBuffer(IntPtr env, IntPtr address, byte capacity);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void* GetDirectBufferAddress(IntPtr env,IntPtr buf);
+        public delegate void* GetDirectBufferAddress(IntPtr env, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetDirectBufferCapacity(IntPtr env,IntPtr buf);
+        public delegate IntPtr GetDirectBufferCapacity(IntPtr env, IntPtr buf);
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetObjectRefType(IntPtr env,IntPtr obj);
+        public delegate IntPtr GetObjectRefType(IntPtr env, IntPtr obj);
     }
 }
