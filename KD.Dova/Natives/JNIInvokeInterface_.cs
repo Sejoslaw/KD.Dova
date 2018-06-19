@@ -48,4 +48,16 @@ namespace KD.Dova.Proxy.Natives
         public IntPtr GetEnv;
         public IntPtr AttachCurrentThreadAsDaemon;
     }
+
+    internal unsafe class JavaVirtualMachine
+    {
+        public IntPtr JVM { get; private set; }
+        public JNIInvokeInterface_ InvokeInterface { get; private set; }
+
+        internal JavaVirtualMachine(IntPtr jvm)
+        {
+            this.JVM = jvm;
+            this.InvokeInterface = *(*(JavaVM_*)jvm.ToPointer()).functions;
+        }
+    }
 }

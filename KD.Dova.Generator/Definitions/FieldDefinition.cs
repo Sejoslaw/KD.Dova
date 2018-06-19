@@ -9,7 +9,14 @@
         public string Name { get; set; }
         public string Value { get; set; }
         public string Comment { get; set; }
+        /// <summary>
+        /// Use "out" keyword.
+        /// </summary>
         public bool IsOut { get; set; }
+        /// <summary>
+        /// Use "[Out]" attribute.
+        /// </summary>
+        public bool IsUsingOutAttribute { get; set; }
 
         public override string ToString()
         {

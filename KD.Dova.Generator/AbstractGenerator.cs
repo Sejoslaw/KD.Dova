@@ -34,6 +34,11 @@ namespace KD.Dova.Generator
             }
         }
 
+        internal string ParseImportName(string line)
+        {
+            return line.Split("(")[0];
+        }
+
         internal void ParseConstant(FieldDefinition fieldDef, string line)
         {
             string parsed = line.Trim();

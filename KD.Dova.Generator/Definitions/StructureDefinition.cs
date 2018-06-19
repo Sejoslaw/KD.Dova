@@ -1,4 +1,5 @@
 ﻿using KD.Dova.Extensions;
+using System;
 using System.Collections.Generic;
 
 namespace KD.Dova.Generator.Definitions
@@ -37,11 +38,37 @@ namespace KD.Dova.Generator.Definitions
 
             if (this.Name.Equals("JNINativeInterface_"))
             {
-                this.GenerateWrapperForNativeFunctions(fileLines);
+                this.GenerateWrapperForEnvironment(fileLines);
+            }
+            else if (this.Name.Equals("JNIInvokeInterface_"))
+            {
+                this.GenerateWrapperForVirtualMachine(fileLines);
             }
         }
 
-        private void GenerateWrapperForNativeFunctions(List<string> fileLines)
+        private void GenerateWrapperForVirtualMachine(List<string> fileLines)
+        {
+            fileLines.Add("");
+
+            string name = this.Name.Substring(0, this.Name.Length - 1);
+
+            fileLines.Add($"    internal unsafe class JavaVirtualMachine");
+            fileLines.Add("    {");
+
+            fileLines.Add("        public IntPtr JVM { get; private set; }");
+            fileLines.Add("        public JNIInvokeInterface_ InvokeInterface { get; private set; }");
+            fileLines.Add("");
+
+            fileLines.Add("        internal JavaVirtualMachine(IntPtr jvm)");
+            fileLines.Add("        {");
+            fileLines.Add("            this.JVM = jvm;");
+            fileLines.Add("            this.InvokeInterface = *(*(JavaVM_*)jvm.ToPointer()).functions;");
+            fileLines.Add("        }");
+
+            fileLines.Add("    }");
+        }
+
+        private void GenerateWrapperForEnvironment(List<string> fileLines)
         {
             fileLines.Add("");
 

@@ -10,7 +10,7 @@ namespace KD.Dova.Generator.Definitions
     {
         public string ReturnType { get; set; }
         public string Name { get; set; }
-        public List<FieldDefinition> Params { get; }
+        public List<FieldDefinition> Params { get; set; }
 
         public FunctionDefinition()
         {
@@ -41,6 +41,11 @@ namespace KD.Dova.Generator.Definitions
             {
                 FieldDefinition fieldDef = this.Params[i];
 
+                if (fieldDef.IsUsingOutAttribute)
+                {
+                    ret += $"[Out] ";
+                }
+
                 if (fieldDef.IsOut) // out pointer
                 {
                     ret += $"out ";
@@ -54,7 +59,21 @@ namespace KD.Dova.Generator.Definitions
                 ret += $"{ fieldDef.Name }, ";
             }
 
-            FieldDefinition field = this.Params.Last();
+            FieldDefinition field = this.Params.LastOrDefault();
+            if (field == null)
+            {
+                return ret;
+            }
+
+            if (field.IsUsingOutAttribute)
+            {
+                ret += $"[Out] ";
+            }
+
+            if (field.IsOut) // out pointer
+            {
+                ret += $"out ";
+            }
 
             if (includeType)
             {

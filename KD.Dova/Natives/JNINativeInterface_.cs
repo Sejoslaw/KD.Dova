@@ -473,7 +473,7 @@ namespace KD.Dova.Proxy.Natives
         public delegate IntPtr MonitorExit(IntPtr env, IntPtr obj);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetJavaVM(IntPtr env, JavaVM_ vm);
+        public delegate IntPtr GetJavaVM(IntPtr env, out JavaVM_ vm);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate void GetStringRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf);
@@ -2181,13 +2181,13 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetJavaVM(IntPtr env, JavaVM_ vm) 
+        public IntPtr GetJavaVM(IntPtr env, out JavaVM_ vm) 
         {
             if (getJavaVM == null)
             {
                 NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetJavaVM, ref getJavaVM);
             }
-            var ret = getJavaVM.Invoke(env, vm);
+            var ret = getJavaVM.Invoke(env, out vm);
             return ret;
         }
 
