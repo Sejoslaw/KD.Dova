@@ -69,7 +69,7 @@ namespace KD.Dova.Generator.Definitions
             string name = this.Name;
 
             if (name.EndsWith("_") &&
-                !name.Equals("JavaVM_"))
+                (!name.Equals("JavaVM_") && !name.Equals("JNIEnv_"))) // Java specific structures
             {
                 name = this.Name.Substring(0, this.Name.Length - 1); // This should remove underline from the end of the name
             }

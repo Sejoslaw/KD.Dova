@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    public unsafe struct JNIEnv
+    public unsafe struct JNIEnv_
     {
         public JNINativeInterface_* functions;
     }
