@@ -4,11 +4,14 @@
 
 
 using System;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Natives.Structures
 {
+    [StructLayout(LayoutKind.Sequential), NativeCppClass]
     internal unsafe struct JNIEnv_
     {
-        public JNINativeInterface_ functions;
+        public JNINativeInterface_* functions;
     }
 }

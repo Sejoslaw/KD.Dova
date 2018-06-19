@@ -19,15 +19,17 @@ namespace KD.Dova.Generator.Definitions
 
         internal override void AddLibraries(List<string> fileLines)
         {
-            // Additional using for UnmanagedFunctionPointer
-            if (this.Functions.Count > 0)
-            {
-                fileLines.Add("using System.Runtime.InteropServices;");
-            }
+            fileLines.Add("using System.Runtime.InteropServices;");
+            fileLines.Add("using System.Runtime.CompilerServices;");
         }
 
         internal override void AddMainContent(List<string> fileLines)
         {
+            if (this.Functions.Count == 0)
+            {
+                fileLines.Add("    [StructLayout(LayoutKind.Sequential), NativeCppClass]");
+            }
+
             fileLines.Add($"    internal unsafe struct { this.Name }");
             fileLines.Add("    {");
 
@@ -35,16 +37,30 @@ namespace KD.Dova.Generator.Definitions
             {
                 foreach (var fieldDef in this.Fields)
                 {
-                    fileLines.Add($"        public { fieldDef.Type } { fieldDef.Name };");
+                    string field = $"        public { fieldDef.Type }";
+
+                    if (char.IsUpper(fieldDef.Type.ToCharArray()[0]) &&
+                        !fieldDef.Type.Equals(AbstractGenerator.POINTER))
+                    {
+                        field += "*";
+                    }
+
+                    field += $" { fieldDef.Name };";
+
+                    fileLines.Add(field);
                 }
+            }
+
+            if (this.Functions.Count > 0)
+            {
+
             }
 
             if (this.Functions.Count > 0)
             {
                 fileLines.Add("");
 
-                var sorted = this.Functions.OrderBy(func => func.Name).ToList();
-                foreach (var funcDef in sorted)
+                foreach (var funcDef in this.Functions)
                 {
                     fileLines.Add($"        [UnmanagedFunctionPointer(CallingConvention.Winapi)]");
                     fileLines.Add($"        public delegate { funcDef.ToString() }");

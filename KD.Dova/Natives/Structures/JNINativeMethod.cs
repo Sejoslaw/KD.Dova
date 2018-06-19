@@ -4,9 +4,12 @@
 
 
 using System;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Natives.Structures
 {
+    [StructLayout(LayoutKind.Sequential), NativeCppClass]
     internal unsafe struct JNINativeMethod
     {
         public IntPtr name;

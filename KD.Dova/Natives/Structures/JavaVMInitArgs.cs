@@ -4,14 +4,17 @@
 
 
 using System;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Natives.Structures
 {
+    [StructLayout(LayoutKind.Sequential), NativeCppClass]
     internal unsafe struct JavaVMInitArgs
     {
         public IntPtr version;
         public IntPtr nOptions;
-        public JavaVMOption options;
+        public JavaVMOption* options;
         public IntPtr ignoreUnrecognized;
     }
 }
