@@ -2315,7 +2315,6 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-
         public JNINativeInterface.GetVersion getVersion;
         public JNINativeInterface.DefineClass defineClass;
         public JNINativeInterface.FindClass findClass;

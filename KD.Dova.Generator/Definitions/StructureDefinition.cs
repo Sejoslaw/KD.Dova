@@ -64,8 +64,9 @@ namespace KD.Dova.Generator.Definitions
             fileLines.Add("            this.JVM = jvm;");
             fileLines.Add("            this.InvokeInterface = *(*(JavaVM_*)jvm.ToPointer()).functions;");
             fileLines.Add("        }");
+            fileLines.Add("");
 
-            fileLines.Add("    }");
+            this.BuildFunctionsFromDelegates(fileLines, "InvokeInterface", "JNIInvokeInterface");
         }
 
         private void GenerateWrapperForEnvironment(List<string> fileLines)
@@ -88,6 +89,11 @@ namespace KD.Dova.Generator.Definitions
             fileLines.Add("        }");
             fileLines.Add("");
 
+            this.BuildFunctionsFromDelegates(fileLines, "NativeInterface", "JNINativeInterface");
+        }
+
+        private void BuildFunctionsFromDelegates(List<string> fileLines, string innerFieldName, string structWithDelegates)
+        {
             if (this.Functions.Count > 0)
             {
                 foreach (FunctionDefinition func in this.Functions)
@@ -106,7 +112,7 @@ namespace KD.Dova.Generator.Definitions
                     fileLines.Add("        {");
                     fileLines.Add($"            if ({ variableName } == null)");
                     fileLines.Add("            {");
-                    fileLines.Add($"                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.{ func.Name }, ref { variableName });");
+                    fileLines.Add($"                NativeHelper.GetDelegateForFunctionPointer(this.{ innerFieldName }.{ func.Name }, ref { variableName });");
                     fileLines.Add("            }");
 
                     if (!func.ReturnType.Equals("void"))
@@ -123,7 +129,6 @@ namespace KD.Dova.Generator.Definitions
                     fileLines.Add("");
                 }
             }
-            fileLines.Add("");
 
             if (this.Functions.Count > 0)
             {
@@ -131,7 +136,7 @@ namespace KD.Dova.Generator.Definitions
                 {
                     string variableName = func.Name.WithFirstCharLower().ReplaceIfKeyWord();
 
-                    fileLines.Add($"        public JNINativeInterface.{ func.Name } { variableName };");
+                    fileLines.Add($"        public { structWithDelegates }.{ func.Name } { variableName };");
                 }
             }
             fileLines.Add("");

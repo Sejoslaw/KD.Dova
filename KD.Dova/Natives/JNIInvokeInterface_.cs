@@ -59,5 +59,62 @@ namespace KD.Dova.Proxy.Natives
             this.JVM = jvm;
             this.InvokeInterface = *(*(JavaVM_*)jvm.ToPointer()).functions;
         }
+
+        public IntPtr DestroyJavaVM(JavaVM_ vm) 
+        {
+            if (destroyJavaVM == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.DestroyJavaVM, ref destroyJavaVM);
+            }
+            var ret = destroyJavaVM.Invoke(vm);
+            return ret;
+        }
+
+        public IntPtr AttachCurrentThread(JavaVM_ vm, out IntPtr penv, IntPtr args) 
+        {
+            if (attachCurrentThread == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.AttachCurrentThread, ref attachCurrentThread);
+            }
+            var ret = attachCurrentThread.Invoke(vm, out penv, args);
+            return ret;
+        }
+
+        public IntPtr DetachCurrentThread(JavaVM_ vm) 
+        {
+            if (detachCurrentThread == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.DetachCurrentThread, ref detachCurrentThread);
+            }
+            var ret = detachCurrentThread.Invoke(vm);
+            return ret;
+        }
+
+        public IntPtr GetEnv(JavaVM_ vm, out IntPtr penv, IntPtr version) 
+        {
+            if (getEnv == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.GetEnv, ref getEnv);
+            }
+            var ret = getEnv.Invoke(vm, out penv, version);
+            return ret;
+        }
+
+        public IntPtr AttachCurrentThreadAsDaemon(JavaVM_ vm, out IntPtr penv, IntPtr args) 
+        {
+            if (attachCurrentThreadAsDaemon == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.AttachCurrentThreadAsDaemon, ref attachCurrentThreadAsDaemon);
+            }
+            var ret = attachCurrentThreadAsDaemon.Invoke(vm, out penv, args);
+            return ret;
+        }
+
+        public JNIInvokeInterface.DestroyJavaVM destroyJavaVM;
+        public JNIInvokeInterface.AttachCurrentThread attachCurrentThread;
+        public JNIInvokeInterface.DetachCurrentThread detachCurrentThread;
+        public JNIInvokeInterface.GetEnv getEnv;
+        public JNIInvokeInterface.AttachCurrentThreadAsDaemon attachCurrentThreadAsDaemon;
+
     }
 }
