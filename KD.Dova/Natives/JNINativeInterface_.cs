@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    internal unsafe struct JNINativeInterface_
+    internal unsafe struct JNINativeInterface
     {
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetVersion(IntPtr env);
@@ -517,7 +517,7 @@ namespace KD.Dova.Proxy.Natives
     }
 
     [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    internal unsafe struct JNINativeInterface
+    internal unsafe struct JNINativeInterface_
     {
         public IntPtr reserved0;
         public IntPtr reserved1;
@@ -691,5 +691,1857 @@ namespace KD.Dova.Proxy.Natives
         public IntPtr GetDirectBufferAddress;
         public IntPtr GetDirectBufferCapacity;
         public IntPtr GetObjectRefType;
+    }
+
+    internal unsafe struct JNIEnvironment
+    {
+        public IntPtr Environment { get; private set; }
+        public JNINativeInterface_ NativeInterface { get; private set; }
+
+        internal JNIEnvironment(IntPtr jniEnv)
+        {
+            this.Environment = jniEnv;
+            this.NativeInterface = *(*(JNIEnv_*) jniEnv.ToPointer()).functions;
+        }
+
+        public IntPtr GetVersion(IntPtr env) 
+        {
+            if (getVersion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetVersion, ref getVersion);
+            }
+            var ret = getVersion?.Invoke()
+            
+        }
+
+        public IntPtr DefineClass(IntPtr env, IntPtr name, IntPtr loader, IntPtr buf, IntPtr len) 
+        {
+            if (defineClass == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.DefineClass, ref defineClass);
+            }
+            var ret = defineClass?.Invoke()
+            
+        }
+
+        public IntPtr FindClass(IntPtr env, IntPtr name) 
+        {
+            if (findClass == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.FindClass, ref findClass);
+            }
+            var ret = findClass?.Invoke()
+            
+        }
+
+        public IntPtr FromReflectedMethod(IntPtr env, IntPtr method) 
+        {
+            if (fromReflectedMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.FromReflectedMethod, ref fromReflectedMethod);
+            }
+            var ret = fromReflectedMethod?.Invoke()
+            
+        }
+
+        public IntPtr FromReflectedField(IntPtr env, IntPtr field) 
+        {
+            if (fromReflectedField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.FromReflectedField, ref fromReflectedField);
+            }
+            var ret = fromReflectedField?.Invoke()
+            
+        }
+
+        public IntPtr ToReflectedMethod(IntPtr env, IntPtr cls, IntPtr methodID, IntPtr isStatic) 
+        {
+            if (toReflectedMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ToReflectedMethod, ref toReflectedMethod);
+            }
+            var ret = toReflectedMethod?.Invoke()
+            
+        }
+
+        public IntPtr GetSuperclass(IntPtr env, IntPtr sub) 
+        {
+            if (getSuperclass == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetSuperclass, ref getSuperclass);
+            }
+            var ret = getSuperclass?.Invoke()
+            
+        }
+
+        public IntPtr IsAssignableFrom(IntPtr env, IntPtr sub, IntPtr sup) 
+        {
+            if (isAssignableFrom == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.IsAssignableFrom, ref isAssignableFrom);
+            }
+            var ret = isAssignableFrom?.Invoke()
+            
+        }
+
+        public IntPtr ToReflectedField(IntPtr env, IntPtr cls, IntPtr fieldID, IntPtr isStatic) 
+        {
+            if (toReflectedField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ToReflectedField, ref toReflectedField);
+            }
+            var ret = toReflectedField?.Invoke()
+            
+        }
+
+        public IntPtr Throw(IntPtr env, IntPtr obj) 
+        {
+            if (throw == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.Throw, ref throw);
+            }
+            var ret = throw?.Invoke()
+            
+        }
+
+        public IntPtr ThrowNew(IntPtr env, IntPtr clazz, IntPtr msg) 
+        {
+            if (throwNew == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ThrowNew, ref throwNew);
+            }
+            var ret = throwNew?.Invoke()
+            
+        }
+
+        public IntPtr ExceptionOccurred(IntPtr env) 
+        {
+            if (exceptionOccurred == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ExceptionOccurred, ref exceptionOccurred);
+            }
+            var ret = exceptionOccurred?.Invoke()
+            
+        }
+
+        public void ExceptionDescribe(IntPtr env) 
+        {
+            if (exceptionDescribe == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ExceptionDescribe, ref exceptionDescribe);
+            }
+            var ret = exceptionDescribe?.Invoke()
+            
+        }
+
+        public void ExceptionClear(IntPtr env) 
+        {
+            if (exceptionClear == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ExceptionClear, ref exceptionClear);
+            }
+            var ret = exceptionClear?.Invoke()
+            
+        }
+
+        public void FatalError(IntPtr env, IntPtr msg) 
+        {
+            if (fatalError == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.FatalError, ref fatalError);
+            }
+            var ret = fatalError?.Invoke()
+            
+        }
+
+        public IntPtr PushLocalFrame(IntPtr env, IntPtr capacity) 
+        {
+            if (pushLocalFrame == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.PushLocalFrame, ref pushLocalFrame);
+            }
+            var ret = pushLocalFrame?.Invoke()
+            
+        }
+
+        public IntPtr PopLocalFrame(IntPtr env, IntPtr result) 
+        {
+            if (popLocalFrame == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.PopLocalFrame, ref popLocalFrame);
+            }
+            var ret = popLocalFrame?.Invoke()
+            
+        }
+
+        public IntPtr NewGlobalRef(IntPtr env, IntPtr lobj) 
+        {
+            if (newGlobalRef == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewGlobalRef, ref newGlobalRef);
+            }
+            var ret = newGlobalRef?.Invoke()
+            
+        }
+
+        public void DeleteGlobalRef(IntPtr env, IntPtr gref) 
+        {
+            if (deleteGlobalRef == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.DeleteGlobalRef, ref deleteGlobalRef);
+            }
+            var ret = deleteGlobalRef?.Invoke()
+            
+        }
+
+        public void DeleteLocalRef(IntPtr env, IntPtr obj) 
+        {
+            if (deleteLocalRef == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.DeleteLocalRef, ref deleteLocalRef);
+            }
+            var ret = deleteLocalRef?.Invoke()
+            
+        }
+
+        public IntPtr IsSameObject(IntPtr env, IntPtr obj1, IntPtr obj2) 
+        {
+            if (isSameObject == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.IsSameObject, ref isSameObject);
+            }
+            var ret = isSameObject?.Invoke()
+            
+        }
+
+        public IntPtr NewLocalRef(IntPtr env, IntPtr reference) 
+        {
+            if (newLocalRef == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewLocalRef, ref newLocalRef);
+            }
+            var ret = newLocalRef?.Invoke()
+            
+        }
+
+        public IntPtr EnsureLocalCapacity(IntPtr env, IntPtr capacity) 
+        {
+            if (ensureLocalCapacity == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.EnsureLocalCapacity, ref ensureLocalCapacity);
+            }
+            var ret = ensureLocalCapacity?.Invoke()
+            
+        }
+
+        public IntPtr AllocObject(IntPtr env, IntPtr clazz) 
+        {
+            if (allocObject == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.AllocObject, ref allocObject);
+            }
+            var ret = allocObject?.Invoke()
+            
+        }
+
+        public IntPtr NewObject(IntPtr env, IntPtr clazz, IntPtr methodID, IntPtr args) 
+        {
+            if (newObject == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewObject, ref newObject);
+            }
+            var ret = newObject?.Invoke()
+            
+        }
+
+        public IntPtr GetObjectClass(IntPtr env, IntPtr obj) 
+        {
+            if (getObjectClass == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetObjectClass, ref getObjectClass);
+            }
+            var ret = getObjectClass?.Invoke()
+            
+        }
+
+        public IntPtr IsInstanceOf(IntPtr env, IntPtr obj, IntPtr clazz) 
+        {
+            if (isInstanceOf == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.IsInstanceOf, ref isInstanceOf);
+            }
+            var ret = isInstanceOf?.Invoke()
+            
+        }
+
+        public IntPtr GetMethodID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig) 
+        {
+            if (getMethodID == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetMethodID, ref getMethodID);
+            }
+            var ret = getMethodID?.Invoke()
+            
+        }
+
+        public IntPtr CallObjectMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callObjectMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallObjectMethod, ref callObjectMethod);
+            }
+            var ret = callObjectMethod?.Invoke()
+            
+        }
+
+        public bool CallBooleanMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callBooleanMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallBooleanMethod, ref callBooleanMethod);
+            }
+            var ret = callBooleanMethod?.Invoke()
+            
+        }
+
+        public byte CallByteMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callByteMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallByteMethod, ref callByteMethod);
+            }
+            var ret = callByteMethod?.Invoke()
+            
+        }
+
+        public ushort CallCharMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callCharMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallCharMethod, ref callCharMethod);
+            }
+            var ret = callCharMethod?.Invoke()
+            
+        }
+
+        public short CallShortMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callShortMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallShortMethod, ref callShortMethod);
+            }
+            var ret = callShortMethod?.Invoke()
+            
+        }
+
+        public int CallIntMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callIntMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallIntMethod, ref callIntMethod);
+            }
+            var ret = callIntMethod?.Invoke()
+            
+        }
+
+        public long CallLongMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callLongMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallLongMethod, ref callLongMethod);
+            }
+            var ret = callLongMethod?.Invoke()
+            
+        }
+
+        public float CallFloatMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callFloatMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallFloatMethod, ref callFloatMethod);
+            }
+            var ret = callFloatMethod?.Invoke()
+            
+        }
+
+        public double CallDoubleMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callDoubleMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallDoubleMethod, ref callDoubleMethod);
+            }
+            var ret = callDoubleMethod?.Invoke()
+            
+        }
+
+        public void CallVoidMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callVoidMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallVoidMethod, ref callVoidMethod);
+            }
+            var ret = callVoidMethod?.Invoke()
+            
+        }
+
+        public IntPtr CallNonvirtualObjectMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualObjectMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualObjectMethod, ref callNonvirtualObjectMethod);
+            }
+            var ret = callNonvirtualObjectMethod?.Invoke()
+            
+        }
+
+        public bool CallNonvirtualBooleanMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualBooleanMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualBooleanMethod, ref callNonvirtualBooleanMethod);
+            }
+            var ret = callNonvirtualBooleanMethod?.Invoke()
+            
+        }
+
+        public byte CallNonvirtualByteMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualByteMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualByteMethod, ref callNonvirtualByteMethod);
+            }
+            var ret = callNonvirtualByteMethod?.Invoke()
+            
+        }
+
+        public ushort CallNonvirtualCharMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualCharMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualCharMethod, ref callNonvirtualCharMethod);
+            }
+            var ret = callNonvirtualCharMethod?.Invoke()
+            
+        }
+
+        public short CallNonvirtualShortMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualShortMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualShortMethod, ref callNonvirtualShortMethod);
+            }
+            var ret = callNonvirtualShortMethod?.Invoke()
+            
+        }
+
+        public int CallNonvirtualIntMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualIntMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualIntMethod, ref callNonvirtualIntMethod);
+            }
+            var ret = callNonvirtualIntMethod?.Invoke()
+            
+        }
+
+        public long CallNonvirtualLongMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualLongMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualLongMethod, ref callNonvirtualLongMethod);
+            }
+            var ret = callNonvirtualLongMethod?.Invoke()
+            
+        }
+
+        public float CallNonvirtualFloatMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualFloatMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualFloatMethod, ref callNonvirtualFloatMethod);
+            }
+            var ret = callNonvirtualFloatMethod?.Invoke()
+            
+        }
+
+        public double CallNonvirtualDoubleMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualDoubleMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualDoubleMethod, ref callNonvirtualDoubleMethod);
+            }
+            var ret = callNonvirtualDoubleMethod?.Invoke()
+            
+        }
+
+        public void CallNonvirtualVoidMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callNonvirtualVoidMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallNonvirtualVoidMethod, ref callNonvirtualVoidMethod);
+            }
+            var ret = callNonvirtualVoidMethod?.Invoke()
+            
+        }
+
+        public IntPtr GetFieldID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig) 
+        {
+            if (getFieldID == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetFieldID, ref getFieldID);
+            }
+            var ret = getFieldID?.Invoke()
+            
+        }
+
+        public IntPtr GetObjectField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getObjectField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetObjectField, ref getObjectField);
+            }
+            var ret = getObjectField?.Invoke()
+            
+        }
+
+        public bool GetBooleanField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getBooleanField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetBooleanField, ref getBooleanField);
+            }
+            var ret = getBooleanField?.Invoke()
+            
+        }
+
+        public byte GetByteField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getByteField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetByteField, ref getByteField);
+            }
+            var ret = getByteField?.Invoke()
+            
+        }
+
+        public ushort GetCharField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getCharField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetCharField, ref getCharField);
+            }
+            var ret = getCharField?.Invoke()
+            
+        }
+
+        public short GetShortField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getShortField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetShortField, ref getShortField);
+            }
+            var ret = getShortField?.Invoke()
+            
+        }
+
+        public int GetIntField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getIntField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetIntField, ref getIntField);
+            }
+            var ret = getIntField?.Invoke()
+            
+        }
+
+        public long GetLongField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getLongField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetLongField, ref getLongField);
+            }
+            var ret = getLongField?.Invoke()
+            
+        }
+
+        public float GetFloatField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getFloatField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetFloatField, ref getFloatField);
+            }
+            var ret = getFloatField?.Invoke()
+            
+        }
+
+        public double GetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID) 
+        {
+            if (getDoubleField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDoubleField, ref getDoubleField);
+            }
+            var ret = getDoubleField?.Invoke()
+            
+        }
+
+        public void SetObjectField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val) 
+        {
+            if (setObjectField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetObjectField, ref setObjectField);
+            }
+            var ret = setObjectField?.Invoke()
+            
+        }
+
+        public void SetBooleanField(IntPtr env, IntPtr obj, IntPtr fieldID, bool val) 
+        {
+            if (setBooleanField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetBooleanField, ref setBooleanField);
+            }
+            var ret = setBooleanField?.Invoke()
+            
+        }
+
+        public void SetByteField(IntPtr env, IntPtr obj, IntPtr fieldID, byte val) 
+        {
+            if (setByteField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetByteField, ref setByteField);
+            }
+            var ret = setByteField?.Invoke()
+            
+        }
+
+        public void SetCharField(IntPtr env, IntPtr obj, IntPtr fieldID, ushort val) 
+        {
+            if (setCharField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetCharField, ref setCharField);
+            }
+            var ret = setCharField?.Invoke()
+            
+        }
+
+        public void SetShortField(IntPtr env, IntPtr obj, IntPtr fieldID, short val) 
+        {
+            if (setShortField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetShortField, ref setShortField);
+            }
+            var ret = setShortField?.Invoke()
+            
+        }
+
+        public void SetIntField(IntPtr env, IntPtr obj, IntPtr fieldID, int val) 
+        {
+            if (setIntField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetIntField, ref setIntField);
+            }
+            var ret = setIntField?.Invoke()
+            
+        }
+
+        public void SetLongField(IntPtr env, IntPtr obj, IntPtr fieldID, long val) 
+        {
+            if (setLongField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetLongField, ref setLongField);
+            }
+            var ret = setLongField?.Invoke()
+            
+        }
+
+        public void SetFloatField(IntPtr env, IntPtr obj, IntPtr fieldID, float val) 
+        {
+            if (setFloatField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetFloatField, ref setFloatField);
+            }
+            var ret = setFloatField?.Invoke()
+            
+        }
+
+        public void SetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID, double val) 
+        {
+            if (setDoubleField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetDoubleField, ref setDoubleField);
+            }
+            var ret = setDoubleField?.Invoke()
+            
+        }
+
+        public IntPtr GetStaticMethodID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig) 
+        {
+            if (getStaticMethodID == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticMethodID, ref getStaticMethodID);
+            }
+            var ret = getStaticMethodID?.Invoke()
+            
+        }
+
+        public IntPtr CallStaticObjectMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticObjectMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticObjectMethod, ref callStaticObjectMethod);
+            }
+            var ret = callStaticObjectMethod?.Invoke()
+            
+        }
+
+        public bool CallStaticBooleanMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticBooleanMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticBooleanMethod, ref callStaticBooleanMethod);
+            }
+            var ret = callStaticBooleanMethod?.Invoke()
+            
+        }
+
+        public byte CallStaticByteMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticByteMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticByteMethod, ref callStaticByteMethod);
+            }
+            var ret = callStaticByteMethod?.Invoke()
+            
+        }
+
+        public ushort CallStaticCharMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticCharMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticCharMethod, ref callStaticCharMethod);
+            }
+            var ret = callStaticCharMethod?.Invoke()
+            
+        }
+
+        public short CallStaticShortMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticShortMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticShortMethod, ref callStaticShortMethod);
+            }
+            var ret = callStaticShortMethod?.Invoke()
+            
+        }
+
+        public int CallStaticIntMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticIntMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticIntMethod, ref callStaticIntMethod);
+            }
+            var ret = callStaticIntMethod?.Invoke()
+            
+        }
+
+        public long CallStaticLongMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticLongMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticLongMethod, ref callStaticLongMethod);
+            }
+            var ret = callStaticLongMethod?.Invoke()
+            
+        }
+
+        public float CallStaticFloatMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticFloatMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticFloatMethod, ref callStaticFloatMethod);
+            }
+            var ret = callStaticFloatMethod?.Invoke()
+            
+        }
+
+        public double CallStaticDoubleMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticDoubleMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticDoubleMethod, ref callStaticDoubleMethod);
+            }
+            var ret = callStaticDoubleMethod?.Invoke()
+            
+        }
+
+        public void CallStaticVoidMethod(IntPtr env, IntPtr cls, IntPtr methodID, params NativeValue[] args) 
+        {
+            if (callStaticVoidMethod == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.CallStaticVoidMethod, ref callStaticVoidMethod);
+            }
+            var ret = callStaticVoidMethod?.Invoke()
+            
+        }
+
+        public IntPtr GetStaticFieldID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig) 
+        {
+            if (getStaticFieldID == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticFieldID, ref getStaticFieldID);
+            }
+            var ret = getStaticFieldID?.Invoke()
+            
+        }
+
+        public IntPtr GetStaticObjectField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticObjectField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticObjectField, ref getStaticObjectField);
+            }
+            var ret = getStaticObjectField?.Invoke()
+            
+        }
+
+        public bool GetStaticBooleanField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticBooleanField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticBooleanField, ref getStaticBooleanField);
+            }
+            var ret = getStaticBooleanField?.Invoke()
+            
+        }
+
+        public byte GetStaticByteField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticByteField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticByteField, ref getStaticByteField);
+            }
+            var ret = getStaticByteField?.Invoke()
+            
+        }
+
+        public ushort GetStaticCharField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticCharField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticCharField, ref getStaticCharField);
+            }
+            var ret = getStaticCharField?.Invoke()
+            
+        }
+
+        public short GetStaticShortField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticShortField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticShortField, ref getStaticShortField);
+            }
+            var ret = getStaticShortField?.Invoke()
+            
+        }
+
+        public int GetStaticIntField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticIntField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticIntField, ref getStaticIntField);
+            }
+            var ret = getStaticIntField?.Invoke()
+            
+        }
+
+        public long GetStaticLongField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticLongField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticLongField, ref getStaticLongField);
+            }
+            var ret = getStaticLongField?.Invoke()
+            
+        }
+
+        public float GetStaticFloatField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticFloatField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticFloatField, ref getStaticFloatField);
+            }
+            var ret = getStaticFloatField?.Invoke()
+            
+        }
+
+        public double GetStaticDoubleField(IntPtr env, IntPtr clazz, IntPtr fieldID) 
+        {
+            if (getStaticDoubleField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStaticDoubleField, ref getStaticDoubleField);
+            }
+            var ret = getStaticDoubleField?.Invoke()
+            
+        }
+
+        public void SetStaticObjectField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value) 
+        {
+            if (setStaticObjectField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticObjectField, ref setStaticObjectField);
+            }
+            var ret = setStaticObjectField?.Invoke()
+            
+        }
+
+        public void SetStaticBooleanField(IntPtr env, IntPtr clazz, IntPtr fieldID, bool value) 
+        {
+            if (setStaticBooleanField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticBooleanField, ref setStaticBooleanField);
+            }
+            var ret = setStaticBooleanField?.Invoke()
+            
+        }
+
+        public void SetStaticByteField(IntPtr env, IntPtr clazz, IntPtr fieldID, byte value) 
+        {
+            if (setStaticByteField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticByteField, ref setStaticByteField);
+            }
+            var ret = setStaticByteField?.Invoke()
+            
+        }
+
+        public void SetStaticCharField(IntPtr env, IntPtr clazz, IntPtr fieldID, ushort value) 
+        {
+            if (setStaticCharField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticCharField, ref setStaticCharField);
+            }
+            var ret = setStaticCharField?.Invoke()
+            
+        }
+
+        public void SetStaticShortField(IntPtr env, IntPtr clazz, IntPtr fieldID, short value) 
+        {
+            if (setStaticShortField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticShortField, ref setStaticShortField);
+            }
+            var ret = setStaticShortField?.Invoke()
+            
+        }
+
+        public void SetStaticIntField(IntPtr env, IntPtr clazz, IntPtr fieldID, int value) 
+        {
+            if (setStaticIntField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticIntField, ref setStaticIntField);
+            }
+            var ret = setStaticIntField?.Invoke()
+            
+        }
+
+        public void SetStaticLongField(IntPtr env, IntPtr clazz, IntPtr fieldID, long value) 
+        {
+            if (setStaticLongField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticLongField, ref setStaticLongField);
+            }
+            var ret = setStaticLongField?.Invoke()
+            
+        }
+
+        public void SetStaticFloatField(IntPtr env, IntPtr clazz, IntPtr fieldID, float value) 
+        {
+            if (setStaticFloatField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticFloatField, ref setStaticFloatField);
+            }
+            var ret = setStaticFloatField?.Invoke()
+            
+        }
+
+        public void SetStaticDoubleField(IntPtr env, IntPtr clazz, IntPtr fieldID, double value) 
+        {
+            if (setStaticDoubleField == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetStaticDoubleField, ref setStaticDoubleField);
+            }
+            var ret = setStaticDoubleField?.Invoke()
+            
+        }
+
+        public IntPtr NewString(IntPtr env, IntPtr unicode, IntPtr len) 
+        {
+            if (newString == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewString, ref newString);
+            }
+            var ret = newString?.Invoke()
+            
+        }
+
+        public int GetStringLength(IntPtr env, IntPtr str) 
+        {
+            if (getStringLength == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringLength, ref getStringLength);
+            }
+            var ret = getStringLength?.Invoke()
+            
+        }
+
+        public ushort GetStringChars(IntPtr env, IntPtr str, IntPtr isCopy) 
+        {
+            if (getStringChars == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringChars, ref getStringChars);
+            }
+            var ret = getStringChars?.Invoke()
+            
+        }
+
+        public void ReleaseStringChars(IntPtr env, IntPtr str, IntPtr chars) 
+        {
+            if (releaseStringChars == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseStringChars, ref releaseStringChars);
+            }
+            var ret = releaseStringChars?.Invoke()
+            
+        }
+
+        public IntPtr NewStringUTF(IntPtr env, IntPtr utf) 
+        {
+            if (newStringUTF == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewStringUTF, ref newStringUTF);
+            }
+            var ret = newStringUTF?.Invoke()
+            
+        }
+
+        public int GetStringUTFLength(IntPtr env, IntPtr str) 
+        {
+            if (getStringUTFLength == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringUTFLength, ref getStringUTFLength);
+            }
+            var ret = getStringUTFLength?.Invoke()
+            
+        }
+
+        public ushort GetStringUTFChars(IntPtr env, IntPtr str, IntPtr isCopy) 
+        {
+            if (getStringUTFChars == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringUTFChars, ref getStringUTFChars);
+            }
+            var ret = getStringUTFChars?.Invoke()
+            
+        }
+
+        public void ReleaseStringUTFChars(IntPtr env, IntPtr str, IntPtr chars) 
+        {
+            if (releaseStringUTFChars == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseStringUTFChars, ref releaseStringUTFChars);
+            }
+            var ret = releaseStringUTFChars?.Invoke()
+            
+        }
+
+        public int GetArrayLength(IntPtr env, IntPtr array) 
+        {
+            if (getArrayLength == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetArrayLength, ref getArrayLength);
+            }
+            var ret = getArrayLength?.Invoke()
+            
+        }
+
+        public IntPtr NewObjectArray(IntPtr env, IntPtr len, IntPtr clazz, IntPtr init) 
+        {
+            if (newObjectArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewObjectArray, ref newObjectArray);
+            }
+            var ret = newObjectArray?.Invoke()
+            
+        }
+
+        public IntPtr GetObjectArrayElement(IntPtr env, IntPtr array, IntPtr index) 
+        {
+            if (getObjectArrayElement == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetObjectArrayElement, ref getObjectArrayElement);
+            }
+            var ret = getObjectArrayElement?.Invoke()
+            
+        }
+
+        public void SetObjectArrayElement(IntPtr env, IntPtr array, IntPtr index, IntPtr val) 
+        {
+            if (setObjectArrayElement == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetObjectArrayElement, ref setObjectArrayElement);
+            }
+            var ret = setObjectArrayElement?.Invoke()
+            
+        }
+
+        public IntPtr NewBooleanArray(IntPtr env, int len) 
+        {
+            if (newBooleanArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewBooleanArray, ref newBooleanArray);
+            }
+            var ret = newBooleanArray?.Invoke()
+            
+        }
+
+        public IntPtr NewByteArray(IntPtr env, int len) 
+        {
+            if (newByteArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewByteArray, ref newByteArray);
+            }
+            var ret = newByteArray?.Invoke()
+            
+        }
+
+        public IntPtr NewCharArray(IntPtr env, int len) 
+        {
+            if (newCharArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewCharArray, ref newCharArray);
+            }
+            var ret = newCharArray?.Invoke()
+            
+        }
+
+        public IntPtr NewShortArray(IntPtr env, int len) 
+        {
+            if (newShortArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewShortArray, ref newShortArray);
+            }
+            var ret = newShortArray?.Invoke()
+            
+        }
+
+        public IntPtr NewIntArray(IntPtr env, int len) 
+        {
+            if (newIntArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewIntArray, ref newIntArray);
+            }
+            var ret = newIntArray?.Invoke()
+            
+        }
+
+        public IntPtr NewLongArray(IntPtr env, int len) 
+        {
+            if (newLongArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewLongArray, ref newLongArray);
+            }
+            var ret = newLongArray?.Invoke()
+            
+        }
+
+        public IntPtr NewFloatArray(IntPtr env, int len) 
+        {
+            if (newFloatArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewFloatArray, ref newFloatArray);
+            }
+            var ret = newFloatArray?.Invoke()
+            
+        }
+
+        public IntPtr NewDoubleArray(IntPtr env, int len) 
+        {
+            if (newDoubleArray == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewDoubleArray, ref newDoubleArray);
+            }
+            var ret = newDoubleArray?.Invoke()
+            
+        }
+
+        public IntPtr GetBooleanArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getBooleanArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetBooleanArrayElements, ref getBooleanArrayElements);
+            }
+            var ret = getBooleanArrayElements?.Invoke()
+            
+        }
+
+        public IntPtr GetByteArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getByteArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetByteArrayElements, ref getByteArrayElements);
+            }
+            var ret = getByteArrayElements?.Invoke()
+            
+        }
+
+        public IntPtr GetCharArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getCharArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetCharArrayElements, ref getCharArrayElements);
+            }
+            var ret = getCharArrayElements?.Invoke()
+            
+        }
+
+        public IntPtr GetShortArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getShortArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetShortArrayElements, ref getShortArrayElements);
+            }
+            var ret = getShortArrayElements?.Invoke()
+            
+        }
+
+        public IntPtr GetIntArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getIntArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetIntArrayElements, ref getIntArrayElements);
+            }
+            var ret = getIntArrayElements?.Invoke()
+            
+        }
+
+        public IntPtr GetLongArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getLongArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetLongArrayElements, ref getLongArrayElements);
+            }
+            var ret = getLongArrayElements?.Invoke()
+            
+        }
+
+        public IntPtr GetFloatArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getFloatArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetFloatArrayElements, ref getFloatArrayElements);
+            }
+            var ret = getFloatArrayElements?.Invoke()
+            
+        }
+
+        public IntPtr GetDoubleArrayElements(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getDoubleArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDoubleArrayElements, ref getDoubleArrayElements);
+            }
+            var ret = getDoubleArrayElements?.Invoke()
+            
+        }
+
+        public void ReleaseBooleanArrayElements(IntPtr env, IntPtr array, bool* elems, IntPtr mode) 
+        {
+            if (releaseBooleanArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseBooleanArrayElements, ref releaseBooleanArrayElements);
+            }
+            var ret = releaseBooleanArrayElements?.Invoke()
+            
+        }
+
+        public void ReleaseByteArrayElements(IntPtr env, IntPtr array, byte* elems, IntPtr mode) 
+        {
+            if (releaseByteArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseByteArrayElements, ref releaseByteArrayElements);
+            }
+            var ret = releaseByteArrayElements?.Invoke()
+            
+        }
+
+        public void ReleaseCharArrayElements(IntPtr env, IntPtr array, ushort* elems, IntPtr mode) 
+        {
+            if (releaseCharArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseCharArrayElements, ref releaseCharArrayElements);
+            }
+            var ret = releaseCharArrayElements?.Invoke()
+            
+        }
+
+        public void ReleaseShortArrayElements(IntPtr env, IntPtr array, short* elems, IntPtr mode) 
+        {
+            if (releaseShortArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseShortArrayElements, ref releaseShortArrayElements);
+            }
+            var ret = releaseShortArrayElements?.Invoke()
+            
+        }
+
+        public void ReleaseIntArrayElements(IntPtr env, IntPtr array, int* elems, IntPtr mode) 
+        {
+            if (releaseIntArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseIntArrayElements, ref releaseIntArrayElements);
+            }
+            var ret = releaseIntArrayElements?.Invoke()
+            
+        }
+
+        public void ReleaseLongArrayElements(IntPtr env, IntPtr array, long* elems, IntPtr mode) 
+        {
+            if (releaseLongArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseLongArrayElements, ref releaseLongArrayElements);
+            }
+            var ret = releaseLongArrayElements?.Invoke()
+            
+        }
+
+        public void ReleaseFloatArrayElements(IntPtr env, IntPtr array, float* elems, IntPtr mode) 
+        {
+            if (releaseFloatArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseFloatArrayElements, ref releaseFloatArrayElements);
+            }
+            var ret = releaseFloatArrayElements?.Invoke()
+            
+        }
+
+        public void ReleaseDoubleArrayElements(IntPtr env, IntPtr array, double* elems, IntPtr mode) 
+        {
+            if (releaseDoubleArrayElements == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseDoubleArrayElements, ref releaseDoubleArrayElements);
+            }
+            var ret = releaseDoubleArrayElements?.Invoke()
+            
+        }
+
+        public void GetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, IntPtr buf) 
+        {
+            if (getBooleanArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetBooleanArrayRegion, ref getBooleanArrayRegion);
+            }
+            var ret = getBooleanArrayRegion?.Invoke()
+            
+        }
+
+        public void GetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getByteArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetByteArrayRegion, ref getByteArrayRegion);
+            }
+            var ret = getByteArrayRegion?.Invoke()
+            
+        }
+
+        public void GetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getCharArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetCharArrayRegion, ref getCharArrayRegion);
+            }
+            var ret = getCharArrayRegion?.Invoke()
+            
+        }
+
+        public void GetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getShortArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetShortArrayRegion, ref getShortArrayRegion);
+            }
+            var ret = getShortArrayRegion?.Invoke()
+            
+        }
+
+        public void GetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getIntArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetIntArrayRegion, ref getIntArrayRegion);
+            }
+            var ret = getIntArrayRegion?.Invoke()
+            
+        }
+
+        public void GetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getLongArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetLongArrayRegion, ref getLongArrayRegion);
+            }
+            var ret = getLongArrayRegion?.Invoke()
+            
+        }
+
+        public void GetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getFloatArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetFloatArrayRegion, ref getFloatArrayRegion);
+            }
+            var ret = getFloatArrayRegion?.Invoke()
+            
+        }
+
+        public void GetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getDoubleArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDoubleArrayRegion, ref getDoubleArrayRegion);
+            }
+            var ret = getDoubleArrayRegion?.Invoke()
+            
+        }
+
+        public void SetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, bool buf) 
+        {
+            if (setBooleanArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetBooleanArrayRegion, ref setBooleanArrayRegion);
+            }
+            var ret = setBooleanArrayRegion?.Invoke()
+            
+        }
+
+        public void SetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, byte buf) 
+        {
+            if (setByteArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetByteArrayRegion, ref setByteArrayRegion);
+            }
+            var ret = setByteArrayRegion?.Invoke()
+            
+        }
+
+        public void SetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, ushort buf) 
+        {
+            if (setCharArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetCharArrayRegion, ref setCharArrayRegion);
+            }
+            var ret = setCharArrayRegion?.Invoke()
+            
+        }
+
+        public void SetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, short buf) 
+        {
+            if (setShortArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetShortArrayRegion, ref setShortArrayRegion);
+            }
+            var ret = setShortArrayRegion?.Invoke()
+            
+        }
+
+        public void SetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, int buf) 
+        {
+            if (setIntArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetIntArrayRegion, ref setIntArrayRegion);
+            }
+            var ret = setIntArrayRegion?.Invoke()
+            
+        }
+
+        public void SetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, long buf) 
+        {
+            if (setLongArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetLongArrayRegion, ref setLongArrayRegion);
+            }
+            var ret = setLongArrayRegion?.Invoke()
+            
+        }
+
+        public void SetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, float buf) 
+        {
+            if (setFloatArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetFloatArrayRegion, ref setFloatArrayRegion);
+            }
+            var ret = setFloatArrayRegion?.Invoke()
+            
+        }
+
+        public void SetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, double buf) 
+        {
+            if (setDoubleArrayRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.SetDoubleArrayRegion, ref setDoubleArrayRegion);
+            }
+            var ret = setDoubleArrayRegion?.Invoke()
+            
+        }
+
+        public IntPtr RegisterNatives(IntPtr env, IntPtr clazz, IntPtr methods, IntPtr nMethods) 
+        {
+            if (registerNatives == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.RegisterNatives, ref registerNatives);
+            }
+            var ret = registerNatives?.Invoke()
+            
+        }
+
+        public IntPtr UnregisterNatives(IntPtr env, IntPtr clazz) 
+        {
+            if (unregisterNatives == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.UnregisterNatives, ref unregisterNatives);
+            }
+            var ret = unregisterNatives?.Invoke()
+            
+        }
+
+        public IntPtr MonitorEnter(IntPtr env, IntPtr obj) 
+        {
+            if (monitorEnter == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.MonitorEnter, ref monitorEnter);
+            }
+            var ret = monitorEnter?.Invoke()
+            
+        }
+
+        public IntPtr MonitorExit(IntPtr env, IntPtr obj) 
+        {
+            if (monitorExit == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.MonitorExit, ref monitorExit);
+            }
+            var ret = monitorExit?.Invoke()
+            
+        }
+
+        public IntPtr GetJavaVM(IntPtr env, JavaVM_ vm) 
+        {
+            if (getJavaVM == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetJavaVM, ref getJavaVM);
+            }
+            var ret = getJavaVM?.Invoke()
+            
+        }
+
+        public void GetStringRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getStringRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringRegion, ref getStringRegion);
+            }
+            var ret = getStringRegion?.Invoke()
+            
+        }
+
+        public void GetStringUTFRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf) 
+        {
+            if (getStringUTFRegion == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringUTFRegion, ref getStringUTFRegion);
+            }
+            var ret = getStringUTFRegion?.Invoke()
+            
+        }
+
+        public void GetPrimitiveArrayCritical(IntPtr env, IntPtr array, IntPtr isCopy) 
+        {
+            if (getPrimitiveArrayCritical == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetPrimitiveArrayCritical, ref getPrimitiveArrayCritical);
+            }
+            var ret = getPrimitiveArrayCritical?.Invoke()
+            
+        }
+
+        public void ReleasePrimitiveArrayCritical(IntPtr env, IntPtr array, IntPtr carray, IntPtr mode) 
+        {
+            if (releasePrimitiveArrayCritical == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleasePrimitiveArrayCritical, ref releasePrimitiveArrayCritical);
+            }
+            var ret = releasePrimitiveArrayCritical?.Invoke()
+            
+        }
+
+        public IntPtr GetStringCritical(IntPtr env, IntPtr str, IntPtr isCopy) 
+        {
+            if (getStringCritical == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetStringCritical, ref getStringCritical);
+            }
+            var ret = getStringCritical?.Invoke()
+            
+        }
+
+        public void ReleaseStringCritical(IntPtr env, IntPtr str, IntPtr cstring) 
+        {
+            if (releaseStringCritical == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ReleaseStringCritical, ref releaseStringCritical);
+            }
+            var ret = releaseStringCritical?.Invoke()
+            
+        }
+
+        public IntPtr NewWeakGlobalRef(IntPtr env, IntPtr obj) 
+        {
+            if (newWeakGlobalRef == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewWeakGlobalRef, ref newWeakGlobalRef);
+            }
+            var ret = newWeakGlobalRef?.Invoke()
+            
+        }
+
+        public void DeleteWeakGlobalRef(IntPtr env, IntPtr reference) 
+        {
+            if (deleteWeakGlobalRef == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.DeleteWeakGlobalRef, ref deleteWeakGlobalRef);
+            }
+            var ret = deleteWeakGlobalRef?.Invoke()
+            
+        }
+
+        public IntPtr ExceptionCheck(IntPtr env) 
+        {
+            if (exceptionCheck == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.ExceptionCheck, ref exceptionCheck);
+            }
+            var ret = exceptionCheck?.Invoke()
+            
+        }
+
+        public IntPtr NewDirectByteBuffer(IntPtr env, IntPtr address, byte capacity) 
+        {
+            if (newDirectByteBuffer == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.NewDirectByteBuffer, ref newDirectByteBuffer);
+            }
+            var ret = newDirectByteBuffer?.Invoke()
+            
+        }
+
+        public void* GetDirectBufferAddress(IntPtr env, IntPtr buf) 
+        {
+            if (getDirectBufferAddress == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDirectBufferAddress, ref getDirectBufferAddress);
+            }
+            var ret = getDirectBufferAddress?.Invoke()
+            
+        }
+
+        public IntPtr GetDirectBufferCapacity(IntPtr env, IntPtr buf) 
+        {
+            if (getDirectBufferCapacity == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetDirectBufferCapacity, ref getDirectBufferCapacity);
+            }
+            var ret = getDirectBufferCapacity?.Invoke()
+            
+        }
+
+        public IntPtr GetObjectRefType(IntPtr env, IntPtr obj) 
+        {
+            if (getObjectRefType == null)
+            {
+                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.GetObjectRefType, ref getObjectRefType);
+            }
+            var ret = getObjectRefType?.Invoke()
+            
+        }
+
+
+        public JNINativeInterface.GetVersion getVersion;
+        public JNINativeInterface.DefineClass defineClass;
+        public JNINativeInterface.FindClass findClass;
+        public JNINativeInterface.FromReflectedMethod fromReflectedMethod;
+        public JNINativeInterface.FromReflectedField fromReflectedField;
+        public JNINativeInterface.ToReflectedMethod toReflectedMethod;
+        public JNINativeInterface.GetSuperclass getSuperclass;
+        public JNINativeInterface.IsAssignableFrom isAssignableFrom;
+        public JNINativeInterface.ToReflectedField toReflectedField;
+        public JNINativeInterface.Throw throw;
+        public JNINativeInterface.ThrowNew throwNew;
+        public JNINativeInterface.ExceptionOccurred exceptionOccurred;
+        public JNINativeInterface.ExceptionDescribe exceptionDescribe;
+        public JNINativeInterface.ExceptionClear exceptionClear;
+        public JNINativeInterface.FatalError fatalError;
+        public JNINativeInterface.PushLocalFrame pushLocalFrame;
+        public JNINativeInterface.PopLocalFrame popLocalFrame;
+        public JNINativeInterface.NewGlobalRef newGlobalRef;
+        public JNINativeInterface.DeleteGlobalRef deleteGlobalRef;
+        public JNINativeInterface.DeleteLocalRef deleteLocalRef;
+        public JNINativeInterface.IsSameObject isSameObject;
+        public JNINativeInterface.NewLocalRef newLocalRef;
+        public JNINativeInterface.EnsureLocalCapacity ensureLocalCapacity;
+        public JNINativeInterface.AllocObject allocObject;
+        public JNINativeInterface.NewObject newObject;
+        public JNINativeInterface.GetObjectClass getObjectClass;
+        public JNINativeInterface.IsInstanceOf isInstanceOf;
+        public JNINativeInterface.GetMethodID getMethodID;
+        public JNINativeInterface.CallObjectMethod callObjectMethod;
+        public JNINativeInterface.CallBooleanMethod callBooleanMethod;
+        public JNINativeInterface.CallByteMethod callByteMethod;
+        public JNINativeInterface.CallCharMethod callCharMethod;
+        public JNINativeInterface.CallShortMethod callShortMethod;
+        public JNINativeInterface.CallIntMethod callIntMethod;
+        public JNINativeInterface.CallLongMethod callLongMethod;
+        public JNINativeInterface.CallFloatMethod callFloatMethod;
+        public JNINativeInterface.CallDoubleMethod callDoubleMethod;
+        public JNINativeInterface.CallVoidMethod callVoidMethod;
+        public JNINativeInterface.CallNonvirtualObjectMethod callNonvirtualObjectMethod;
+        public JNINativeInterface.CallNonvirtualBooleanMethod callNonvirtualBooleanMethod;
+        public JNINativeInterface.CallNonvirtualByteMethod callNonvirtualByteMethod;
+        public JNINativeInterface.CallNonvirtualCharMethod callNonvirtualCharMethod;
+        public JNINativeInterface.CallNonvirtualShortMethod callNonvirtualShortMethod;
+        public JNINativeInterface.CallNonvirtualIntMethod callNonvirtualIntMethod;
+        public JNINativeInterface.CallNonvirtualLongMethod callNonvirtualLongMethod;
+        public JNINativeInterface.CallNonvirtualFloatMethod callNonvirtualFloatMethod;
+        public JNINativeInterface.CallNonvirtualDoubleMethod callNonvirtualDoubleMethod;
+        public JNINativeInterface.CallNonvirtualVoidMethod callNonvirtualVoidMethod;
+        public JNINativeInterface.GetFieldID getFieldID;
+        public JNINativeInterface.GetObjectField getObjectField;
+        public JNINativeInterface.GetBooleanField getBooleanField;
+        public JNINativeInterface.GetByteField getByteField;
+        public JNINativeInterface.GetCharField getCharField;
+        public JNINativeInterface.GetShortField getShortField;
+        public JNINativeInterface.GetIntField getIntField;
+        public JNINativeInterface.GetLongField getLongField;
+        public JNINativeInterface.GetFloatField getFloatField;
+        public JNINativeInterface.GetDoubleField getDoubleField;
+        public JNINativeInterface.SetObjectField setObjectField;
+        public JNINativeInterface.SetBooleanField setBooleanField;
+        public JNINativeInterface.SetByteField setByteField;
+        public JNINativeInterface.SetCharField setCharField;
+        public JNINativeInterface.SetShortField setShortField;
+        public JNINativeInterface.SetIntField setIntField;
+        public JNINativeInterface.SetLongField setLongField;
+        public JNINativeInterface.SetFloatField setFloatField;
+        public JNINativeInterface.SetDoubleField setDoubleField;
+        public JNINativeInterface.GetStaticMethodID getStaticMethodID;
+        public JNINativeInterface.CallStaticObjectMethod callStaticObjectMethod;
+        public JNINativeInterface.CallStaticBooleanMethod callStaticBooleanMethod;
+        public JNINativeInterface.CallStaticByteMethod callStaticByteMethod;
+        public JNINativeInterface.CallStaticCharMethod callStaticCharMethod;
+        public JNINativeInterface.CallStaticShortMethod callStaticShortMethod;
+        public JNINativeInterface.CallStaticIntMethod callStaticIntMethod;
+        public JNINativeInterface.CallStaticLongMethod callStaticLongMethod;
+        public JNINativeInterface.CallStaticFloatMethod callStaticFloatMethod;
+        public JNINativeInterface.CallStaticDoubleMethod callStaticDoubleMethod;
+        public JNINativeInterface.CallStaticVoidMethod callStaticVoidMethod;
+        public JNINativeInterface.GetStaticFieldID getStaticFieldID;
+        public JNINativeInterface.GetStaticObjectField getStaticObjectField;
+        public JNINativeInterface.GetStaticBooleanField getStaticBooleanField;
+        public JNINativeInterface.GetStaticByteField getStaticByteField;
+        public JNINativeInterface.GetStaticCharField getStaticCharField;
+        public JNINativeInterface.GetStaticShortField getStaticShortField;
+        public JNINativeInterface.GetStaticIntField getStaticIntField;
+        public JNINativeInterface.GetStaticLongField getStaticLongField;
+        public JNINativeInterface.GetStaticFloatField getStaticFloatField;
+        public JNINativeInterface.GetStaticDoubleField getStaticDoubleField;
+        public JNINativeInterface.SetStaticObjectField setStaticObjectField;
+        public JNINativeInterface.SetStaticBooleanField setStaticBooleanField;
+        public JNINativeInterface.SetStaticByteField setStaticByteField;
+        public JNINativeInterface.SetStaticCharField setStaticCharField;
+        public JNINativeInterface.SetStaticShortField setStaticShortField;
+        public JNINativeInterface.SetStaticIntField setStaticIntField;
+        public JNINativeInterface.SetStaticLongField setStaticLongField;
+        public JNINativeInterface.SetStaticFloatField setStaticFloatField;
+        public JNINativeInterface.SetStaticDoubleField setStaticDoubleField;
+        public JNINativeInterface.NewString newString;
+        public JNINativeInterface.GetStringLength getStringLength;
+        public JNINativeInterface.GetStringChars getStringChars;
+        public JNINativeInterface.ReleaseStringChars releaseStringChars;
+        public JNINativeInterface.NewStringUTF newStringUTF;
+        public JNINativeInterface.GetStringUTFLength getStringUTFLength;
+        public JNINativeInterface.GetStringUTFChars getStringUTFChars;
+        public JNINativeInterface.ReleaseStringUTFChars releaseStringUTFChars;
+        public JNINativeInterface.GetArrayLength getArrayLength;
+        public JNINativeInterface.NewObjectArray newObjectArray;
+        public JNINativeInterface.GetObjectArrayElement getObjectArrayElement;
+        public JNINativeInterface.SetObjectArrayElement setObjectArrayElement;
+        public JNINativeInterface.NewBooleanArray newBooleanArray;
+        public JNINativeInterface.NewByteArray newByteArray;
+        public JNINativeInterface.NewCharArray newCharArray;
+        public JNINativeInterface.NewShortArray newShortArray;
+        public JNINativeInterface.NewIntArray newIntArray;
+        public JNINativeInterface.NewLongArray newLongArray;
+        public JNINativeInterface.NewFloatArray newFloatArray;
+        public JNINativeInterface.NewDoubleArray newDoubleArray;
+        public JNINativeInterface.GetBooleanArrayElements getBooleanArrayElements;
+        public JNINativeInterface.GetByteArrayElements getByteArrayElements;
+        public JNINativeInterface.GetCharArrayElements getCharArrayElements;
+        public JNINativeInterface.GetShortArrayElements getShortArrayElements;
+        public JNINativeInterface.GetIntArrayElements getIntArrayElements;
+        public JNINativeInterface.GetLongArrayElements getLongArrayElements;
+        public JNINativeInterface.GetFloatArrayElements getFloatArrayElements;
+        public JNINativeInterface.GetDoubleArrayElements getDoubleArrayElements;
+        public JNINativeInterface.ReleaseBooleanArrayElements releaseBooleanArrayElements;
+        public JNINativeInterface.ReleaseByteArrayElements releaseByteArrayElements;
+        public JNINativeInterface.ReleaseCharArrayElements releaseCharArrayElements;
+        public JNINativeInterface.ReleaseShortArrayElements releaseShortArrayElements;
+        public JNINativeInterface.ReleaseIntArrayElements releaseIntArrayElements;
+        public JNINativeInterface.ReleaseLongArrayElements releaseLongArrayElements;
+        public JNINativeInterface.ReleaseFloatArrayElements releaseFloatArrayElements;
+        public JNINativeInterface.ReleaseDoubleArrayElements releaseDoubleArrayElements;
+        public JNINativeInterface.GetBooleanArrayRegion getBooleanArrayRegion;
+        public JNINativeInterface.GetByteArrayRegion getByteArrayRegion;
+        public JNINativeInterface.GetCharArrayRegion getCharArrayRegion;
+        public JNINativeInterface.GetShortArrayRegion getShortArrayRegion;
+        public JNINativeInterface.GetIntArrayRegion getIntArrayRegion;
+        public JNINativeInterface.GetLongArrayRegion getLongArrayRegion;
+        public JNINativeInterface.GetFloatArrayRegion getFloatArrayRegion;
+        public JNINativeInterface.GetDoubleArrayRegion getDoubleArrayRegion;
+        public JNINativeInterface.SetBooleanArrayRegion setBooleanArrayRegion;
+        public JNINativeInterface.SetByteArrayRegion setByteArrayRegion;
+        public JNINativeInterface.SetCharArrayRegion setCharArrayRegion;
+        public JNINativeInterface.SetShortArrayRegion setShortArrayRegion;
+        public JNINativeInterface.SetIntArrayRegion setIntArrayRegion;
+        public JNINativeInterface.SetLongArrayRegion setLongArrayRegion;
+        public JNINativeInterface.SetFloatArrayRegion setFloatArrayRegion;
+        public JNINativeInterface.SetDoubleArrayRegion setDoubleArrayRegion;
+        public JNINativeInterface.RegisterNatives registerNatives;
+        public JNINativeInterface.UnregisterNatives unregisterNatives;
+        public JNINativeInterface.MonitorEnter monitorEnter;
+        public JNINativeInterface.MonitorExit monitorExit;
+        public JNINativeInterface.GetJavaVM getJavaVM;
+        public JNINativeInterface.GetStringRegion getStringRegion;
+        public JNINativeInterface.GetStringUTFRegion getStringUTFRegion;
+        public JNINativeInterface.GetPrimitiveArrayCritical getPrimitiveArrayCritical;
+        public JNINativeInterface.ReleasePrimitiveArrayCritical releasePrimitiveArrayCritical;
+        public JNINativeInterface.GetStringCritical getStringCritical;
+        public JNINativeInterface.ReleaseStringCritical releaseStringCritical;
+        public JNINativeInterface.NewWeakGlobalRef newWeakGlobalRef;
+        public JNINativeInterface.DeleteWeakGlobalRef deleteWeakGlobalRef;
+        public JNINativeInterface.ExceptionCheck exceptionCheck;
+        public JNINativeInterface.NewDirectByteBuffer newDirectByteBuffer;
+        public JNINativeInterface.GetDirectBufferAddress getDirectBufferAddress;
+        public JNINativeInterface.GetDirectBufferCapacity getDirectBufferCapacity;
+        public JNINativeInterface.GetObjectRefType getObjectRefType;
+
     }
 }

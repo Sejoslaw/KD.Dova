@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    internal unsafe struct JNIInvokeInterface_
+    internal unsafe struct JNIInvokeInterface
     {
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         [SuppressUnmanagedCodeSecurity]
@@ -36,7 +36,7 @@ namespace KD.Dova.Proxy.Natives
     }
 
     [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    internal unsafe struct JNIInvokeInterface
+    internal unsafe struct JNIInvokeInterface_
     {
         public IntPtr reserved0;
         public IntPtr reserved1;

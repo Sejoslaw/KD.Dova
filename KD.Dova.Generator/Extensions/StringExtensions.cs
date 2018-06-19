@@ -20,5 +20,10 @@
                    source.StartsWith("d") || // double
                    source.StartsWith("v"); // void
         }
+
+        public static string WithFirstCharLower(this string source)
+        {
+            return source.ToLower().ToCharArray()[0] + source.Substring(1);
+        }
     }
 }

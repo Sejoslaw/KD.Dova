@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KD.Dova.Extensions;
+using System.Collections.Generic;
 
 namespace KD.Dova.Generator.Definitions
 {
@@ -33,11 +34,79 @@ namespace KD.Dova.Generator.Definitions
             }
 
             this.BuildFunctionPointersStructure(fileLines);
+
+            if (this.Name.Equals("JNINativeInterface_"))
+            {
+                this.GenerateWrapperForNativeFunctions(fileLines);
+            }
+        }
+
+        private void GenerateWrapperForNativeFunctions(List<string> fileLines)
+        {
+            fileLines.Add("");
+
+            string name = this.Name.Substring(0, this.Name.Length - 1);
+
+            fileLines.Add($"    internal unsafe struct JNIEnvironment");
+            fileLines.Add("    {");
+
+            fileLines.Add("        public IntPtr Environment { get; private set; }");
+            fileLines.Add("        public JNINativeInterface_ NativeInterface { get; private set; }");
+            fileLines.Add("");
+
+            fileLines.Add("        internal JNIEnvironment(IntPtr jniEnv)");
+            fileLines.Add("        {");
+            fileLines.Add("            this.Environment = jniEnv;");
+            fileLines.Add("            this.NativeInterface = *(*(JNIEnv_*) jniEnv.ToPointer()).functions;");
+            fileLines.Add("        }");
+            fileLines.Add("");
+
+            if (this.Functions.Count > 0)
+            {
+                foreach (FunctionDefinition func in this.Functions)
+                {
+                    string function = func.ToString();
+                    function = function.Substring(0, function.Length - 1);
+                    string variableName = func.Name.WithFirstCharLower();
+
+                    fileLines.Add($"        public { function } ");
+                    fileLines.Add("        {");
+                    fileLines.Add($"            if ({ variableName } == null)");
+                    fileLines.Add("            {");
+                    fileLines.Add($"                NativeHelper.GetDelegateForFunctionPointer(this.NativeInterface.{ func.Name }, ref { variableName });");
+                    fileLines.Add("            }");
+                    fileLines.Add($"            var ret = { variableName }?.Invoke()");
+                    fileLines.Add($"            ");
+                    fileLines.Add("        }");
+                    fileLines.Add("");
+                }
+            }
+            fileLines.Add("");
+
+            if (this.Functions.Count > 0)
+            {
+                foreach (FunctionDefinition func in this.Functions)
+                {
+                    fileLines.Add($"        public JNINativeInterface.{ func.Name } { func.Name.WithFirstCharLower() };");
+                }
+            }
+            fileLines.Add("");
+
+
+            fileLines.Add("    }");
         }
 
         private void BuildDelegatesStructure(List<string> fileLines)
         {
-            fileLines.Add($"    internal unsafe struct { this.Name }");
+            string name = this.Name;
+
+            if (name.EndsWith("_") &&
+                (!name.Equals("JavaVM_") && !name.Equals("JNIEnv_"))) // Java specific structures
+            {
+                name = this.Name.Substring(0, this.Name.Length - 1); // This should remove underline from the end of the name
+            }
+
+            fileLines.Add($"    internal unsafe struct { name }");
             fileLines.Add("    {");
 
             if (this.Functions.Count > 0) // Functions
@@ -66,15 +135,7 @@ namespace KD.Dova.Generator.Definitions
                 fileLines.Add("    [StructLayout(LayoutKind.Sequential), NativeCppClass]");
             }
 
-            string name = this.Name;
-
-            if (name.EndsWith("_") &&
-                (!name.Equals("JavaVM_") && !name.Equals("JNIEnv_"))) // Java specific structures
-            {
-                name = this.Name.Substring(0, this.Name.Length - 1); // This should remove underline from the end of the name
-            }
-
-            fileLines.Add($"    internal unsafe struct { name }");
+            fileLines.Add($"    internal unsafe struct { this.Name }");
             fileLines.Add("    {");
 
             if (this.Fields.Count > 0) // Fields
