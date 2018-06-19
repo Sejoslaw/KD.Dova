@@ -9,21 +9,14 @@ namespace KD.Dova.Generator.Generators
     {
         public override void Generate(string[] lines)
         {
-            string lineBeginning = "typedef struct ";
-
-            for (int i = 0; i < lines.Length; ++i)
+            this.Generate(lines, "typedef struct", "{", (index, line) =>
             {
-                string line = lines[i];
+                StructureDefinition def = new StructureDefinition();
+                string structName = this.ParseStructureFields(def, lines, index);
+                def.Name = this.ParseStructureName(structName);
 
-                if (line.StartsWith(lineBeginning) && !line.EndsWith(";"))
-                {
-                    StructureDefinition def = new StructureDefinition();
-                    string structName = this.ParseStructureFields(def, lines, i);
-                    def.Name = this.ParseStructureName(structName);
-
-                    this.GenerateFile(def);
-                }
-            }
+                this.GenerateFile(def);
+            });
         }
     }
 }

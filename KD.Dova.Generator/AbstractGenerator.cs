@@ -1,5 +1,6 @@
 ﻿using KD.Dova.Extensions;
 using KD.Dova.Generator.Definitions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,53 @@ namespace KD.Dova.Generator
     public abstract class AbstractGenerator : IGenerator
     {
         internal static string POINTER = "IntPtr";
+
+        internal void Generate(string[] lines, string lineBeginning, string lineEnding, Action<int, string> CheckLine)
+        {
+            for (int i = 0; i < lines.Length; ++i)
+            {
+                string line = lines[i];
+
+                if (line.StartsWith(lineBeginning) && line.EndsWith(lineEnding))
+                {
+                    CheckLine?.Invoke(i, line);
+                }
+            }
+        }
+
+        internal void ParseEnumValues(EnumDefinition def, string[] lines, int startIndex, string line)
+        {
+            int fieldIndex = startIndex + 1; // set to first property
+            string fieldDef = lines[fieldIndex];
+
+            while (!fieldDef.StartsWith("}"))
+            {
+                if (!string.IsNullOrEmpty(fieldDef))
+                {
+                    fieldDef = fieldDef.Trim();
+                    fieldDef = fieldDef.RemoveSpaces();
+
+                    string[] parts = fieldDef.Split("=");
+                    EnumValueDefinition enumValue = new EnumValueDefinition
+                    {
+                        Name = parts[0],
+                        Value = parts[1]
+                    };
+                    def.Values.Add(enumValue);
+                }
+
+                fieldIndex++;
+                fieldDef = lines[fieldIndex];
+            }
+
+            if (fieldDef.StartsWith("}"))
+            {
+                fieldDef = fieldDef.RemoveSpaces();
+                fieldDef = fieldDef.Substring(1, fieldDef.Length - 2);
+
+                def.Name = fieldDef;
+            }
+        }
 
         internal string ParseStructureFields(StructureDefinition def, string[] lines, int startIndex)
         {
@@ -69,7 +117,7 @@ namespace KD.Dova.Generator
 
                 if (!string.IsNullOrEmpty(funcDef) &&
                     funcDef.Contains("(") && // Fields won't have it.
-                    !isCppDefinitions) 
+                    !isCppDefinitions)
                 {
                     FunctionDefinition func = new FunctionDefinition();
                     func.ReturnType = this.ParseFunctionReturnType(funcDef);
@@ -225,7 +273,7 @@ namespace KD.Dova.Generator
             }
             else
             {
-                string trimmed = line.Trim().Replace(" ", "");
+                string trimmed = line.Trim().RemoveSpaces();
                 trimmed = trimmed.Substring(1, trimmed.Length - 2);
                 return trimmed;
             }
@@ -246,9 +294,9 @@ namespace KD.Dova.Generator
                 fieldName = fieldName.Split(" ").Last().Trim();
             }
 
-            if (fieldName.StartsWith("*"))
+            if (fieldName.Contains("*"))
             {
-                fieldName = fieldName.Substring(1);
+                fieldName = fieldName.Replace("*", "");
             }
 
             if (fieldName.EndsWith(";"))
@@ -275,11 +323,24 @@ namespace KD.Dova.Generator
         /// <returns></returns>
         internal string ParseFieldType(string line)
         {
-            string fieldType = line.Trim();
+            string fieldType = line;
+
+            if (!fieldType.Contains("const struct"))
+            {
+                fieldType = line.Trim();
+            }
+            else
+            {
+                int index = line.IndexOf("c");
+                fieldType = fieldType.Substring(index, fieldType.Length - index);
+
+                string[] parts = fieldType.Split(" ");
+                fieldType = parts[2] + parts[3];
+            }
 
             if (fieldType.Contains("*")) // Pointer
             {
-                fieldType = fieldType.Replace(" ", "");
+                fieldType = fieldType.RemoveSpaces();
 
                 string pointerType = fieldType.Split("*")[0];
 
@@ -305,11 +366,11 @@ namespace KD.Dova.Generator
             }
         }
 
-        internal void GenerateFile(StructureDefinition def)
+        internal void GenerateFile(IFileConvertable convert)
         {
-            List<string> lines = def.ToFileDefinition();
+            List<string> lines = convert.ToFileDefinition();
             string path = Path.Combine(GeneratorFactory.Instance.OutputDirectory, "Structures");
-            path = Path.Combine(path, $"{ def.Name }.cs");
+            path = Path.Combine(path, $"{ convert.Name }.cs");
 
             File.WriteAllLines(path, lines.ToArray());
         }

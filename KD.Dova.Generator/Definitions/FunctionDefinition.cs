@@ -45,7 +45,8 @@ namespace KD.Dova.Generator.Definitions
 
             foreach (FieldDefinition field in this.Params)
             {
-                if (char.IsUpper(field.Type.ToCharArray().First()))
+                if (char.IsUpper(field.Type.ToCharArray().First()) &&
+                    !field.Type.Equals(AbstractGenerator.POINTER))
                 {
                     field.Type += "_";
                 }

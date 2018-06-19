@@ -6,24 +6,16 @@ namespace KD.Dova.Generator.Generators
     {
         public override void Generate(string[] lines)
         {
-            string lineBeginning = "struct ";
-            string lineEnding = " {";
-
-            for (int i = 0; i < lines.Length; ++i)
+            this.Generate(lines, "struct ", "{", (index, line) =>
             {
-                string line = lines[i];
+                StructureDefinition def = new StructureDefinition();
+                def.Name = this.ParseStructureName(line);
 
-                if (line.StartsWith(lineBeginning) && line.EndsWith(lineEnding))
-                {
-                    StructureDefinition def = new StructureDefinition();
-                    def.Name = this.ParseStructureName(line);
+                this.ParseStructureFields(def, lines, index);
+                this.ParseStructureFunctions(def, lines, index);
 
-                    this.ParseStructureFields(def, lines, i);
-                    this.ParseStructureFunctions(def, lines, i);
-
-                    this.GenerateFile(def);
-                }
-            }
+                this.GenerateFile(def);
+            });
         }
     }
 }

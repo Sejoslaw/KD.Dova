@@ -5,6 +5,11 @@
     /// </summary>
     public static class StringExtensions
     {
+        public static string RemoveSpaces(this string source)
+        {
+            return source.Replace(" ", "");
+        }
+
         public static bool IsPrimitive(this string source)
         {
             return source.StartsWith("c") || // char

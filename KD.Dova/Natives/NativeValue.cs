@@ -5,6 +5,7 @@ namespace KD.Dova.Natives
 {
     /// <summary>
     /// Representa a Java native value.
+    /// This is equal with "jni.h" -> "jvalue" union.
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
     internal struct NativeValue
