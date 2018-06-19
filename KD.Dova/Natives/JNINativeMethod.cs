@@ -4,17 +4,17 @@
 
 
 using System;
-using KD.Dova.Natives;
+using KD.Dova;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    public unsafe struct JavaVMAttachArgs
+    internal unsafe struct JNINativeMethod
     {
-        public IntPtr version;
         public IntPtr name;
-        public IntPtr group;
+        public IntPtr signature;
+        public IntPtr fnPtr;
     }
 }

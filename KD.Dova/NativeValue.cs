@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace KD.Dova.Natives
+namespace KD.Dova
 {
     /// <summary>
     /// Representa a Java native value.
     /// This is equal with "jni.h" -> "jvalue" union.
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public struct NativeValue
+    internal struct NativeValue
     {
         [FieldOffset(0)]
         public byte z;

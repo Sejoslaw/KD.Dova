@@ -18,7 +18,7 @@ namespace KD.Dova.Generator.Definitions
 
         internal override void AddLibraries(List<string> fileLines)
         {
-            fileLines.Add("using KD.Dova.Natives;");
+            fileLines.Add("using KD.Dova;");
             fileLines.Add("using System.Security;");
             fileLines.Add("using System.Runtime.InteropServices;");
             fileLines.Add("using System.Runtime.CompilerServices;");
@@ -37,7 +37,7 @@ namespace KD.Dova.Generator.Definitions
 
         private void BuildDelegatesStructure(List<string> fileLines)
         {
-            fileLines.Add($"    public unsafe struct { this.Name }");
+            fileLines.Add($"    internal unsafe struct { this.Name }");
             fileLines.Add("    {");
 
             if (this.Functions.Count > 0) // Functions
@@ -74,7 +74,7 @@ namespace KD.Dova.Generator.Definitions
                 name = this.Name.Substring(0, this.Name.Length - 1); // This should remove underline from the end of the name
             }
 
-            fileLines.Add($"    public unsafe struct { name }");
+            fileLines.Add($"    internal unsafe struct { name }");
             fileLines.Add("    {");
 
             if (this.Fields.Count > 0) // Fields

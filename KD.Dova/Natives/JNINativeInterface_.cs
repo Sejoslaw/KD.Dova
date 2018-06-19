@@ -4,14 +4,14 @@
 
 
 using System;
-using KD.Dova.Natives;
+using KD.Dova;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    public unsafe struct JNINativeInterface_
+    internal unsafe struct JNINativeInterface_
     {
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetVersion(IntPtr env);
@@ -517,7 +517,7 @@ namespace KD.Dova.Proxy.Natives
     }
 
     [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    public unsafe struct JNINativeInterface
+    internal unsafe struct JNINativeInterface
     {
         public IntPtr reserved0;
         public IntPtr reserved1;

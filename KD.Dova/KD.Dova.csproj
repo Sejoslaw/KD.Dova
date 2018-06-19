@@ -17,4 +17,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Natives\" />
+  </ItemGroup>
+
 </Project>
