@@ -17,11 +17,64 @@ namespace KD.Dova.Generator
             {
                 string line = lines[i];
 
-                if (line.StartsWith(lineBeginning) && line.EndsWith(lineEnding))
+                if (string.IsNullOrEmpty(lineEnding))
                 {
-                    CheckLine?.Invoke(i, line);
+                    if (line.StartsWith(lineBeginning))
+                    {
+                        CheckLine?.Invoke(i, line);
+                    }
+                }
+                else
+                {
+                    if (line.StartsWith(lineBeginning) && line.EndsWith(lineEnding))
+                    {
+                        CheckLine?.Invoke(i, line);
+                    }
                 }
             }
+        }
+
+        internal void ParseConstant(FieldDefinition fieldDef, string line)
+        {
+            string parsed = line.Trim();
+            string[] parts = parsed.Split(" ");
+
+            fieldDef.Type = "int";
+            fieldDef.Name = parts[1];
+
+            if (fieldDef.Name.StartsWith("_"))
+            {
+                return;
+            }
+
+            for (int i = 2; i < parts.Length; ++i)
+            {
+                string value = parts[i];
+                if (!string.IsNullOrEmpty(value))
+                {
+                    fieldDef.Value = value;
+                    break;
+                }
+            }
+
+            string comment = this.ParseInlineComment(line);
+            fieldDef.Comment = comment;
+        }
+
+        private string ParseInlineComment(string line)
+        {
+            string[] parts = line.Split("/");
+            foreach (string part in parts)
+            {
+                if (part.StartsWith("*")) // comment found
+                {
+                    string comment = part.Substring(1, part.Length - 1);
+                    int index = comment.IndexOf("*");
+                    comment = comment.Substring(0, index);
+                    return comment;
+                }
+            }
+            return string.Empty;
         }
 
         internal void ParseEnumValues(EnumDefinition def, string[] lines, int startIndex, string line)

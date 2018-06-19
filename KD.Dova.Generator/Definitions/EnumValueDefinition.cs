@@ -7,7 +7,14 @@
 
         public override string ToString()
         {
-            return $"{ this.Name } = { this.Value }";
+            if (this.Value == null)
+            {
+                return this.Name;
+            }
+            else
+            {
+                return $"{ this.Name } = { this.Value }";
+            }
         }
     }
 }

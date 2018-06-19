@@ -76,6 +76,7 @@ namespace KD.Dova.Generator
             this.Generators.Add(new BasicStructuresGenerator());
             this.Generators.Add(new JniInterfacesGenerator());
             this.Generators.Add(new EnumsGenerator());
+            this.Generators.Add(new ConstantsGenerator());
         }
     }
 }
