@@ -9,8 +9,8 @@ namespace KD.Dova.Core
     /// </summary>
     public unsafe class JavaEnvironment : IDisposable
     {
-        public JavaVM VirtualMachine { get; internal set; }
-        public JNIEnvironment JNIEnv { get; private set; }
+        internal JavaVM VirtualMachine { get; set; }
+        internal JNIEnvironment JNIEnv { get; private set; }
 
         internal JavaEnvironment(IntPtr ptr)
         {
@@ -46,20 +46,6 @@ namespace KD.Dova.Core
             return this.VirtualMachine;
         }
 
-        public string ReadJavaString(IntPtr javaString)
-        {
-            if (javaString != null)
-            {
-                byte b;
-                IntPtr chars = this.JNIEnv.GetStringChars(javaString, &b);
-                string ret = Marshal.PtrToStringUni(chars);
-                this.JNIEnv.ReleaseStringChars(javaString, chars);
-                return ret;
-            }
-
-            return null;
-        }
-
         public void Dispose()
         {
             if (this.VirtualMachine != null)
@@ -73,6 +59,20 @@ namespace KD.Dova.Core
                 Marshal.FreeCoTaskMem(this.JNIEnv.NativePointer);
                 this.JNIEnv = null;
             }
+        }
+
+        internal string ReadJavaString(IntPtr javaString)
+        {
+            if (javaString != null)
+            {
+                byte b;
+                IntPtr chars = this.JNIEnv.GetStringChars(javaString, &b);
+                string ret = Marshal.PtrToStringUni(chars);
+                this.JNIEnv.ReleaseStringChars(javaString, chars);
+                return ret;
+            }
+
+            return null;
         }
     }
 }

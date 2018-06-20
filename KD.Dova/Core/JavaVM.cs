@@ -9,7 +9,7 @@ namespace KD.Dova.Core
     /// </summary>
     public unsafe class JavaVM : IDisposable
     {
-        public JavaVirtualMachine JVM { get; private set; }
+        internal JavaVirtualMachine JVM { get; private set; }
 
         internal JavaVM(IntPtr ptr)
         {
