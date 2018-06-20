@@ -49,7 +49,8 @@
         public static string RemoveFirstParameter(this string source)
         {
             if (string.IsNullOrEmpty(source) ||
-                source.Equals("env"))
+                source.Equals("env") ||
+                source.Equals("vm"))
             {
                 return string.Empty;
             }

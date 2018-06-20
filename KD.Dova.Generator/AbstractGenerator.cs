@@ -10,6 +10,7 @@ namespace KD.Dova.Generator
     public abstract class AbstractGenerator : IGenerator
     {
         internal static string POINTER = "IntPtr";
+        internal static string JAVA_ARGS = "JavaVMInitArgs";
 
         internal void Generate(string[] lines, string lineBeginning, string lineEnding, Action<int, string> CheckLine)
         {
@@ -438,8 +439,12 @@ namespace KD.Dova.Generator
 
                 string pointerType = fieldType.Split("*")[0];
 
-                if (pointerType.IsPrimitive() ||
-                    fieldType.StartsWith("JNIEnv") ||
+                if (line.EndsWith("*args"))
+                {
+                    return "JavaVMInitArgs";
+                }
+                else if (pointerType.IsPrimitive() ||
+                    (fieldType.StartsWith("JNIEnv") || (fieldType.StartsWith("JavaVM"))) ||
                     pointerType.StartsWith("j"))
                 {
                     return POINTER;

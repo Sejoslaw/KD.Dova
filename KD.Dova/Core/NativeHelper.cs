@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace KD.Dova.Core
 {
-    public static class NativeHelper
+    internal static class NativeHelper
     {
         /// <summary>
         /// Converts unmanaged function pointer to a delegate.

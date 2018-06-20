@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    public unsafe struct JavaVMOption
+    internal unsafe struct JavaVMOption
     {
         public IntPtr optionString;
         public IntPtr extraInfo;

@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    public unsafe struct JNINativeMethod
+    internal unsafe struct JNINativeMethod
     {
         public IntPtr name;
         public IntPtr signature;

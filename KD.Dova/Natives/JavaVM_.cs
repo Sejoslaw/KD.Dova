@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    public unsafe struct JavaVM_
+    internal unsafe struct JavaVM_
     {
         public JNIInvokeInterface_* functions;
     }

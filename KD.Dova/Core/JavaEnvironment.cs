@@ -6,8 +6,9 @@ namespace KD.Dova.Core
     /// <summary>
     /// Represents Java Environment.
     /// </summary>
-    public class JavaEnvironment
+    public unsafe class JavaEnvironment
     {
+        public JavaVM JVM { get; private set; }
         public JNIEnvironment JNIEnv { get; }
 
         public JavaEnvironment(IntPtr ptr)
@@ -32,11 +33,16 @@ namespace KD.Dova.Core
             return GetVersion() % 65536;
         }
 
-        public JavaVM NewJavaVM()
+        public JavaVM GetJavaVM()
         {
-            IntPtr jvm;
-            this.JNIEnv.GetJavaVM(out jvm);
-            return new JavaVM(jvm);
+            if (this.JVM == null)
+            {
+                IntPtr jvm;
+                this.JNIEnv.GetJavaVM(out jvm);
+                this.JVM = new JavaVM(jvm);
+            }
+
+            return this.JVM;
         }
     }
 }

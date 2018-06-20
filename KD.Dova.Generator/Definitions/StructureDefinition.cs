@@ -1,6 +1,7 @@
 ﻿using KD.Dova.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KD.Dova.Generator.Definitions
 {
@@ -110,22 +111,30 @@ namespace KD.Dova.Generator.Definitions
                         parameters = parameters.Substring(0, parameters.Length - 1);
                     }
 
-                    if (this.Name.Equals("JNINativeInterface_"))
-                    {
-                        function = function.RemoveFirstArgument();
-                        parameters = parameters.RemoveFirstParameter();
+                    function = function.RemoveFirstArgument();
+                    parameters = parameters.RemoveFirstParameter();
 
-                        if (string.IsNullOrEmpty(parameters))
-                        {
-                            parameters += "this.NativePointer";
-                        }
-                        else
-                        {
-                            parameters = "this.NativePointer, " + parameters;
-                        }
+                    if (string.IsNullOrEmpty(parameters))
+                    {
+                        parameters += "this.NativePointer";
+                    }
+                    else
+                    {
+                        parameters = "this.NativePointer, " + parameters;
                     }
 
-                    fileLines.Add($"        public { function } ");
+                    string functionDelaration = "";
+                    if (func.Params.Where(param => param.Type.Contains(AbstractGenerator.JAVA_ARGS)).Count() > 0)
+                    {
+                        functionDelaration += "        internal";
+                    }
+                    else
+                    {
+                        functionDelaration += "        public";
+                    }
+                    functionDelaration += $" { function }";
+
+                    fileLines.Add(functionDelaration);
                     fileLines.Add("        {");
                     fileLines.Add($"            if ({ variableName } == null)");
                     fileLines.Add("            {");
@@ -153,11 +162,9 @@ namespace KD.Dova.Generator.Definitions
                 {
                     string variableName = func.Name.WithFirstCharLower().ReplaceIfKeyWord();
 
-                    fileLines.Add($"        public { structWithDelegates }.{ func.Name } { variableName };");
+                    fileLines.Add($"        internal { structWithDelegates }.{ func.Name } { variableName };");
                 }
             }
-            fileLines.Add("");
-
 
             fileLines.Add("    }");
         }
@@ -172,7 +179,7 @@ namespace KD.Dova.Generator.Definitions
                 name = this.Name.Substring(0, this.Name.Length - 1); // This should remove underline from the end of the name
             }
 
-            fileLines.Add($"    public unsafe struct { name }");
+            fileLines.Add($"    internal unsafe struct { name }");
             fileLines.Add("    {");
 
             if (this.Functions.Count > 0) // Functions
@@ -196,12 +203,19 @@ namespace KD.Dova.Generator.Definitions
 
         private void BuildFunctionPointersStructure(List<string> fileLines)
         {
+            string structDeclaration = "";
             if (this.Functions.Count > 0)
             {
                 fileLines.Add("    [StructLayout(LayoutKind.Sequential), NativeCppClass]");
+                structDeclaration = "    public";
             }
+            else
+            {
+                structDeclaration = "    internal";
+            }
+            structDeclaration += $" unsafe struct { this.Name }";
 
-            fileLines.Add($"    public unsafe struct { this.Name }");
+            fileLines.Add(structDeclaration);
             fileLines.Add("    {");
 
             if (this.Fields.Count > 0) // Fields

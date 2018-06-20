@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    public unsafe struct JNINativeInterface
+    internal unsafe struct JNINativeInterface
     {
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetVersion(IntPtr env);
@@ -705,7 +705,7 @@ namespace KD.Dova.Proxy.Natives
             this.NativeInterface = *(*(JNIEnv_*) jniEnv.ToPointer()).functions;
         }
 
-        public IntPtr GetVersion() 
+        public IntPtr GetVersion()
         {
             if (getVersion == null)
             {
@@ -715,7 +715,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr DefineClass(IntPtr name, IntPtr loader, IntPtr buf, IntPtr len) 
+        public IntPtr DefineClass(IntPtr name, IntPtr loader, IntPtr buf, IntPtr len)
         {
             if (defineClass == null)
             {
@@ -725,7 +725,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr FindClass(IntPtr name) 
+        public IntPtr FindClass(IntPtr name)
         {
             if (findClass == null)
             {
@@ -735,7 +735,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr FromReflectedMethod(IntPtr method) 
+        public IntPtr FromReflectedMethod(IntPtr method)
         {
             if (fromReflectedMethod == null)
             {
@@ -745,7 +745,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr FromReflectedField(IntPtr field) 
+        public IntPtr FromReflectedField(IntPtr field)
         {
             if (fromReflectedField == null)
             {
@@ -755,7 +755,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr ToReflectedMethod(IntPtr cls, IntPtr methodID, IntPtr isStatic) 
+        public IntPtr ToReflectedMethod(IntPtr cls, IntPtr methodID, IntPtr isStatic)
         {
             if (toReflectedMethod == null)
             {
@@ -765,7 +765,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetSuperclass(IntPtr sub) 
+        public IntPtr GetSuperclass(IntPtr sub)
         {
             if (getSuperclass == null)
             {
@@ -775,7 +775,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr IsAssignableFrom(IntPtr sub, IntPtr sup) 
+        public IntPtr IsAssignableFrom(IntPtr sub, IntPtr sup)
         {
             if (isAssignableFrom == null)
             {
@@ -785,7 +785,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr ToReflectedField(IntPtr cls, IntPtr fieldID, IntPtr isStatic) 
+        public IntPtr ToReflectedField(IntPtr cls, IntPtr fieldID, IntPtr isStatic)
         {
             if (toReflectedField == null)
             {
@@ -795,7 +795,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr Throw(IntPtr obj) 
+        public IntPtr Throw(IntPtr obj)
         {
             if (_throw == null)
             {
@@ -805,7 +805,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr ThrowNew(IntPtr clazz, IntPtr msg) 
+        public IntPtr ThrowNew(IntPtr clazz, IntPtr msg)
         {
             if (throwNew == null)
             {
@@ -815,7 +815,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr ExceptionOccurred() 
+        public IntPtr ExceptionOccurred()
         {
             if (exceptionOccurred == null)
             {
@@ -825,7 +825,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void ExceptionDescribe() 
+        public void ExceptionDescribe()
         {
             if (exceptionDescribe == null)
             {
@@ -834,7 +834,7 @@ namespace KD.Dova.Proxy.Natives
             exceptionDescribe.Invoke(this.NativePointer);
         }
 
-        public void ExceptionClear() 
+        public void ExceptionClear()
         {
             if (exceptionClear == null)
             {
@@ -843,7 +843,7 @@ namespace KD.Dova.Proxy.Natives
             exceptionClear.Invoke(this.NativePointer);
         }
 
-        public void FatalError(IntPtr msg) 
+        public void FatalError(IntPtr msg)
         {
             if (fatalError == null)
             {
@@ -852,7 +852,7 @@ namespace KD.Dova.Proxy.Natives
             fatalError.Invoke(this.NativePointer, msg);
         }
 
-        public IntPtr PushLocalFrame(IntPtr capacity) 
+        public IntPtr PushLocalFrame(IntPtr capacity)
         {
             if (pushLocalFrame == null)
             {
@@ -862,7 +862,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr PopLocalFrame(IntPtr result) 
+        public IntPtr PopLocalFrame(IntPtr result)
         {
             if (popLocalFrame == null)
             {
@@ -872,7 +872,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewGlobalRef(IntPtr lobj) 
+        public IntPtr NewGlobalRef(IntPtr lobj)
         {
             if (newGlobalRef == null)
             {
@@ -882,7 +882,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void DeleteGlobalRef(IntPtr gref) 
+        public void DeleteGlobalRef(IntPtr gref)
         {
             if (deleteGlobalRef == null)
             {
@@ -891,7 +891,7 @@ namespace KD.Dova.Proxy.Natives
             deleteGlobalRef.Invoke(this.NativePointer, gref);
         }
 
-        public void DeleteLocalRef(IntPtr obj) 
+        public void DeleteLocalRef(IntPtr obj)
         {
             if (deleteLocalRef == null)
             {
@@ -900,7 +900,7 @@ namespace KD.Dova.Proxy.Natives
             deleteLocalRef.Invoke(this.NativePointer, obj);
         }
 
-        public IntPtr IsSameObject(IntPtr obj1, IntPtr obj2) 
+        public IntPtr IsSameObject(IntPtr obj1, IntPtr obj2)
         {
             if (isSameObject == null)
             {
@@ -910,7 +910,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewLocalRef(IntPtr reference) 
+        public IntPtr NewLocalRef(IntPtr reference)
         {
             if (newLocalRef == null)
             {
@@ -920,7 +920,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr EnsureLocalCapacity(IntPtr capacity) 
+        public IntPtr EnsureLocalCapacity(IntPtr capacity)
         {
             if (ensureLocalCapacity == null)
             {
@@ -930,7 +930,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr AllocObject(IntPtr clazz) 
+        public IntPtr AllocObject(IntPtr clazz)
         {
             if (allocObject == null)
             {
@@ -940,7 +940,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewObject(IntPtr clazz, IntPtr methodID, IntPtr args) 
+        public IntPtr NewObject(IntPtr clazz, IntPtr methodID, IntPtr args)
         {
             if (newObject == null)
             {
@@ -950,7 +950,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetObjectClass(IntPtr obj) 
+        public IntPtr GetObjectClass(IntPtr obj)
         {
             if (getObjectClass == null)
             {
@@ -960,7 +960,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr IsInstanceOf(IntPtr obj, IntPtr clazz) 
+        public IntPtr IsInstanceOf(IntPtr obj, IntPtr clazz)
         {
             if (isInstanceOf == null)
             {
@@ -970,7 +970,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetMethodID(IntPtr clazz, IntPtr name, IntPtr sig) 
+        public IntPtr GetMethodID(IntPtr clazz, IntPtr name, IntPtr sig)
         {
             if (getMethodID == null)
             {
@@ -980,7 +980,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr CallObjectMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public IntPtr CallObjectMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callObjectMethod == null)
             {
@@ -990,7 +990,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public bool CallBooleanMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public bool CallBooleanMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callBooleanMethod == null)
             {
@@ -1000,7 +1000,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public byte CallByteMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public byte CallByteMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callByteMethod == null)
             {
@@ -1010,7 +1010,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public ushort CallCharMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public ushort CallCharMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callCharMethod == null)
             {
@@ -1020,7 +1020,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public short CallShortMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public short CallShortMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callShortMethod == null)
             {
@@ -1030,7 +1030,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public int CallIntMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public int CallIntMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callIntMethod == null)
             {
@@ -1040,7 +1040,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public long CallLongMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public long CallLongMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callLongMethod == null)
             {
@@ -1050,7 +1050,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public float CallFloatMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public float CallFloatMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callFloatMethod == null)
             {
@@ -1060,7 +1060,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public double CallDoubleMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public double CallDoubleMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callDoubleMethod == null)
             {
@@ -1070,7 +1070,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void CallVoidMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args) 
+        public void CallVoidMethod(IntPtr obj, IntPtr methodID, params NativeValue[] args)
         {
             if (callVoidMethod == null)
             {
@@ -1079,7 +1079,7 @@ namespace KD.Dova.Proxy.Natives
             callVoidMethod.Invoke(this.NativePointer, obj, methodID, args);
         }
 
-        public IntPtr CallNonvirtualObjectMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public IntPtr CallNonvirtualObjectMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualObjectMethod == null)
             {
@@ -1089,7 +1089,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public bool CallNonvirtualBooleanMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public bool CallNonvirtualBooleanMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualBooleanMethod == null)
             {
@@ -1099,7 +1099,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public byte CallNonvirtualByteMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public byte CallNonvirtualByteMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualByteMethod == null)
             {
@@ -1109,7 +1109,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public ushort CallNonvirtualCharMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public ushort CallNonvirtualCharMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualCharMethod == null)
             {
@@ -1119,7 +1119,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public short CallNonvirtualShortMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public short CallNonvirtualShortMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualShortMethod == null)
             {
@@ -1129,7 +1129,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public int CallNonvirtualIntMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public int CallNonvirtualIntMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualIntMethod == null)
             {
@@ -1139,7 +1139,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public long CallNonvirtualLongMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public long CallNonvirtualLongMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualLongMethod == null)
             {
@@ -1149,7 +1149,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public float CallNonvirtualFloatMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public float CallNonvirtualFloatMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualFloatMethod == null)
             {
@@ -1159,7 +1159,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public double CallNonvirtualDoubleMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public double CallNonvirtualDoubleMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualDoubleMethod == null)
             {
@@ -1169,7 +1169,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void CallNonvirtualVoidMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public void CallNonvirtualVoidMethod(IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callNonvirtualVoidMethod == null)
             {
@@ -1178,7 +1178,7 @@ namespace KD.Dova.Proxy.Natives
             callNonvirtualVoidMethod.Invoke(this.NativePointer, obj, clazz, methodID, args);
         }
 
-        public IntPtr GetFieldID(IntPtr clazz, IntPtr name, IntPtr sig) 
+        public IntPtr GetFieldID(IntPtr clazz, IntPtr name, IntPtr sig)
         {
             if (getFieldID == null)
             {
@@ -1188,7 +1188,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetObjectField(IntPtr obj, IntPtr fieldID) 
+        public IntPtr GetObjectField(IntPtr obj, IntPtr fieldID)
         {
             if (getObjectField == null)
             {
@@ -1198,7 +1198,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public bool GetBooleanField(IntPtr obj, IntPtr fieldID) 
+        public bool GetBooleanField(IntPtr obj, IntPtr fieldID)
         {
             if (getBooleanField == null)
             {
@@ -1208,7 +1208,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public byte GetByteField(IntPtr obj, IntPtr fieldID) 
+        public byte GetByteField(IntPtr obj, IntPtr fieldID)
         {
             if (getByteField == null)
             {
@@ -1218,7 +1218,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public ushort GetCharField(IntPtr obj, IntPtr fieldID) 
+        public ushort GetCharField(IntPtr obj, IntPtr fieldID)
         {
             if (getCharField == null)
             {
@@ -1228,7 +1228,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public short GetShortField(IntPtr obj, IntPtr fieldID) 
+        public short GetShortField(IntPtr obj, IntPtr fieldID)
         {
             if (getShortField == null)
             {
@@ -1238,7 +1238,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public int GetIntField(IntPtr obj, IntPtr fieldID) 
+        public int GetIntField(IntPtr obj, IntPtr fieldID)
         {
             if (getIntField == null)
             {
@@ -1248,7 +1248,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public long GetLongField(IntPtr obj, IntPtr fieldID) 
+        public long GetLongField(IntPtr obj, IntPtr fieldID)
         {
             if (getLongField == null)
             {
@@ -1258,7 +1258,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public float GetFloatField(IntPtr obj, IntPtr fieldID) 
+        public float GetFloatField(IntPtr obj, IntPtr fieldID)
         {
             if (getFloatField == null)
             {
@@ -1268,7 +1268,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public double GetDoubleField(IntPtr obj, IntPtr fieldID) 
+        public double GetDoubleField(IntPtr obj, IntPtr fieldID)
         {
             if (getDoubleField == null)
             {
@@ -1278,7 +1278,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void SetObjectField(IntPtr obj, IntPtr fieldID, IntPtr val) 
+        public void SetObjectField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setObjectField == null)
             {
@@ -1287,7 +1287,7 @@ namespace KD.Dova.Proxy.Natives
             setObjectField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetBooleanField(IntPtr obj, IntPtr fieldID, bool val) 
+        public void SetBooleanField(IntPtr obj, IntPtr fieldID, bool val)
         {
             if (setBooleanField == null)
             {
@@ -1296,7 +1296,7 @@ namespace KD.Dova.Proxy.Natives
             setBooleanField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetByteField(IntPtr obj, IntPtr fieldID, byte val) 
+        public void SetByteField(IntPtr obj, IntPtr fieldID, byte val)
         {
             if (setByteField == null)
             {
@@ -1305,7 +1305,7 @@ namespace KD.Dova.Proxy.Natives
             setByteField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetCharField(IntPtr obj, IntPtr fieldID, ushort val) 
+        public void SetCharField(IntPtr obj, IntPtr fieldID, ushort val)
         {
             if (setCharField == null)
             {
@@ -1314,7 +1314,7 @@ namespace KD.Dova.Proxy.Natives
             setCharField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetShortField(IntPtr obj, IntPtr fieldID, short val) 
+        public void SetShortField(IntPtr obj, IntPtr fieldID, short val)
         {
             if (setShortField == null)
             {
@@ -1323,7 +1323,7 @@ namespace KD.Dova.Proxy.Natives
             setShortField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetIntField(IntPtr obj, IntPtr fieldID, int val) 
+        public void SetIntField(IntPtr obj, IntPtr fieldID, int val)
         {
             if (setIntField == null)
             {
@@ -1332,7 +1332,7 @@ namespace KD.Dova.Proxy.Natives
             setIntField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetLongField(IntPtr obj, IntPtr fieldID, long val) 
+        public void SetLongField(IntPtr obj, IntPtr fieldID, long val)
         {
             if (setLongField == null)
             {
@@ -1341,7 +1341,7 @@ namespace KD.Dova.Proxy.Natives
             setLongField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetFloatField(IntPtr obj, IntPtr fieldID, float val) 
+        public void SetFloatField(IntPtr obj, IntPtr fieldID, float val)
         {
             if (setFloatField == null)
             {
@@ -1350,7 +1350,7 @@ namespace KD.Dova.Proxy.Natives
             setFloatField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetDoubleField(IntPtr obj, IntPtr fieldID, double val) 
+        public void SetDoubleField(IntPtr obj, IntPtr fieldID, double val)
         {
             if (setDoubleField == null)
             {
@@ -1359,7 +1359,7 @@ namespace KD.Dova.Proxy.Natives
             setDoubleField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public IntPtr GetStaticMethodID(IntPtr clazz, IntPtr name, IntPtr sig) 
+        public IntPtr GetStaticMethodID(IntPtr clazz, IntPtr name, IntPtr sig)
         {
             if (getStaticMethodID == null)
             {
@@ -1369,7 +1369,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr CallStaticObjectMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public IntPtr CallStaticObjectMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticObjectMethod == null)
             {
@@ -1379,7 +1379,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public bool CallStaticBooleanMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public bool CallStaticBooleanMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticBooleanMethod == null)
             {
@@ -1389,7 +1389,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public byte CallStaticByteMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public byte CallStaticByteMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticByteMethod == null)
             {
@@ -1399,7 +1399,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public ushort CallStaticCharMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public ushort CallStaticCharMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticCharMethod == null)
             {
@@ -1409,7 +1409,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public short CallStaticShortMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public short CallStaticShortMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticShortMethod == null)
             {
@@ -1419,7 +1419,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public int CallStaticIntMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public int CallStaticIntMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticIntMethod == null)
             {
@@ -1429,7 +1429,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public long CallStaticLongMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public long CallStaticLongMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticLongMethod == null)
             {
@@ -1439,7 +1439,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public float CallStaticFloatMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public float CallStaticFloatMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticFloatMethod == null)
             {
@@ -1449,7 +1449,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public double CallStaticDoubleMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args) 
+        public double CallStaticDoubleMethod(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticDoubleMethod == null)
             {
@@ -1459,7 +1459,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void CallStaticVoidMethod(IntPtr cls, IntPtr methodID, params NativeValue[] args) 
+        public void CallStaticVoidMethod(IntPtr cls, IntPtr methodID, params NativeValue[] args)
         {
             if (callStaticVoidMethod == null)
             {
@@ -1468,7 +1468,7 @@ namespace KD.Dova.Proxy.Natives
             callStaticVoidMethod.Invoke(this.NativePointer, cls, methodID, args);
         }
 
-        public IntPtr GetStaticFieldID(IntPtr clazz, IntPtr name, IntPtr sig) 
+        public IntPtr GetStaticFieldID(IntPtr clazz, IntPtr name, IntPtr sig)
         {
             if (getStaticFieldID == null)
             {
@@ -1478,7 +1478,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetStaticObjectField(IntPtr clazz, IntPtr fieldID) 
+        public IntPtr GetStaticObjectField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticObjectField == null)
             {
@@ -1488,7 +1488,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public bool GetStaticBooleanField(IntPtr clazz, IntPtr fieldID) 
+        public bool GetStaticBooleanField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticBooleanField == null)
             {
@@ -1498,7 +1498,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public byte GetStaticByteField(IntPtr clazz, IntPtr fieldID) 
+        public byte GetStaticByteField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticByteField == null)
             {
@@ -1508,7 +1508,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public ushort GetStaticCharField(IntPtr clazz, IntPtr fieldID) 
+        public ushort GetStaticCharField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticCharField == null)
             {
@@ -1518,7 +1518,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public short GetStaticShortField(IntPtr clazz, IntPtr fieldID) 
+        public short GetStaticShortField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticShortField == null)
             {
@@ -1528,7 +1528,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public int GetStaticIntField(IntPtr clazz, IntPtr fieldID) 
+        public int GetStaticIntField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticIntField == null)
             {
@@ -1538,7 +1538,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public long GetStaticLongField(IntPtr clazz, IntPtr fieldID) 
+        public long GetStaticLongField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticLongField == null)
             {
@@ -1548,7 +1548,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public float GetStaticFloatField(IntPtr clazz, IntPtr fieldID) 
+        public float GetStaticFloatField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticFloatField == null)
             {
@@ -1558,7 +1558,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public double GetStaticDoubleField(IntPtr clazz, IntPtr fieldID) 
+        public double GetStaticDoubleField(IntPtr clazz, IntPtr fieldID)
         {
             if (getStaticDoubleField == null)
             {
@@ -1568,7 +1568,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void SetStaticObjectField(IntPtr clazz, IntPtr fieldID, IntPtr value) 
+        public void SetStaticObjectField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticObjectField == null)
             {
@@ -1577,7 +1577,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticObjectField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticBooleanField(IntPtr clazz, IntPtr fieldID, bool value) 
+        public void SetStaticBooleanField(IntPtr clazz, IntPtr fieldID, bool value)
         {
             if (setStaticBooleanField == null)
             {
@@ -1586,7 +1586,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticBooleanField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticByteField(IntPtr clazz, IntPtr fieldID, byte value) 
+        public void SetStaticByteField(IntPtr clazz, IntPtr fieldID, byte value)
         {
             if (setStaticByteField == null)
             {
@@ -1595,7 +1595,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticByteField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticCharField(IntPtr clazz, IntPtr fieldID, ushort value) 
+        public void SetStaticCharField(IntPtr clazz, IntPtr fieldID, ushort value)
         {
             if (setStaticCharField == null)
             {
@@ -1604,7 +1604,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticCharField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticShortField(IntPtr clazz, IntPtr fieldID, short value) 
+        public void SetStaticShortField(IntPtr clazz, IntPtr fieldID, short value)
         {
             if (setStaticShortField == null)
             {
@@ -1613,7 +1613,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticShortField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticIntField(IntPtr clazz, IntPtr fieldID, int value) 
+        public void SetStaticIntField(IntPtr clazz, IntPtr fieldID, int value)
         {
             if (setStaticIntField == null)
             {
@@ -1622,7 +1622,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticIntField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticLongField(IntPtr clazz, IntPtr fieldID, long value) 
+        public void SetStaticLongField(IntPtr clazz, IntPtr fieldID, long value)
         {
             if (setStaticLongField == null)
             {
@@ -1631,7 +1631,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticLongField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticFloatField(IntPtr clazz, IntPtr fieldID, float value) 
+        public void SetStaticFloatField(IntPtr clazz, IntPtr fieldID, float value)
         {
             if (setStaticFloatField == null)
             {
@@ -1640,7 +1640,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticFloatField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticDoubleField(IntPtr clazz, IntPtr fieldID, double value) 
+        public void SetStaticDoubleField(IntPtr clazz, IntPtr fieldID, double value)
         {
             if (setStaticDoubleField == null)
             {
@@ -1649,7 +1649,7 @@ namespace KD.Dova.Proxy.Natives
             setStaticDoubleField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public IntPtr NewString(IntPtr unicode, IntPtr len) 
+        public IntPtr NewString(IntPtr unicode, IntPtr len)
         {
             if (newString == null)
             {
@@ -1659,7 +1659,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public int GetStringLength(IntPtr str) 
+        public int GetStringLength(IntPtr str)
         {
             if (getStringLength == null)
             {
@@ -1669,7 +1669,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public ushort GetStringChars(IntPtr str, IntPtr isCopy) 
+        public ushort GetStringChars(IntPtr str, IntPtr isCopy)
         {
             if (getStringChars == null)
             {
@@ -1679,7 +1679,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void ReleaseStringChars(IntPtr str, IntPtr chars) 
+        public void ReleaseStringChars(IntPtr str, IntPtr chars)
         {
             if (releaseStringChars == null)
             {
@@ -1688,7 +1688,7 @@ namespace KD.Dova.Proxy.Natives
             releaseStringChars.Invoke(this.NativePointer, str, chars);
         }
 
-        public IntPtr NewStringUTF(IntPtr utf) 
+        public IntPtr NewStringUTF(IntPtr utf)
         {
             if (newStringUTF == null)
             {
@@ -1698,7 +1698,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public int GetStringUTFLength(IntPtr str) 
+        public int GetStringUTFLength(IntPtr str)
         {
             if (getStringUTFLength == null)
             {
@@ -1708,7 +1708,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public ushort GetStringUTFChars(IntPtr str, IntPtr isCopy) 
+        public ushort GetStringUTFChars(IntPtr str, IntPtr isCopy)
         {
             if (getStringUTFChars == null)
             {
@@ -1718,7 +1718,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void ReleaseStringUTFChars(IntPtr str, IntPtr chars) 
+        public void ReleaseStringUTFChars(IntPtr str, IntPtr chars)
         {
             if (releaseStringUTFChars == null)
             {
@@ -1727,7 +1727,7 @@ namespace KD.Dova.Proxy.Natives
             releaseStringUTFChars.Invoke(this.NativePointer, str, chars);
         }
 
-        public int GetArrayLength(IntPtr array) 
+        public int GetArrayLength(IntPtr array)
         {
             if (getArrayLength == null)
             {
@@ -1737,7 +1737,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewObjectArray(IntPtr len, IntPtr clazz, IntPtr init) 
+        public IntPtr NewObjectArray(IntPtr len, IntPtr clazz, IntPtr init)
         {
             if (newObjectArray == null)
             {
@@ -1747,7 +1747,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetObjectArrayElement(IntPtr array, IntPtr index) 
+        public IntPtr GetObjectArrayElement(IntPtr array, IntPtr index)
         {
             if (getObjectArrayElement == null)
             {
@@ -1757,7 +1757,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void SetObjectArrayElement(IntPtr array, IntPtr index, IntPtr val) 
+        public void SetObjectArrayElement(IntPtr array, IntPtr index, IntPtr val)
         {
             if (setObjectArrayElement == null)
             {
@@ -1766,7 +1766,7 @@ namespace KD.Dova.Proxy.Natives
             setObjectArrayElement.Invoke(this.NativePointer, array, index, val);
         }
 
-        public IntPtr NewBooleanArray(int len) 
+        public IntPtr NewBooleanArray(int len)
         {
             if (newBooleanArray == null)
             {
@@ -1776,7 +1776,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewByteArray(int len) 
+        public IntPtr NewByteArray(int len)
         {
             if (newByteArray == null)
             {
@@ -1786,7 +1786,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewCharArray(int len) 
+        public IntPtr NewCharArray(int len)
         {
             if (newCharArray == null)
             {
@@ -1796,7 +1796,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewShortArray(int len) 
+        public IntPtr NewShortArray(int len)
         {
             if (newShortArray == null)
             {
@@ -1806,7 +1806,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewIntArray(int len) 
+        public IntPtr NewIntArray(int len)
         {
             if (newIntArray == null)
             {
@@ -1816,7 +1816,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewLongArray(int len) 
+        public IntPtr NewLongArray(int len)
         {
             if (newLongArray == null)
             {
@@ -1826,7 +1826,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewFloatArray(int len) 
+        public IntPtr NewFloatArray(int len)
         {
             if (newFloatArray == null)
             {
@@ -1836,7 +1836,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewDoubleArray(int len) 
+        public IntPtr NewDoubleArray(int len)
         {
             if (newDoubleArray == null)
             {
@@ -1846,7 +1846,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetBooleanArrayElements(IntPtr array, IntPtr isCopy) 
+        public IntPtr GetBooleanArrayElements(IntPtr array, IntPtr isCopy)
         {
             if (getBooleanArrayElements == null)
             {
@@ -1856,7 +1856,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetByteArrayElements(IntPtr array, IntPtr isCopy) 
+        public IntPtr GetByteArrayElements(IntPtr array, IntPtr isCopy)
         {
             if (getByteArrayElements == null)
             {
@@ -1866,7 +1866,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetCharArrayElements(IntPtr array, IntPtr isCopy) 
+        public IntPtr GetCharArrayElements(IntPtr array, IntPtr isCopy)
         {
             if (getCharArrayElements == null)
             {
@@ -1876,7 +1876,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetShortArrayElements(IntPtr array, IntPtr isCopy) 
+        public IntPtr GetShortArrayElements(IntPtr array, IntPtr isCopy)
         {
             if (getShortArrayElements == null)
             {
@@ -1886,7 +1886,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetIntArrayElements(IntPtr array, IntPtr isCopy) 
+        public IntPtr GetIntArrayElements(IntPtr array, IntPtr isCopy)
         {
             if (getIntArrayElements == null)
             {
@@ -1896,7 +1896,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetLongArrayElements(IntPtr array, IntPtr isCopy) 
+        public IntPtr GetLongArrayElements(IntPtr array, IntPtr isCopy)
         {
             if (getLongArrayElements == null)
             {
@@ -1906,7 +1906,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetFloatArrayElements(IntPtr array, IntPtr isCopy) 
+        public IntPtr GetFloatArrayElements(IntPtr array, IntPtr isCopy)
         {
             if (getFloatArrayElements == null)
             {
@@ -1916,7 +1916,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetDoubleArrayElements(IntPtr array, IntPtr isCopy) 
+        public IntPtr GetDoubleArrayElements(IntPtr array, IntPtr isCopy)
         {
             if (getDoubleArrayElements == null)
             {
@@ -1926,7 +1926,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void ReleaseBooleanArrayElements(IntPtr array, bool* elems, IntPtr mode) 
+        public void ReleaseBooleanArrayElements(IntPtr array, bool* elems, IntPtr mode)
         {
             if (releaseBooleanArrayElements == null)
             {
@@ -1935,7 +1935,7 @@ namespace KD.Dova.Proxy.Natives
             releaseBooleanArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseByteArrayElements(IntPtr array, byte* elems, IntPtr mode) 
+        public void ReleaseByteArrayElements(IntPtr array, byte* elems, IntPtr mode)
         {
             if (releaseByteArrayElements == null)
             {
@@ -1944,7 +1944,7 @@ namespace KD.Dova.Proxy.Natives
             releaseByteArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseCharArrayElements(IntPtr array, ushort* elems, IntPtr mode) 
+        public void ReleaseCharArrayElements(IntPtr array, ushort* elems, IntPtr mode)
         {
             if (releaseCharArrayElements == null)
             {
@@ -1953,7 +1953,7 @@ namespace KD.Dova.Proxy.Natives
             releaseCharArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseShortArrayElements(IntPtr array, short* elems, IntPtr mode) 
+        public void ReleaseShortArrayElements(IntPtr array, short* elems, IntPtr mode)
         {
             if (releaseShortArrayElements == null)
             {
@@ -1962,7 +1962,7 @@ namespace KD.Dova.Proxy.Natives
             releaseShortArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseIntArrayElements(IntPtr array, int* elems, IntPtr mode) 
+        public void ReleaseIntArrayElements(IntPtr array, int* elems, IntPtr mode)
         {
             if (releaseIntArrayElements == null)
             {
@@ -1971,7 +1971,7 @@ namespace KD.Dova.Proxy.Natives
             releaseIntArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseLongArrayElements(IntPtr array, long* elems, IntPtr mode) 
+        public void ReleaseLongArrayElements(IntPtr array, long* elems, IntPtr mode)
         {
             if (releaseLongArrayElements == null)
             {
@@ -1980,7 +1980,7 @@ namespace KD.Dova.Proxy.Natives
             releaseLongArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseFloatArrayElements(IntPtr array, float* elems, IntPtr mode) 
+        public void ReleaseFloatArrayElements(IntPtr array, float* elems, IntPtr mode)
         {
             if (releaseFloatArrayElements == null)
             {
@@ -1989,7 +1989,7 @@ namespace KD.Dova.Proxy.Natives
             releaseFloatArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseDoubleArrayElements(IntPtr array, double* elems, IntPtr mode) 
+        public void ReleaseDoubleArrayElements(IntPtr array, double* elems, IntPtr mode)
         {
             if (releaseDoubleArrayElements == null)
             {
@@ -1998,7 +1998,7 @@ namespace KD.Dova.Proxy.Natives
             releaseDoubleArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void GetBooleanArrayRegion(IntPtr array, IntPtr start, IntPtr l, IntPtr buf) 
+        public void GetBooleanArrayRegion(IntPtr array, IntPtr start, IntPtr l, IntPtr buf)
         {
             if (getBooleanArrayRegion == null)
             {
@@ -2007,7 +2007,7 @@ namespace KD.Dova.Proxy.Natives
             getBooleanArrayRegion.Invoke(this.NativePointer, array, start, l, buf);
         }
 
-        public void GetByteArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetByteArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getByteArrayRegion == null)
             {
@@ -2016,7 +2016,7 @@ namespace KD.Dova.Proxy.Natives
             getByteArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetCharArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetCharArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getCharArrayRegion == null)
             {
@@ -2025,7 +2025,7 @@ namespace KD.Dova.Proxy.Natives
             getCharArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetShortArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetShortArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getShortArrayRegion == null)
             {
@@ -2034,7 +2034,7 @@ namespace KD.Dova.Proxy.Natives
             getShortArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetIntArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetIntArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getIntArrayRegion == null)
             {
@@ -2043,7 +2043,7 @@ namespace KD.Dova.Proxy.Natives
             getIntArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetLongArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetLongArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getLongArrayRegion == null)
             {
@@ -2052,7 +2052,7 @@ namespace KD.Dova.Proxy.Natives
             getLongArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetFloatArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetFloatArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getFloatArrayRegion == null)
             {
@@ -2061,7 +2061,7 @@ namespace KD.Dova.Proxy.Natives
             getFloatArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetDoubleArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetDoubleArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getDoubleArrayRegion == null)
             {
@@ -2070,7 +2070,7 @@ namespace KD.Dova.Proxy.Natives
             getDoubleArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetBooleanArrayRegion(IntPtr array, IntPtr start, IntPtr l, bool buf) 
+        public void SetBooleanArrayRegion(IntPtr array, IntPtr start, IntPtr l, bool buf)
         {
             if (setBooleanArrayRegion == null)
             {
@@ -2079,7 +2079,7 @@ namespace KD.Dova.Proxy.Natives
             setBooleanArrayRegion.Invoke(this.NativePointer, array, start, l, buf);
         }
 
-        public void SetByteArrayRegion(IntPtr array, IntPtr start, IntPtr len, byte buf) 
+        public void SetByteArrayRegion(IntPtr array, IntPtr start, IntPtr len, byte buf)
         {
             if (setByteArrayRegion == null)
             {
@@ -2088,7 +2088,7 @@ namespace KD.Dova.Proxy.Natives
             setByteArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetCharArrayRegion(IntPtr array, IntPtr start, IntPtr len, ushort buf) 
+        public void SetCharArrayRegion(IntPtr array, IntPtr start, IntPtr len, ushort buf)
         {
             if (setCharArrayRegion == null)
             {
@@ -2097,7 +2097,7 @@ namespace KD.Dova.Proxy.Natives
             setCharArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetShortArrayRegion(IntPtr array, IntPtr start, IntPtr len, short buf) 
+        public void SetShortArrayRegion(IntPtr array, IntPtr start, IntPtr len, short buf)
         {
             if (setShortArrayRegion == null)
             {
@@ -2106,7 +2106,7 @@ namespace KD.Dova.Proxy.Natives
             setShortArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetIntArrayRegion(IntPtr array, IntPtr start, IntPtr len, int buf) 
+        public void SetIntArrayRegion(IntPtr array, IntPtr start, IntPtr len, int buf)
         {
             if (setIntArrayRegion == null)
             {
@@ -2115,7 +2115,7 @@ namespace KD.Dova.Proxy.Natives
             setIntArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetLongArrayRegion(IntPtr array, IntPtr start, IntPtr len, long buf) 
+        public void SetLongArrayRegion(IntPtr array, IntPtr start, IntPtr len, long buf)
         {
             if (setLongArrayRegion == null)
             {
@@ -2124,7 +2124,7 @@ namespace KD.Dova.Proxy.Natives
             setLongArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetFloatArrayRegion(IntPtr array, IntPtr start, IntPtr len, float buf) 
+        public void SetFloatArrayRegion(IntPtr array, IntPtr start, IntPtr len, float buf)
         {
             if (setFloatArrayRegion == null)
             {
@@ -2133,7 +2133,7 @@ namespace KD.Dova.Proxy.Natives
             setFloatArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetDoubleArrayRegion(IntPtr array, IntPtr start, IntPtr len, double buf) 
+        public void SetDoubleArrayRegion(IntPtr array, IntPtr start, IntPtr len, double buf)
         {
             if (setDoubleArrayRegion == null)
             {
@@ -2142,7 +2142,7 @@ namespace KD.Dova.Proxy.Natives
             setDoubleArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public IntPtr RegisterNatives(IntPtr clazz, IntPtr methods, IntPtr nMethods) 
+        public IntPtr RegisterNatives(IntPtr clazz, IntPtr methods, IntPtr nMethods)
         {
             if (registerNatives == null)
             {
@@ -2152,7 +2152,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr UnregisterNatives(IntPtr clazz) 
+        public IntPtr UnregisterNatives(IntPtr clazz)
         {
             if (unregisterNatives == null)
             {
@@ -2162,7 +2162,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr MonitorEnter(IntPtr obj) 
+        public IntPtr MonitorEnter(IntPtr obj)
         {
             if (monitorEnter == null)
             {
@@ -2172,7 +2172,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr MonitorExit(IntPtr obj) 
+        public IntPtr MonitorExit(IntPtr obj)
         {
             if (monitorExit == null)
             {
@@ -2182,7 +2182,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetJavaVM(out IntPtr vm) 
+        public IntPtr GetJavaVM(out IntPtr vm)
         {
             if (getJavaVM == null)
             {
@@ -2192,7 +2192,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void GetStringRegion(IntPtr str, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetStringRegion(IntPtr str, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getStringRegion == null)
             {
@@ -2201,7 +2201,7 @@ namespace KD.Dova.Proxy.Natives
             getStringRegion.Invoke(this.NativePointer, str, start, len, buf);
         }
 
-        public void GetStringUTFRegion(IntPtr str, IntPtr start, IntPtr len, IntPtr buf) 
+        public void GetStringUTFRegion(IntPtr str, IntPtr start, IntPtr len, IntPtr buf)
         {
             if (getStringUTFRegion == null)
             {
@@ -2210,7 +2210,7 @@ namespace KD.Dova.Proxy.Natives
             getStringUTFRegion.Invoke(this.NativePointer, str, start, len, buf);
         }
 
-        public void GetPrimitiveArrayCritical(IntPtr array, IntPtr isCopy) 
+        public void GetPrimitiveArrayCritical(IntPtr array, IntPtr isCopy)
         {
             if (getPrimitiveArrayCritical == null)
             {
@@ -2219,7 +2219,7 @@ namespace KD.Dova.Proxy.Natives
             getPrimitiveArrayCritical.Invoke(this.NativePointer, array, isCopy);
         }
 
-        public void ReleasePrimitiveArrayCritical(IntPtr array, IntPtr carray, IntPtr mode) 
+        public void ReleasePrimitiveArrayCritical(IntPtr array, IntPtr carray, IntPtr mode)
         {
             if (releasePrimitiveArrayCritical == null)
             {
@@ -2228,7 +2228,7 @@ namespace KD.Dova.Proxy.Natives
             releasePrimitiveArrayCritical.Invoke(this.NativePointer, array, carray, mode);
         }
 
-        public IntPtr GetStringCritical(IntPtr str, IntPtr isCopy) 
+        public IntPtr GetStringCritical(IntPtr str, IntPtr isCopy)
         {
             if (getStringCritical == null)
             {
@@ -2238,7 +2238,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void ReleaseStringCritical(IntPtr str, IntPtr cstring) 
+        public void ReleaseStringCritical(IntPtr str, IntPtr cstring)
         {
             if (releaseStringCritical == null)
             {
@@ -2247,7 +2247,7 @@ namespace KD.Dova.Proxy.Natives
             releaseStringCritical.Invoke(this.NativePointer, str, cstring);
         }
 
-        public IntPtr NewWeakGlobalRef(IntPtr obj) 
+        public IntPtr NewWeakGlobalRef(IntPtr obj)
         {
             if (newWeakGlobalRef == null)
             {
@@ -2257,7 +2257,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void DeleteWeakGlobalRef(IntPtr reference) 
+        public void DeleteWeakGlobalRef(IntPtr reference)
         {
             if (deleteWeakGlobalRef == null)
             {
@@ -2266,7 +2266,7 @@ namespace KD.Dova.Proxy.Natives
             deleteWeakGlobalRef.Invoke(this.NativePointer, reference);
         }
 
-        public IntPtr ExceptionCheck() 
+        public IntPtr ExceptionCheck()
         {
             if (exceptionCheck == null)
             {
@@ -2276,7 +2276,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewDirectByteBuffer(IntPtr address, byte capacity) 
+        public IntPtr NewDirectByteBuffer(IntPtr address, byte capacity)
         {
             if (newDirectByteBuffer == null)
             {
@@ -2286,7 +2286,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public void* GetDirectBufferAddress(IntPtr buf) 
+        public void* GetDirectBufferAddress(IntPtr buf)
         {
             if (getDirectBufferAddress == null)
             {
@@ -2296,7 +2296,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetDirectBufferCapacity(IntPtr buf) 
+        public IntPtr GetDirectBufferCapacity(IntPtr buf)
         {
             if (getDirectBufferCapacity == null)
             {
@@ -2306,7 +2306,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetObjectRefType(IntPtr obj) 
+        public IntPtr GetObjectRefType(IntPtr obj)
         {
             if (getObjectRefType == null)
             {
@@ -2316,173 +2316,172 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public JNINativeInterface.GetVersion getVersion;
-        public JNINativeInterface.DefineClass defineClass;
-        public JNINativeInterface.FindClass findClass;
-        public JNINativeInterface.FromReflectedMethod fromReflectedMethod;
-        public JNINativeInterface.FromReflectedField fromReflectedField;
-        public JNINativeInterface.ToReflectedMethod toReflectedMethod;
-        public JNINativeInterface.GetSuperclass getSuperclass;
-        public JNINativeInterface.IsAssignableFrom isAssignableFrom;
-        public JNINativeInterface.ToReflectedField toReflectedField;
-        public JNINativeInterface.Throw _throw;
-        public JNINativeInterface.ThrowNew throwNew;
-        public JNINativeInterface.ExceptionOccurred exceptionOccurred;
-        public JNINativeInterface.ExceptionDescribe exceptionDescribe;
-        public JNINativeInterface.ExceptionClear exceptionClear;
-        public JNINativeInterface.FatalError fatalError;
-        public JNINativeInterface.PushLocalFrame pushLocalFrame;
-        public JNINativeInterface.PopLocalFrame popLocalFrame;
-        public JNINativeInterface.NewGlobalRef newGlobalRef;
-        public JNINativeInterface.DeleteGlobalRef deleteGlobalRef;
-        public JNINativeInterface.DeleteLocalRef deleteLocalRef;
-        public JNINativeInterface.IsSameObject isSameObject;
-        public JNINativeInterface.NewLocalRef newLocalRef;
-        public JNINativeInterface.EnsureLocalCapacity ensureLocalCapacity;
-        public JNINativeInterface.AllocObject allocObject;
-        public JNINativeInterface.NewObject newObject;
-        public JNINativeInterface.GetObjectClass getObjectClass;
-        public JNINativeInterface.IsInstanceOf isInstanceOf;
-        public JNINativeInterface.GetMethodID getMethodID;
-        public JNINativeInterface.CallObjectMethod callObjectMethod;
-        public JNINativeInterface.CallBooleanMethod callBooleanMethod;
-        public JNINativeInterface.CallByteMethod callByteMethod;
-        public JNINativeInterface.CallCharMethod callCharMethod;
-        public JNINativeInterface.CallShortMethod callShortMethod;
-        public JNINativeInterface.CallIntMethod callIntMethod;
-        public JNINativeInterface.CallLongMethod callLongMethod;
-        public JNINativeInterface.CallFloatMethod callFloatMethod;
-        public JNINativeInterface.CallDoubleMethod callDoubleMethod;
-        public JNINativeInterface.CallVoidMethod callVoidMethod;
-        public JNINativeInterface.CallNonvirtualObjectMethod callNonvirtualObjectMethod;
-        public JNINativeInterface.CallNonvirtualBooleanMethod callNonvirtualBooleanMethod;
-        public JNINativeInterface.CallNonvirtualByteMethod callNonvirtualByteMethod;
-        public JNINativeInterface.CallNonvirtualCharMethod callNonvirtualCharMethod;
-        public JNINativeInterface.CallNonvirtualShortMethod callNonvirtualShortMethod;
-        public JNINativeInterface.CallNonvirtualIntMethod callNonvirtualIntMethod;
-        public JNINativeInterface.CallNonvirtualLongMethod callNonvirtualLongMethod;
-        public JNINativeInterface.CallNonvirtualFloatMethod callNonvirtualFloatMethod;
-        public JNINativeInterface.CallNonvirtualDoubleMethod callNonvirtualDoubleMethod;
-        public JNINativeInterface.CallNonvirtualVoidMethod callNonvirtualVoidMethod;
-        public JNINativeInterface.GetFieldID getFieldID;
-        public JNINativeInterface.GetObjectField getObjectField;
-        public JNINativeInterface.GetBooleanField getBooleanField;
-        public JNINativeInterface.GetByteField getByteField;
-        public JNINativeInterface.GetCharField getCharField;
-        public JNINativeInterface.GetShortField getShortField;
-        public JNINativeInterface.GetIntField getIntField;
-        public JNINativeInterface.GetLongField getLongField;
-        public JNINativeInterface.GetFloatField getFloatField;
-        public JNINativeInterface.GetDoubleField getDoubleField;
-        public JNINativeInterface.SetObjectField setObjectField;
-        public JNINativeInterface.SetBooleanField setBooleanField;
-        public JNINativeInterface.SetByteField setByteField;
-        public JNINativeInterface.SetCharField setCharField;
-        public JNINativeInterface.SetShortField setShortField;
-        public JNINativeInterface.SetIntField setIntField;
-        public JNINativeInterface.SetLongField setLongField;
-        public JNINativeInterface.SetFloatField setFloatField;
-        public JNINativeInterface.SetDoubleField setDoubleField;
-        public JNINativeInterface.GetStaticMethodID getStaticMethodID;
-        public JNINativeInterface.CallStaticObjectMethod callStaticObjectMethod;
-        public JNINativeInterface.CallStaticBooleanMethod callStaticBooleanMethod;
-        public JNINativeInterface.CallStaticByteMethod callStaticByteMethod;
-        public JNINativeInterface.CallStaticCharMethod callStaticCharMethod;
-        public JNINativeInterface.CallStaticShortMethod callStaticShortMethod;
-        public JNINativeInterface.CallStaticIntMethod callStaticIntMethod;
-        public JNINativeInterface.CallStaticLongMethod callStaticLongMethod;
-        public JNINativeInterface.CallStaticFloatMethod callStaticFloatMethod;
-        public JNINativeInterface.CallStaticDoubleMethod callStaticDoubleMethod;
-        public JNINativeInterface.CallStaticVoidMethod callStaticVoidMethod;
-        public JNINativeInterface.GetStaticFieldID getStaticFieldID;
-        public JNINativeInterface.GetStaticObjectField getStaticObjectField;
-        public JNINativeInterface.GetStaticBooleanField getStaticBooleanField;
-        public JNINativeInterface.GetStaticByteField getStaticByteField;
-        public JNINativeInterface.GetStaticCharField getStaticCharField;
-        public JNINativeInterface.GetStaticShortField getStaticShortField;
-        public JNINativeInterface.GetStaticIntField getStaticIntField;
-        public JNINativeInterface.GetStaticLongField getStaticLongField;
-        public JNINativeInterface.GetStaticFloatField getStaticFloatField;
-        public JNINativeInterface.GetStaticDoubleField getStaticDoubleField;
-        public JNINativeInterface.SetStaticObjectField setStaticObjectField;
-        public JNINativeInterface.SetStaticBooleanField setStaticBooleanField;
-        public JNINativeInterface.SetStaticByteField setStaticByteField;
-        public JNINativeInterface.SetStaticCharField setStaticCharField;
-        public JNINativeInterface.SetStaticShortField setStaticShortField;
-        public JNINativeInterface.SetStaticIntField setStaticIntField;
-        public JNINativeInterface.SetStaticLongField setStaticLongField;
-        public JNINativeInterface.SetStaticFloatField setStaticFloatField;
-        public JNINativeInterface.SetStaticDoubleField setStaticDoubleField;
-        public JNINativeInterface.NewString newString;
-        public JNINativeInterface.GetStringLength getStringLength;
-        public JNINativeInterface.GetStringChars getStringChars;
-        public JNINativeInterface.ReleaseStringChars releaseStringChars;
-        public JNINativeInterface.NewStringUTF newStringUTF;
-        public JNINativeInterface.GetStringUTFLength getStringUTFLength;
-        public JNINativeInterface.GetStringUTFChars getStringUTFChars;
-        public JNINativeInterface.ReleaseStringUTFChars releaseStringUTFChars;
-        public JNINativeInterface.GetArrayLength getArrayLength;
-        public JNINativeInterface.NewObjectArray newObjectArray;
-        public JNINativeInterface.GetObjectArrayElement getObjectArrayElement;
-        public JNINativeInterface.SetObjectArrayElement setObjectArrayElement;
-        public JNINativeInterface.NewBooleanArray newBooleanArray;
-        public JNINativeInterface.NewByteArray newByteArray;
-        public JNINativeInterface.NewCharArray newCharArray;
-        public JNINativeInterface.NewShortArray newShortArray;
-        public JNINativeInterface.NewIntArray newIntArray;
-        public JNINativeInterface.NewLongArray newLongArray;
-        public JNINativeInterface.NewFloatArray newFloatArray;
-        public JNINativeInterface.NewDoubleArray newDoubleArray;
-        public JNINativeInterface.GetBooleanArrayElements getBooleanArrayElements;
-        public JNINativeInterface.GetByteArrayElements getByteArrayElements;
-        public JNINativeInterface.GetCharArrayElements getCharArrayElements;
-        public JNINativeInterface.GetShortArrayElements getShortArrayElements;
-        public JNINativeInterface.GetIntArrayElements getIntArrayElements;
-        public JNINativeInterface.GetLongArrayElements getLongArrayElements;
-        public JNINativeInterface.GetFloatArrayElements getFloatArrayElements;
-        public JNINativeInterface.GetDoubleArrayElements getDoubleArrayElements;
-        public JNINativeInterface.ReleaseBooleanArrayElements releaseBooleanArrayElements;
-        public JNINativeInterface.ReleaseByteArrayElements releaseByteArrayElements;
-        public JNINativeInterface.ReleaseCharArrayElements releaseCharArrayElements;
-        public JNINativeInterface.ReleaseShortArrayElements releaseShortArrayElements;
-        public JNINativeInterface.ReleaseIntArrayElements releaseIntArrayElements;
-        public JNINativeInterface.ReleaseLongArrayElements releaseLongArrayElements;
-        public JNINativeInterface.ReleaseFloatArrayElements releaseFloatArrayElements;
-        public JNINativeInterface.ReleaseDoubleArrayElements releaseDoubleArrayElements;
-        public JNINativeInterface.GetBooleanArrayRegion getBooleanArrayRegion;
-        public JNINativeInterface.GetByteArrayRegion getByteArrayRegion;
-        public JNINativeInterface.GetCharArrayRegion getCharArrayRegion;
-        public JNINativeInterface.GetShortArrayRegion getShortArrayRegion;
-        public JNINativeInterface.GetIntArrayRegion getIntArrayRegion;
-        public JNINativeInterface.GetLongArrayRegion getLongArrayRegion;
-        public JNINativeInterface.GetFloatArrayRegion getFloatArrayRegion;
-        public JNINativeInterface.GetDoubleArrayRegion getDoubleArrayRegion;
-        public JNINativeInterface.SetBooleanArrayRegion setBooleanArrayRegion;
-        public JNINativeInterface.SetByteArrayRegion setByteArrayRegion;
-        public JNINativeInterface.SetCharArrayRegion setCharArrayRegion;
-        public JNINativeInterface.SetShortArrayRegion setShortArrayRegion;
-        public JNINativeInterface.SetIntArrayRegion setIntArrayRegion;
-        public JNINativeInterface.SetLongArrayRegion setLongArrayRegion;
-        public JNINativeInterface.SetFloatArrayRegion setFloatArrayRegion;
-        public JNINativeInterface.SetDoubleArrayRegion setDoubleArrayRegion;
-        public JNINativeInterface.RegisterNatives registerNatives;
-        public JNINativeInterface.UnregisterNatives unregisterNatives;
-        public JNINativeInterface.MonitorEnter monitorEnter;
-        public JNINativeInterface.MonitorExit monitorExit;
-        public JNINativeInterface.GetJavaVM getJavaVM;
-        public JNINativeInterface.GetStringRegion getStringRegion;
-        public JNINativeInterface.GetStringUTFRegion getStringUTFRegion;
-        public JNINativeInterface.GetPrimitiveArrayCritical getPrimitiveArrayCritical;
-        public JNINativeInterface.ReleasePrimitiveArrayCritical releasePrimitiveArrayCritical;
-        public JNINativeInterface.GetStringCritical getStringCritical;
-        public JNINativeInterface.ReleaseStringCritical releaseStringCritical;
-        public JNINativeInterface.NewWeakGlobalRef newWeakGlobalRef;
-        public JNINativeInterface.DeleteWeakGlobalRef deleteWeakGlobalRef;
-        public JNINativeInterface.ExceptionCheck exceptionCheck;
-        public JNINativeInterface.NewDirectByteBuffer newDirectByteBuffer;
-        public JNINativeInterface.GetDirectBufferAddress getDirectBufferAddress;
-        public JNINativeInterface.GetDirectBufferCapacity getDirectBufferCapacity;
-        public JNINativeInterface.GetObjectRefType getObjectRefType;
-
+        internal JNINativeInterface.GetVersion getVersion;
+        internal JNINativeInterface.DefineClass defineClass;
+        internal JNINativeInterface.FindClass findClass;
+        internal JNINativeInterface.FromReflectedMethod fromReflectedMethod;
+        internal JNINativeInterface.FromReflectedField fromReflectedField;
+        internal JNINativeInterface.ToReflectedMethod toReflectedMethod;
+        internal JNINativeInterface.GetSuperclass getSuperclass;
+        internal JNINativeInterface.IsAssignableFrom isAssignableFrom;
+        internal JNINativeInterface.ToReflectedField toReflectedField;
+        internal JNINativeInterface.Throw _throw;
+        internal JNINativeInterface.ThrowNew throwNew;
+        internal JNINativeInterface.ExceptionOccurred exceptionOccurred;
+        internal JNINativeInterface.ExceptionDescribe exceptionDescribe;
+        internal JNINativeInterface.ExceptionClear exceptionClear;
+        internal JNINativeInterface.FatalError fatalError;
+        internal JNINativeInterface.PushLocalFrame pushLocalFrame;
+        internal JNINativeInterface.PopLocalFrame popLocalFrame;
+        internal JNINativeInterface.NewGlobalRef newGlobalRef;
+        internal JNINativeInterface.DeleteGlobalRef deleteGlobalRef;
+        internal JNINativeInterface.DeleteLocalRef deleteLocalRef;
+        internal JNINativeInterface.IsSameObject isSameObject;
+        internal JNINativeInterface.NewLocalRef newLocalRef;
+        internal JNINativeInterface.EnsureLocalCapacity ensureLocalCapacity;
+        internal JNINativeInterface.AllocObject allocObject;
+        internal JNINativeInterface.NewObject newObject;
+        internal JNINativeInterface.GetObjectClass getObjectClass;
+        internal JNINativeInterface.IsInstanceOf isInstanceOf;
+        internal JNINativeInterface.GetMethodID getMethodID;
+        internal JNINativeInterface.CallObjectMethod callObjectMethod;
+        internal JNINativeInterface.CallBooleanMethod callBooleanMethod;
+        internal JNINativeInterface.CallByteMethod callByteMethod;
+        internal JNINativeInterface.CallCharMethod callCharMethod;
+        internal JNINativeInterface.CallShortMethod callShortMethod;
+        internal JNINativeInterface.CallIntMethod callIntMethod;
+        internal JNINativeInterface.CallLongMethod callLongMethod;
+        internal JNINativeInterface.CallFloatMethod callFloatMethod;
+        internal JNINativeInterface.CallDoubleMethod callDoubleMethod;
+        internal JNINativeInterface.CallVoidMethod callVoidMethod;
+        internal JNINativeInterface.CallNonvirtualObjectMethod callNonvirtualObjectMethod;
+        internal JNINativeInterface.CallNonvirtualBooleanMethod callNonvirtualBooleanMethod;
+        internal JNINativeInterface.CallNonvirtualByteMethod callNonvirtualByteMethod;
+        internal JNINativeInterface.CallNonvirtualCharMethod callNonvirtualCharMethod;
+        internal JNINativeInterface.CallNonvirtualShortMethod callNonvirtualShortMethod;
+        internal JNINativeInterface.CallNonvirtualIntMethod callNonvirtualIntMethod;
+        internal JNINativeInterface.CallNonvirtualLongMethod callNonvirtualLongMethod;
+        internal JNINativeInterface.CallNonvirtualFloatMethod callNonvirtualFloatMethod;
+        internal JNINativeInterface.CallNonvirtualDoubleMethod callNonvirtualDoubleMethod;
+        internal JNINativeInterface.CallNonvirtualVoidMethod callNonvirtualVoidMethod;
+        internal JNINativeInterface.GetFieldID getFieldID;
+        internal JNINativeInterface.GetObjectField getObjectField;
+        internal JNINativeInterface.GetBooleanField getBooleanField;
+        internal JNINativeInterface.GetByteField getByteField;
+        internal JNINativeInterface.GetCharField getCharField;
+        internal JNINativeInterface.GetShortField getShortField;
+        internal JNINativeInterface.GetIntField getIntField;
+        internal JNINativeInterface.GetLongField getLongField;
+        internal JNINativeInterface.GetFloatField getFloatField;
+        internal JNINativeInterface.GetDoubleField getDoubleField;
+        internal JNINativeInterface.SetObjectField setObjectField;
+        internal JNINativeInterface.SetBooleanField setBooleanField;
+        internal JNINativeInterface.SetByteField setByteField;
+        internal JNINativeInterface.SetCharField setCharField;
+        internal JNINativeInterface.SetShortField setShortField;
+        internal JNINativeInterface.SetIntField setIntField;
+        internal JNINativeInterface.SetLongField setLongField;
+        internal JNINativeInterface.SetFloatField setFloatField;
+        internal JNINativeInterface.SetDoubleField setDoubleField;
+        internal JNINativeInterface.GetStaticMethodID getStaticMethodID;
+        internal JNINativeInterface.CallStaticObjectMethod callStaticObjectMethod;
+        internal JNINativeInterface.CallStaticBooleanMethod callStaticBooleanMethod;
+        internal JNINativeInterface.CallStaticByteMethod callStaticByteMethod;
+        internal JNINativeInterface.CallStaticCharMethod callStaticCharMethod;
+        internal JNINativeInterface.CallStaticShortMethod callStaticShortMethod;
+        internal JNINativeInterface.CallStaticIntMethod callStaticIntMethod;
+        internal JNINativeInterface.CallStaticLongMethod callStaticLongMethod;
+        internal JNINativeInterface.CallStaticFloatMethod callStaticFloatMethod;
+        internal JNINativeInterface.CallStaticDoubleMethod callStaticDoubleMethod;
+        internal JNINativeInterface.CallStaticVoidMethod callStaticVoidMethod;
+        internal JNINativeInterface.GetStaticFieldID getStaticFieldID;
+        internal JNINativeInterface.GetStaticObjectField getStaticObjectField;
+        internal JNINativeInterface.GetStaticBooleanField getStaticBooleanField;
+        internal JNINativeInterface.GetStaticByteField getStaticByteField;
+        internal JNINativeInterface.GetStaticCharField getStaticCharField;
+        internal JNINativeInterface.GetStaticShortField getStaticShortField;
+        internal JNINativeInterface.GetStaticIntField getStaticIntField;
+        internal JNINativeInterface.GetStaticLongField getStaticLongField;
+        internal JNINativeInterface.GetStaticFloatField getStaticFloatField;
+        internal JNINativeInterface.GetStaticDoubleField getStaticDoubleField;
+        internal JNINativeInterface.SetStaticObjectField setStaticObjectField;
+        internal JNINativeInterface.SetStaticBooleanField setStaticBooleanField;
+        internal JNINativeInterface.SetStaticByteField setStaticByteField;
+        internal JNINativeInterface.SetStaticCharField setStaticCharField;
+        internal JNINativeInterface.SetStaticShortField setStaticShortField;
+        internal JNINativeInterface.SetStaticIntField setStaticIntField;
+        internal JNINativeInterface.SetStaticLongField setStaticLongField;
+        internal JNINativeInterface.SetStaticFloatField setStaticFloatField;
+        internal JNINativeInterface.SetStaticDoubleField setStaticDoubleField;
+        internal JNINativeInterface.NewString newString;
+        internal JNINativeInterface.GetStringLength getStringLength;
+        internal JNINativeInterface.GetStringChars getStringChars;
+        internal JNINativeInterface.ReleaseStringChars releaseStringChars;
+        internal JNINativeInterface.NewStringUTF newStringUTF;
+        internal JNINativeInterface.GetStringUTFLength getStringUTFLength;
+        internal JNINativeInterface.GetStringUTFChars getStringUTFChars;
+        internal JNINativeInterface.ReleaseStringUTFChars releaseStringUTFChars;
+        internal JNINativeInterface.GetArrayLength getArrayLength;
+        internal JNINativeInterface.NewObjectArray newObjectArray;
+        internal JNINativeInterface.GetObjectArrayElement getObjectArrayElement;
+        internal JNINativeInterface.SetObjectArrayElement setObjectArrayElement;
+        internal JNINativeInterface.NewBooleanArray newBooleanArray;
+        internal JNINativeInterface.NewByteArray newByteArray;
+        internal JNINativeInterface.NewCharArray newCharArray;
+        internal JNINativeInterface.NewShortArray newShortArray;
+        internal JNINativeInterface.NewIntArray newIntArray;
+        internal JNINativeInterface.NewLongArray newLongArray;
+        internal JNINativeInterface.NewFloatArray newFloatArray;
+        internal JNINativeInterface.NewDoubleArray newDoubleArray;
+        internal JNINativeInterface.GetBooleanArrayElements getBooleanArrayElements;
+        internal JNINativeInterface.GetByteArrayElements getByteArrayElements;
+        internal JNINativeInterface.GetCharArrayElements getCharArrayElements;
+        internal JNINativeInterface.GetShortArrayElements getShortArrayElements;
+        internal JNINativeInterface.GetIntArrayElements getIntArrayElements;
+        internal JNINativeInterface.GetLongArrayElements getLongArrayElements;
+        internal JNINativeInterface.GetFloatArrayElements getFloatArrayElements;
+        internal JNINativeInterface.GetDoubleArrayElements getDoubleArrayElements;
+        internal JNINativeInterface.ReleaseBooleanArrayElements releaseBooleanArrayElements;
+        internal JNINativeInterface.ReleaseByteArrayElements releaseByteArrayElements;
+        internal JNINativeInterface.ReleaseCharArrayElements releaseCharArrayElements;
+        internal JNINativeInterface.ReleaseShortArrayElements releaseShortArrayElements;
+        internal JNINativeInterface.ReleaseIntArrayElements releaseIntArrayElements;
+        internal JNINativeInterface.ReleaseLongArrayElements releaseLongArrayElements;
+        internal JNINativeInterface.ReleaseFloatArrayElements releaseFloatArrayElements;
+        internal JNINativeInterface.ReleaseDoubleArrayElements releaseDoubleArrayElements;
+        internal JNINativeInterface.GetBooleanArrayRegion getBooleanArrayRegion;
+        internal JNINativeInterface.GetByteArrayRegion getByteArrayRegion;
+        internal JNINativeInterface.GetCharArrayRegion getCharArrayRegion;
+        internal JNINativeInterface.GetShortArrayRegion getShortArrayRegion;
+        internal JNINativeInterface.GetIntArrayRegion getIntArrayRegion;
+        internal JNINativeInterface.GetLongArrayRegion getLongArrayRegion;
+        internal JNINativeInterface.GetFloatArrayRegion getFloatArrayRegion;
+        internal JNINativeInterface.GetDoubleArrayRegion getDoubleArrayRegion;
+        internal JNINativeInterface.SetBooleanArrayRegion setBooleanArrayRegion;
+        internal JNINativeInterface.SetByteArrayRegion setByteArrayRegion;
+        internal JNINativeInterface.SetCharArrayRegion setCharArrayRegion;
+        internal JNINativeInterface.SetShortArrayRegion setShortArrayRegion;
+        internal JNINativeInterface.SetIntArrayRegion setIntArrayRegion;
+        internal JNINativeInterface.SetLongArrayRegion setLongArrayRegion;
+        internal JNINativeInterface.SetFloatArrayRegion setFloatArrayRegion;
+        internal JNINativeInterface.SetDoubleArrayRegion setDoubleArrayRegion;
+        internal JNINativeInterface.RegisterNatives registerNatives;
+        internal JNINativeInterface.UnregisterNatives unregisterNatives;
+        internal JNINativeInterface.MonitorEnter monitorEnter;
+        internal JNINativeInterface.MonitorExit monitorExit;
+        internal JNINativeInterface.GetJavaVM getJavaVM;
+        internal JNINativeInterface.GetStringRegion getStringRegion;
+        internal JNINativeInterface.GetStringUTFRegion getStringUTFRegion;
+        internal JNINativeInterface.GetPrimitiveArrayCritical getPrimitiveArrayCritical;
+        internal JNINativeInterface.ReleasePrimitiveArrayCritical releasePrimitiveArrayCritical;
+        internal JNINativeInterface.GetStringCritical getStringCritical;
+        internal JNINativeInterface.ReleaseStringCritical releaseStringCritical;
+        internal JNINativeInterface.NewWeakGlobalRef newWeakGlobalRef;
+        internal JNINativeInterface.DeleteWeakGlobalRef deleteWeakGlobalRef;
+        internal JNINativeInterface.ExceptionCheck exceptionCheck;
+        internal JNINativeInterface.NewDirectByteBuffer newDirectByteBuffer;
+        internal JNINativeInterface.GetDirectBufferAddress getDirectBufferAddress;
+        internal JNINativeInterface.GetDirectBufferCapacity getDirectBufferCapacity;
+        internal JNINativeInterface.GetObjectRefType getObjectRefType;
     }
 }

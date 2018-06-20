@@ -2,7 +2,7 @@
   "profiles": {
     "KD.Dova.Generator": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Program Files\\Java\\jdk1.8.0_161\\include\\jni.h\" C:\\Dev\\KD.Dova\\KD.Dova\\Natives"
+      "commandLineArgs": "\"C:\\Program Files\\Java\\jdk1.8.0_172\\include\\jni.h\" C:\\Dev\\KD.Dova\\KD.Dova\\Natives"
     }
   }
 }

@@ -11,11 +11,11 @@ using System.Runtime.CompilerServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    public unsafe struct JavaVMInitArgs
+    internal unsafe struct JavaVMInitArgs
     {
         public IntPtr version;
         public IntPtr nOptions;
-        public JavaVMOption* options;
+        public IntPtr options;
         public IntPtr ignoreUnrecognized;
     }
 }
