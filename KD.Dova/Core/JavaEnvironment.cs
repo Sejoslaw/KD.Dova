@@ -12,7 +12,7 @@ namespace KD.Dova.Core
         public JavaVM JVM { get; private set; }
         public JNIEnvironment JNIEnv { get; private set; }
 
-        public JavaEnvironment(IntPtr ptr)
+        internal JavaEnvironment(IntPtr ptr)
         {
             this.JNIEnv = new JNIEnvironment(ptr);
         }

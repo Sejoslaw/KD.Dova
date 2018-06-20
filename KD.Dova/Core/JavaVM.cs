@@ -11,7 +11,7 @@ namespace KD.Dova.Core
     {
         public JavaVirtualMachine JVM { get; private set; }
 
-        public JavaVM(IntPtr ptr)
+        internal JavaVM(IntPtr ptr)
         {
             this.JVM = new JavaVirtualMachine(ptr);
         }
