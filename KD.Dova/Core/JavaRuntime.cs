@@ -16,7 +16,6 @@ namespace KD.Dova.Core
     public unsafe sealed class JavaRuntime : IDisposable
     {
         public JavaEnvironment Environment { get; private set; }
-        public JavaVM VirtualMachine { get; private set; }
 
         /// <summary>
         /// Loads Java Environemtn and Virtual Machine.
@@ -75,7 +74,7 @@ namespace KD.Dova.Core
                 }
 
                 this.Environment = new JavaEnvironment(environment);
-                this.VirtualMachine = new JavaVM(javaVM);
+                this.Environment.VirtualMachine = new JavaVM(javaVM);
             }
             else
             {
@@ -96,10 +95,10 @@ namespace KD.Dova.Core
 
             if (virtualMachines > 0)
             {
-                this.VirtualMachine = new JavaVM(javaVM);
+                this.Environment.VirtualMachine = new JavaVM(javaVM);
 
                 JavaEnvironment env;
-                result = this.VirtualMachine.AttachCurrentThread(out env, jvmInitArgs);
+                result = this.Environment.VirtualMachine.AttachCurrentThread(out env, jvmInitArgs);
                 this.Environment = env;
 
                 if (result != JNIConstants.JNI_OK)
@@ -115,12 +114,6 @@ namespace KD.Dova.Core
             {
                 this.Environment.Dispose();
                 this.Environment = null;
-            }
-
-            if (this.VirtualMachine != null)
-            {
-                this.VirtualMachine.Dispose();
-                this.VirtualMachine = null;
             }
         }
     }

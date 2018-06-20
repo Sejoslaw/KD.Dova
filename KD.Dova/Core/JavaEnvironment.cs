@@ -9,7 +9,7 @@ namespace KD.Dova.Core
     /// </summary>
     public unsafe class JavaEnvironment : IDisposable
     {
-        public JavaVM JVM { get; private set; }
+        public JavaVM VirtualMachine { get; internal set; }
         public JNIEnvironment JNIEnv { get; private set; }
 
         internal JavaEnvironment(IntPtr ptr)
@@ -36,14 +36,14 @@ namespace KD.Dova.Core
 
         public JavaVM GetJavaVM()
         {
-            if (this.JVM == null)
+            if (this.VirtualMachine == null)
             {
                 IntPtr jvm;
                 this.JNIEnv.GetJavaVM(out jvm);
-                this.JVM = new JavaVM(jvm);
+                this.VirtualMachine = new JavaVM(jvm);
             }
 
-            return this.JVM;
+            return this.VirtualMachine;
         }
 
         public string ReadJavaString(IntPtr javaString)
@@ -62,10 +62,10 @@ namespace KD.Dova.Core
 
         public void Dispose()
         {
-            if (this.JVM != null)
+            if (this.VirtualMachine != null)
             {
-                this.JVM.Dispose();
-                this.JVM = null;
+                this.VirtualMachine.Dispose();
+                this.VirtualMachine = null;
             }
 
             if (this.JNIEnv != null)

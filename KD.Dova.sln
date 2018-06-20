@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KD.Dova", "KD.Dova\KD.Dova.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KD.Dova.Generator", "KD.Dova.Generator\KD.Dova.Generator.csproj", "{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2816491F-49B1-4942-8CDC-6775E527F1B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KD.Dova.Tests.BasicTests", "Tests\KD.Dova.Tests.BasicTests\KD.Dova.Tests.BasicTests.csproj", "{C82096D7-E2BE-42D6-AB99-8F50A39F86E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA5EC7F7-97C5-429F-B4A7-B2114E1975D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C82096D7-E2BE-42D6-AB99-8F50A39F86E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C82096D7-E2BE-42D6-AB99-8F50A39F86E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C82096D7-E2BE-42D6-AB99-8F50A39F86E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C82096D7-E2BE-42D6-AB99-8F50A39F86E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C82096D7-E2BE-42D6-AB99-8F50A39F86E5} = {2816491F-49B1-4942-8CDC-6775E527F1B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48E3C697-C937-49A7-A2AE-6ABD58D44363}
