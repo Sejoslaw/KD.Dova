@@ -21,10 +21,10 @@ namespace KD.Dova.Core
         /// Loads Java Environemtn and Virtual Machine.
         /// </summary>
         /// <param name="path"> On Windows: Path to jvm.dll file. </param>
-        /// <param name="jniVersion"> Correct JNI version. See: <see cref="JNIConstants"/>. </param>
         /// <param name="parameters"> Optional arguments for virtual machine. </param>
+        /// <param name="jniVersion"> Correct JNI version. See: <see cref="JNIConstants"/>. </param>
         /// <param name="attachToExistingJVM"></param>
-        public void Load(string path, int jniVersion = JNIConstants.JNI_VERSION_1_8, IDictionary<string, string> parameters = null, bool attachToExistingJVM = false)
+        public void Load(string path, IDictionary<string, string> parameters = null, int jniVersion = JNIConstants.JNI_VERSION_1_8, bool attachToExistingJVM = false)
         {
             if (string.IsNullOrEmpty(path) ||
                 !File.Exists(path))
