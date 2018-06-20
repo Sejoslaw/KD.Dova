@@ -448,6 +448,10 @@ namespace KD.Dova.Generator
                 {
                     return "JavaVMInitArgs";
                 }
+                else if (line.EndsWith("options;"))
+                {
+                    return "JavaVMOption";
+                }
                 else if (pointerType.IsPrimitive() ||
                     (fieldType.StartsWith("JNIEnv") || (fieldType.StartsWith("JavaVM"))) ||
                     pointerType.StartsWith("j"))
@@ -461,6 +465,19 @@ namespace KD.Dova.Generator
             }
             else if (fieldType.StartsWith("j")) // Java primitive
             {
+                if (line.EndsWith("version;") || line.EndsWith("nOptions;"))
+                {
+                    return "int";
+                }
+                else if (line.EndsWith("options;"))
+                {
+                    return "JavaVMOption";
+                }
+                else if (line.EndsWith("ignoreUnrecognized;"))
+                {
+                    return "byte";
+                }
+
                 return POINTER;
             }
             else // C primitive

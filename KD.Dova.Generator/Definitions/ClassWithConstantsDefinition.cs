@@ -18,14 +18,21 @@ namespace KD.Dova.Generator.Definitions
 
         internal override void AddMainContent(List<string> fileLines)
         {
-            fileLines.Add($"    internal static class { this.Name }");
+            fileLines.Add($"    public static class { this.Name }");
             fileLines.Add("    {");
 
             if (this.Fields.Count > 0)
             {
                 foreach (FieldDefinition field in this.Fields)
                 {
-                    fileLines.Add($"        public static readonly { field.ToString() };");
+                    string val = field.ToString();
+                    if (!val.Contains("="))
+                    {
+                        val = val.Substring(0, val.Length);
+                        val += " = 0";
+                    }
+
+                    fileLines.Add($"        public const { val };");
                 }
             }
 

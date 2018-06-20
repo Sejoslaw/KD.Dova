@@ -14,7 +14,7 @@ namespace KD.Dova.Proxy.Natives
 {
     internal unsafe struct JavaVMAttachArgs
     {
-        public IntPtr version;
+        public int version;
         public IntPtr name;
         public IntPtr group;
     }

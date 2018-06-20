@@ -14,9 +14,9 @@ namespace KD.Dova.Proxy.Natives
 {
     internal unsafe struct JavaVMInitArgs
     {
-        public IntPtr version;
-        public IntPtr nOptions;
-        public IntPtr options;
-        public IntPtr ignoreUnrecognized;
+        public int version;
+        public int nOptions;
+        public JavaVMOption* options;
+        public byte ignoreUnrecognized;
     }
 }
