@@ -37,7 +37,7 @@ namespace KD.Dova.Proxy.Natives
     }
 
     [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    public unsafe struct JNIInvokeInterface_
+    internal unsafe struct JNIInvokeInterface_
     {
         public IntPtr reserved0;
         public IntPtr reserved1;
@@ -50,7 +50,7 @@ namespace KD.Dova.Proxy.Natives
         public IntPtr AttachCurrentThreadAsDaemon;
     }
 
-    public unsafe class JavaVirtualMachine
+    internal unsafe class JavaVirtualMachine
     {
         /* Pointer to this object in unmanaged code. */
         internal IntPtr NativePointer { get; }

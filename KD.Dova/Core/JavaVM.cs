@@ -47,6 +47,7 @@ namespace KD.Dova.Core
         {
             if (this.JVM.NativePointer != IntPtr.Zero)
             {
+                this.JVM.DestroyJavaVM();
                 Marshal.FreeCoTaskMem(this.JVM.NativePointer);
                 this.JVM = null;
             }

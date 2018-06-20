@@ -518,7 +518,7 @@ namespace KD.Dova.Proxy.Natives
     }
 
     [StructLayout(LayoutKind.Sequential), NativeCppClass]
-    public unsafe struct JNINativeInterface_
+    internal unsafe struct JNINativeInterface_
     {
         public IntPtr reserved0;
         public IntPtr reserved1;
@@ -694,7 +694,7 @@ namespace KD.Dova.Proxy.Natives
         public IntPtr GetObjectRefType;
     }
 
-    public unsafe class JNIEnvironment
+    internal unsafe class JNIEnvironment
     {
         /* Pointer to this object in unmanaged code. */
         internal IntPtr NativePointer { get; }

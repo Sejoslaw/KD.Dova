@@ -54,7 +54,7 @@ namespace KD.Dova.Generator.Definitions
 
             string name = this.Name.Substring(0, this.Name.Length - 1);
 
-            fileLines.Add($"    public unsafe class JavaVirtualMachine");
+            fileLines.Add($"    internal unsafe class JavaVirtualMachine");
             fileLines.Add("    {");
 
             fileLines.Add("        /* Pointer to this object in unmanaged code. */");
@@ -78,7 +78,7 @@ namespace KD.Dova.Generator.Definitions
 
             string name = this.Name.Substring(0, this.Name.Length - 1);
 
-            fileLines.Add($"    public unsafe class JNIEnvironment");
+            fileLines.Add($"    internal unsafe class JNIEnvironment");
             fileLines.Add("    {");
 
             fileLines.Add("        /* Pointer to this object in unmanaged code. */");
@@ -204,19 +204,12 @@ namespace KD.Dova.Generator.Definitions
 
         private void BuildFunctionPointersStructure(List<string> fileLines)
         {
-            string structDeclaration = "";
             if (this.Functions.Count > 0)
             {
                 fileLines.Add("    [StructLayout(LayoutKind.Sequential), NativeCppClass]");
-                structDeclaration = "    public";
             }
-            else
-            {
-                structDeclaration = "    internal";
-            }
-            structDeclaration += $" unsafe struct { this.Name }";
-
-            fileLines.Add(structDeclaration);
+            
+            fileLines.Add($"    internal unsafe struct { this.Name }");
             fileLines.Add("    {");
 
             if (this.Fields.Count > 0) // Fields
