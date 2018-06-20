@@ -22,6 +22,7 @@ namespace KD.Dova.Generator.Definitions
         internal override void AddLibraries(List<string> fileLines)
         {
             fileLines.Add("using KD.Dova.Core;");
+            fileLines.Add("using KD.Dova.Utils;");
             fileLines.Add("using System.Security;");
             fileLines.Add("using System.Runtime.InteropServices;");
             fileLines.Add("using System.Runtime.CompilerServices;");
@@ -57,8 +58,8 @@ namespace KD.Dova.Generator.Definitions
             fileLines.Add("    {");
 
             fileLines.Add("        /* Pointer to this object in unmanaged code. */");
-            fileLines.Add("        public IntPtr NativePointer { get; private set; }");
-            fileLines.Add("        public JNIInvokeInterface_ InvokeInterface { get; private set; }");
+            fileLines.Add("        internal IntPtr NativePointer { get; }");
+            fileLines.Add("        internal JNIInvokeInterface_ InvokeInterface { get; }");
             fileLines.Add("");
 
             fileLines.Add("        internal JavaVirtualMachine(IntPtr jvm)");
@@ -81,8 +82,8 @@ namespace KD.Dova.Generator.Definitions
             fileLines.Add("    {");
 
             fileLines.Add("        /* Pointer to this object in unmanaged code. */");
-            fileLines.Add("        public IntPtr NativePointer { get; private set; }");
-            fileLines.Add("        public JNINativeInterface_ NativeInterface { get; private set; }");
+            fileLines.Add("        internal IntPtr NativePointer { get; }");
+            fileLines.Add("        internal JNINativeInterface_ NativeInterface { get; }");
             fileLines.Add("");
 
             fileLines.Add("        internal JNIEnvironment(IntPtr jniEnv)");
@@ -138,7 +139,7 @@ namespace KD.Dova.Generator.Definitions
                     fileLines.Add("        {");
                     fileLines.Add($"            if ({ variableName } == null)");
                     fileLines.Add("            {");
-                    fileLines.Add($"                NativeHelper.GetDelegateForFunctionPointer(this.{ innerFieldName }.{ func.Name }, ref { variableName });");
+                    fileLines.Add($"                JavaConverter.GetDelegateForFunctionPointer(this.{ innerFieldName }.{ func.Name }, ref { variableName });");
                     fileLines.Add("            }");
 
                     if (!func.ReturnType.Equals("void"))

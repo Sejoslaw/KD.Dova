@@ -1,14 +1,15 @@
 ﻿using KD.Dova.Proxy.Natives;
 using System;
+using System.Runtime.InteropServices;
 
 namespace KD.Dova.Core
 {
     /// <summary>
     /// Represents Java Virtual Machine.
     /// </summary>
-    public unsafe class JavaVM
+    public unsafe class JavaVM : IDisposable
     {
-        private JavaVirtualMachine JVM { get; }
+        public JavaVirtualMachine JVM { get; private set; }
 
         public JavaVM(IntPtr ptr)
         {
@@ -40,6 +41,15 @@ namespace KD.Dova.Core
 
             env = new JavaEnvironment(envPointer);
             return result.ToInt32();
+        }
+
+        public void Dispose()
+        {
+            if (this.JVM.NativePointer != IntPtr.Zero)
+            {
+                Marshal.FreeCoTaskMem(this.JVM.NativePointer);
+                this.JVM = null;
+            }
         }
     }
 }

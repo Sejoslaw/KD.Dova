@@ -289,6 +289,11 @@ namespace KD.Dova.Generator
                     isOut = true;
                 }
 
+                if (name.Contains("isCopy"))
+                {
+                    type = "byte*";
+                }
+
                 FieldDefinition def = new FieldDefinition
                 {
                     Name = name,

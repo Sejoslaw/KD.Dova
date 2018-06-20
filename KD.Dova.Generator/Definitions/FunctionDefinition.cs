@@ -151,6 +151,7 @@ namespace KD.Dova.Generator.Definitions
         {
             if (str.Contains("boolean")) return "bool";
             if (str.Contains("byte")) return "byte";
+            if (str.EndsWith("chars")) return AbstractGenerator.POINTER;
             if (str.Contains("char")) return "ushort";
             if (str.Contains("double")) return "double";
             if (str.Contains("float")) return "float";

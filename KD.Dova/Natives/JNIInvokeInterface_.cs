@@ -5,6 +5,7 @@
 
 using System;
 using KD.Dova.Core;
+using KD.Dova.Utils;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
@@ -52,8 +53,8 @@ namespace KD.Dova.Proxy.Natives
     public unsafe class JavaVirtualMachine
     {
         /* Pointer to this object in unmanaged code. */
-        public IntPtr NativePointer { get; private set; }
-        public JNIInvokeInterface_ InvokeInterface { get; private set; }
+        internal IntPtr NativePointer { get; }
+        internal JNIInvokeInterface_ InvokeInterface { get; }
 
         internal JavaVirtualMachine(IntPtr jvm)
         {
@@ -65,7 +66,7 @@ namespace KD.Dova.Proxy.Natives
         {
             if (destroyJavaVM == null)
             {
-                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.DestroyJavaVM, ref destroyJavaVM);
+                JavaConverter.GetDelegateForFunctionPointer(this.InvokeInterface.DestroyJavaVM, ref destroyJavaVM);
             }
             var ret = destroyJavaVM.Invoke(this.NativePointer);
             return ret;
@@ -75,7 +76,7 @@ namespace KD.Dova.Proxy.Natives
         {
             if (attachCurrentThread == null)
             {
-                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.AttachCurrentThread, ref attachCurrentThread);
+                JavaConverter.GetDelegateForFunctionPointer(this.InvokeInterface.AttachCurrentThread, ref attachCurrentThread);
             }
             var ret = attachCurrentThread.Invoke(this.NativePointer, out penv, args);
             return ret;
@@ -85,7 +86,7 @@ namespace KD.Dova.Proxy.Natives
         {
             if (detachCurrentThread == null)
             {
-                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.DetachCurrentThread, ref detachCurrentThread);
+                JavaConverter.GetDelegateForFunctionPointer(this.InvokeInterface.DetachCurrentThread, ref detachCurrentThread);
             }
             var ret = detachCurrentThread.Invoke(this.NativePointer);
             return ret;
@@ -95,7 +96,7 @@ namespace KD.Dova.Proxy.Natives
         {
             if (getEnv == null)
             {
-                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.GetEnv, ref getEnv);
+                JavaConverter.GetDelegateForFunctionPointer(this.InvokeInterface.GetEnv, ref getEnv);
             }
             var ret = getEnv.Invoke(this.NativePointer, out penv, version);
             return ret;
@@ -105,7 +106,7 @@ namespace KD.Dova.Proxy.Natives
         {
             if (attachCurrentThreadAsDaemon == null)
             {
-                NativeHelper.GetDelegateForFunctionPointer(this.InvokeInterface.AttachCurrentThreadAsDaemon, ref attachCurrentThreadAsDaemon);
+                JavaConverter.GetDelegateForFunctionPointer(this.InvokeInterface.AttachCurrentThreadAsDaemon, ref attachCurrentThreadAsDaemon);
             }
             var ret = attachCurrentThreadAsDaemon.Invoke(this.NativePointer, out penv, args);
             return ret;
