@@ -4,7 +4,7 @@
 
 
 using System;
-using KD.Dova;
+using KD.Dova.Core;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
@@ -51,12 +51,13 @@ namespace KD.Dova.Proxy.Natives
 
     public unsafe class JavaVirtualMachine
     {
-        public IntPtr JVM { get; private set; }
+        /* Pointer to this object in unmanaged code. */
+        public IntPtr NativePointer { get; private set; }
         public JNIInvokeInterface_ InvokeInterface { get; private set; }
 
         internal JavaVirtualMachine(IntPtr jvm)
         {
-            this.JVM = jvm;
+            this.NativePointer = jvm;
             this.InvokeInterface = *(*(JavaVM_*)jvm.ToPointer()).functions;
         }
 

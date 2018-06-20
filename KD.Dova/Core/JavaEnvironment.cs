@@ -1,7 +1,7 @@
 ﻿using KD.Dova.Proxy.Natives;
 using System;
 
-namespace KD.Dova
+namespace KD.Dova.Core
 {
     /// <summary>
     /// Represents Java Environment.
@@ -17,7 +17,7 @@ namespace KD.Dova
 
         public int GetVersion()
         {
-            IntPtr ret = this.JNIEnv.GetVersion(this.JNIEnv.Environment);
+            IntPtr ret = this.JNIEnv.GetVersion();
             int version = ret.ToInt32();
             return version;
         }
@@ -35,7 +35,7 @@ namespace KD.Dova
         public JavaVM NewJavaVM()
         {
             IntPtr jvm;
-            this.JNIEnv.GetJavaVM(this.JNIEnv.Environment, out jvm);
+            this.JNIEnv.GetJavaVM(out jvm);
             return new JavaVM(jvm);
         }
     }

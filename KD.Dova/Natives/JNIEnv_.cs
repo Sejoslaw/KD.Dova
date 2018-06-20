@@ -4,7 +4,7 @@
 
 
 using System;
-using KD.Dova;
+using KD.Dova.Core;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;

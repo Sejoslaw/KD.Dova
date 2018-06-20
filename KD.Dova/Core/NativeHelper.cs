@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace KD.Dova
+namespace KD.Dova.Core
 {
     public static class NativeHelper
     {

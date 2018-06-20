@@ -45,5 +45,43 @@
 
             return source;
         }
+
+        public static string RemoveFirstParameter(this string source)
+        {
+            if (string.IsNullOrEmpty(source) ||
+                source.Equals("env"))
+            {
+                return string.Empty;
+            }
+
+            if (source.Contains(","))
+            {
+                int index = source.IndexOf(",");
+                string ret = source.Substring(index + 2, source.Length - index - 2);
+                return ret;
+            }
+
+            return source;
+        }
+
+        public static string RemoveFirstArgument(this string source)
+        {
+            int indexOpenning = source.IndexOf("(");
+            int comma = source.IndexOf(",");
+            int indexEnding = source.IndexOf(")");
+
+            string ret = source.Substring(0, indexOpenning + 1);
+
+            if (comma < 0) // Function with only one parameter - environment
+            {
+                ret += source.Substring(indexEnding, source.Length - indexEnding);
+                return ret;
+            }
+            else // More than one parameter
+            {
+                ret += source.Substring(comma + 2, source.Length - comma - 2);
+                return ret;
+            }
+        }
     }
 }

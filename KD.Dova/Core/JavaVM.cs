@@ -1,7 +1,7 @@
 ﻿using KD.Dova.Proxy.Natives;
 using System;
 
-namespace KD.Dova
+namespace KD.Dova.Core
 {
     /// <summary>
     /// Represents Java Virtual Machine.

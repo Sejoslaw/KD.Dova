@@ -20,7 +20,7 @@ namespace KD.Dova.Generator.Definitions
 
         internal override void AddLibraries(List<string> fileLines)
         {
-            fileLines.Add("using KD.Dova;");
+            fileLines.Add("using KD.Dova.Core;");
             fileLines.Add("using System.Security;");
             fileLines.Add("using System.Runtime.InteropServices;");
             fileLines.Add("using System.Runtime.CompilerServices;");
@@ -55,13 +55,14 @@ namespace KD.Dova.Generator.Definitions
             fileLines.Add($"    public unsafe class JavaVirtualMachine");
             fileLines.Add("    {");
 
-            fileLines.Add("        public IntPtr JVM { get; private set; }");
+            fileLines.Add("        /* Pointer to this object in unmanaged code. */");
+            fileLines.Add("        public IntPtr NativePointer { get; private set; }");
             fileLines.Add("        public JNIInvokeInterface_ InvokeInterface { get; private set; }");
             fileLines.Add("");
 
             fileLines.Add("        internal JavaVirtualMachine(IntPtr jvm)");
             fileLines.Add("        {");
-            fileLines.Add("            this.JVM = jvm;");
+            fileLines.Add("            this.NativePointer = jvm;");
             fileLines.Add("            this.InvokeInterface = *(*(JavaVM_*)jvm.ToPointer()).functions;");
             fileLines.Add("        }");
             fileLines.Add("");
@@ -78,13 +79,14 @@ namespace KD.Dova.Generator.Definitions
             fileLines.Add($"    public unsafe class JNIEnvironment");
             fileLines.Add("    {");
 
-            fileLines.Add("        public IntPtr Environment { get; private set; }");
+            fileLines.Add("        /* Pointer to this object in unmanaged code. */");
+            fileLines.Add("        public IntPtr NativePointer { get; private set; }");
             fileLines.Add("        public JNINativeInterface_ NativeInterface { get; private set; }");
             fileLines.Add("");
 
             fileLines.Add("        internal JNIEnvironment(IntPtr jniEnv)");
             fileLines.Add("        {");
-            fileLines.Add("            this.Environment = jniEnv;");
+            fileLines.Add("            this.NativePointer = jniEnv;");
             fileLines.Add("            this.NativeInterface = *(*(JNIEnv_*) jniEnv.ToPointer()).functions;");
             fileLines.Add("        }");
             fileLines.Add("");
@@ -106,6 +108,21 @@ namespace KD.Dova.Generator.Definitions
                     if (parameters.EndsWith(")"))
                     {
                         parameters = parameters.Substring(0, parameters.Length - 1);
+                    }
+
+                    if (this.Name.Equals("JNINativeInterface_"))
+                    {
+                        function = function.RemoveFirstArgument();
+                        parameters = parameters.RemoveFirstParameter();
+
+                        if (string.IsNullOrEmpty(parameters))
+                        {
+                            parameters += "this.NativePointer";
+                        }
+                        else
+                        {
+                            parameters = "this.NativePointer, " + parameters;
+                        }
                     }
 
                     fileLines.Add($"        public { function } ");
