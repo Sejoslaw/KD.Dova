@@ -22,7 +22,8 @@ namespace KD.Dova.Tests.BasicTests
 
                 jre.Load(@"C:\Program Files\Java\jdk1.8.0_172\jre\bin\server\jvm.dll", options);
 
-                Console.WriteLine("Java Runtime initialized.");
+                Console.WriteLine($"Java Runtime initialized.");
+                Console.WriteLine($"Java version: { jre.Environment.GetJavaVersion() }");
             }
         }
     }

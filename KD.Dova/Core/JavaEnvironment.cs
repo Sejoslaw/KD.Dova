@@ -17,6 +17,13 @@ namespace KD.Dova.Core
             this.JNIEnv = new JNIEnvironment(ptr);
         }
 
+        public string GetJavaVersion()
+        {
+            int major = this.GetMajorVersion();
+            int minor = this.GetMinorVersion();
+            return $"{ major }.{ minor }";
+        }
+
         public int GetVersion()
         {
             IntPtr ret = this.JNIEnv.GetVersion();
