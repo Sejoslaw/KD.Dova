@@ -3,6 +3,7 @@ using KD.Dova.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace KD.Dova.Core
@@ -15,10 +16,40 @@ namespace KD.Dova.Core
     /// </summary>
     public unsafe sealed class JavaRuntime : IDisposable
     {
-        public JavaEnvironment Environment { get; private set; }
+        public JavaEnvironment JavaEnvironment { get; private set; }
+
+        public bool IsWindows
+        {
+            get
+            {
+                int p = (int)Environment.OSVersion.Platform;
+                return (p == 0) || (p == 1) || (p == 2) || (p == 3);
+            }
+        }
+
+        public bool IsLinux
+        {
+            get
+            {
+                int p = (int)Environment.OSVersion.Platform;
+                return (p == 4) || (p == 6) || (p == 128);
+            }
+        }
+
+        public void Load(IDictionary<string, string> parameters = null, int jniVersion = JNIConstants.JNI_VERSION_1_8, bool attachToExistingJVM = false)
+        {
+            string path = "";
+
+            if (this.IsWindows)
+            {
+                path = this.GetWindowsPath();
+            }
+
+            this.Load(path, parameters, jniVersion, attachToExistingJVM);
+        }
 
         /// <summary>
-        /// Loads Java Environemtn and Virtual Machine.
+        /// Loads Java Environment and Virtual Machine.
         /// </summary>
         /// <param name="path"> On Windows: Path to jvm.dll file. </param>
         /// <param name="parameters"> Optional arguments for virtual machine. </param>
@@ -73,12 +104,21 @@ namespace KD.Dova.Core
                     throw new InvalidOperationException($"Error when creating Java Virtual Machine. [JNI_CreateJavaVM -> Return code: { result }].");
                 }
 
-                this.Environment = new JavaEnvironment(environment);
-                this.Environment.VirtualMachine = new JavaVM(javaVM);
+                this.JavaEnvironment = new JavaEnvironment(environment);
+                this.JavaEnvironment.VirtualMachine = new JavaVM(javaVM);
             }
             else
             {
                 this.AttachToExistingJVM(jvmInitArgs);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (this.JavaEnvironment != null)
+            {
+                this.JavaEnvironment.Dispose();
+                this.JavaEnvironment = null;
             }
         }
 
@@ -95,11 +135,11 @@ namespace KD.Dova.Core
 
             if (virtualMachines > 0)
             {
-                this.Environment.VirtualMachine = new JavaVM(javaVM);
+                this.JavaEnvironment.VirtualMachine = new JavaVM(javaVM);
 
                 JavaEnvironment env;
-                result = this.Environment.VirtualMachine.AttachCurrentThread(out env, jvmInitArgs);
-                this.Environment = env;
+                result = this.JavaEnvironment.VirtualMachine.AttachCurrentThread(out env, jvmInitArgs);
+                this.JavaEnvironment = env;
 
                 if (result != JNIConstants.JNI_OK)
                 {
@@ -108,13 +148,23 @@ namespace KD.Dova.Core
             }
         }
 
-        public void Dispose()
+        private string GetWindowsPath()
         {
-            if (this.Environment != null)
+            string path = @"C:\Program Files\Java";
+
+            var subdirs = Directory.EnumerateDirectories(path);
+            string newestJavaVersion = subdirs.OrderBy(name => name).ToList().LastOrDefault();
+
+            path = Path.Combine(path, newestJavaVersion);
+
+            if (newestJavaVersion.StartsWith("jdk"))
             {
-                this.Environment.Dispose();
-                this.Environment = null;
+                path = Path.Combine(path, "jre");
             }
+
+            path = Path.Combine(path, @"bin\server\jvm.dll");
+
+            return path;
         }
     }
 }

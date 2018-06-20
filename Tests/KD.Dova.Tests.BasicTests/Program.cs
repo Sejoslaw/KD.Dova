@@ -20,10 +20,10 @@ namespace KD.Dova.Tests.BasicTests
                 var options = new Dictionary<string, string>();
                 options.Add("-Djava.class.path", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
-                jre.Load(@"C:\Program Files\Java\jdk1.8.0_172\jre\bin\server\jvm.dll", options);
+                jre.Load(options);
 
                 Console.WriteLine($"Java Runtime initialized.");
-                Console.WriteLine($"Java version: { jre.Environment.GetJavaVersion() }");
+                Console.WriteLine($"Java version: { jre.JavaEnvironment.GetJavaVersion() }");
             }
         }
     }
