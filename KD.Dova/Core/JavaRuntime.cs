@@ -105,6 +105,47 @@ namespace KD.Dova.Core
             }
         }
 
+        #region Methods used to work with Java itself.
+
+        /// <summary>
+        /// Adds archive to runtime.
+        /// </summary>
+        /// <param name="pathOrName"></param>
+        public void AddArchive(string pathOrName)
+        {
+        }
+
+        /// <summary>
+        /// <see cref="IGateway"/>
+        /// </summary>
+        /// <param name="pathOrName"></param>
+        /// <returns></returns>
+        public JArchive GetArchive(string pathOrName)
+        {
+        }
+
+        /// <summary>
+        /// <see cref="IGateway"/>
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public JObject New(string typeName, params object[] parameters)
+        {
+        }
+
+        /// <summary>
+        /// Returns generic Java type with specified generic parameters.
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="genericTypes"></param>
+        /// <returns></returns>
+        public JType GetType(string typeName, params object[] genericTypes)
+        {
+        }
+
+        #endregion
+
         private void AttachToExistingJVM(JavaVMInitArgs jvmInitArgs)
         {
             int virtualMachines;
