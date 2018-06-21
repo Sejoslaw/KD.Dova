@@ -3,14 +3,14 @@
 // For more information go to: https://github.com/Sejoslaw/KD.Dova
 
 
-using System;
 using KD.Dova.Core;
 using KD.Dova.Utils;
+using System;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-namespace KD.Dova.Proxy.Natives
+namespace KD.Dova.Natives
 {
     internal unsafe struct JNINativeMethod
     {

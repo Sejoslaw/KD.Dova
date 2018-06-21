@@ -1,7 +1,7 @@
 ﻿using KD.Dova.Core;
 using System;
 
-namespace KD.Dova.API
+namespace KD.Dova.Api
 {
     /// <summary>
     /// Gateway which is responsible for calling JNI methods.
@@ -14,17 +14,11 @@ namespace KD.Dova.API
         JavaRuntime Runtime { get; }
 
         /// <summary>
-        /// Returns specified Java package.
-        /// </summary>
-        /// <param name="pathOrName"></param>
-        /// <returns></returns>
-        JPackage GetPackage(string pathOrName);
-        /// <summary>
         /// Loads specified class.
         /// </summary>
         /// <param name="className"></param>
         /// <returns></returns>
-        JType LoadClass(string className, params object[] parameters);
+        JType LoadClass(string className, params object[] genericTypes);
         /// <summary>
         /// Returns new Java object by it's name, using the constructor with specified parameters.
         /// </summary>
@@ -32,6 +26,13 @@ namespace KD.Dova.API
         /// <param name="parameters"></param>
         /// <returns></returns>
         JObject New(string typeName, params object[] parameters);
+        /// <summary>
+        /// Creates new Java object from specified Java type.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        JObject New(JType type, params object[] parameters);
         /// <summary>
         /// Invokes method by it's name.
         /// </summary>
@@ -47,7 +48,7 @@ namespace KD.Dova.API
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        T InvokeStaticMethod<T>(string className, string methodName, params object[] parameters);
+        T InvokeStaticMethod<T>(IntPtr typeId, string methodName, params object[] parameters);
         /// <summary>
         /// Returns value of specified field.
         /// </summary>
@@ -62,7 +63,7 @@ namespace KD.Dova.API
         /// <param name="className"></param>
         /// <param name="fieldName"></param>
         /// <returns></returns>
-        T GetStaticFieldValue<T>(string className, string fieldName);
+        T GetStaticFieldValue<T>(JType javaType, string fieldName);
         /// <summary>
         /// Returns reference to specified field.
         /// This should be called when the field is an object.
@@ -84,6 +85,6 @@ namespace KD.Dova.API
         /// <param name="className"></param>
         /// <param name="fieldName"></param>
         /// <param name="newValue"></param>
-        void SetStaticFieldValue(string className, string fieldName, object newValue);
+        void SetStaticFieldValue(JType javaType, string fieldName, object newValue);
     }
 }

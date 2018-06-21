@@ -8,7 +8,7 @@
 
         protected override void StartCleaning(FunctionDefinition funcDef)
         {
-            this.CleanParams(funcDef, AbstractGenerator.STRING_ATTRIBUTE, null, "name");
+            this.CleanParams(funcDef, AbstractGenerator.STRING_ATTRIBUTE, "string", "name");
         }
     }
 }

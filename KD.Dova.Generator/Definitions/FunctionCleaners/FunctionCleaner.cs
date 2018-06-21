@@ -1,4 +1,6 @@
-﻿namespace KD.Dova.Generator.Definitions.FunctionCleaners
+﻿using System.Linq;
+
+namespace KD.Dova.Generator.Definitions.FunctionCleaners
 {
     /// <summary>
     /// Used to clean single function.
@@ -19,6 +21,11 @@
             {
                 this.StartCleaning(funcDef);
             }
+        }
+
+        protected FieldDefinition FindField(FunctionDefinition funcDef, string fieldName)
+        {
+            return funcDef.Params.Where(param => param.Name.Contains(fieldName)).FirstOrDefault();
         }
 
         protected void CleanParams(FunctionDefinition funcDef, string newAttribute, string newFieldType, params string[] parameters)

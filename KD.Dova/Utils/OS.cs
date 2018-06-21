@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KD.Dova.Commons
+namespace KD.Dova.Utils
 {
     /// <summary>
     /// Shortform of "Operating System".

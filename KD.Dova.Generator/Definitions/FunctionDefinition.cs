@@ -25,6 +25,7 @@ namespace KD.Dova.Generator.Definitions
             this.Cleaners.Add(new GetIdCleaner("GetStaticField"));
             this.Cleaners.Add(new GetIdCleaner("GetMethod"));
             this.Cleaners.Add(new GetIdCleaner("GetStaticMethod"));
+            this.Cleaners.Add(new NewObjectCleaner("NewObject"));
         }
 
         public override string ToString()

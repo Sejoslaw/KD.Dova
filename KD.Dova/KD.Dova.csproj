@@ -21,8 +21,4 @@
     <Folder Include="Natives\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\KD.Dova.Commons\KD.Dova.Commons.csproj" />
-  </ItemGroup>
-
 </Project>

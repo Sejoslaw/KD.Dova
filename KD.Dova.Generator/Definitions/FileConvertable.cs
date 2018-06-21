@@ -16,12 +16,14 @@ namespace KD.Dova.Generator.Definitions
             fileLines.Add("// For more information go to: https://github.com/Sejoslaw/KD.Dova");
             fileLines.Add("");
             fileLines.Add("");
+            fileLines.Add("using KD.Dova.Core;");
+            fileLines.Add("using KD.Dova.Utils;");
             fileLines.Add("using System;");
 
             this.AddLibraries(fileLines);
 
             fileLines.Add("");
-            fileLines.Add("namespace KD.Dova.Proxy.Natives");
+            fileLines.Add("namespace KD.Dova.Natives");
             fileLines.Add("{");
 
             this.AddMainContent(fileLines);

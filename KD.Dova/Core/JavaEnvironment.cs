@@ -1,4 +1,4 @@
-﻿using KD.Dova.Proxy.Natives;
+﻿using KD.Dova.Natives;
 using System;
 using System.Runtime.InteropServices;
 
@@ -80,6 +80,23 @@ namespace KD.Dova.Core
             }
 
             return null;
+        }
+
+        internal string CatchJavaException()
+        {
+            IntPtr ex = this.JNIEnv.ExceptionOccurred();
+            if (ex != null)
+            {
+                this.JNIEnv.ExceptionClear();
+
+                IntPtr exClass = this.JNIEnv.GetObjectClass(ex);
+                IntPtr methodId = this.JNIEnv.GetMethodID(exClass, "toString", "()Ljava/lang/String;");
+                IntPtr javaStringPtr = this.JNIEnv.CallObjectMethod(ex, methodId, new NativeValue());
+
+                string javaString = this.ReadJavaString(javaStringPtr);
+                return javaString;
+            }
+            return string.Empty;
         }
     }
 }

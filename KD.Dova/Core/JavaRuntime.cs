@@ -1,5 +1,5 @@
-﻿using KD.Dova.Commons;
-using KD.Dova.Proxy.Natives;
+﻿using KD.Dova.Api;
+using KD.Dova.Natives;
 using KD.Dova.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,6 +18,13 @@ namespace KD.Dova.Core
     public unsafe sealed class JavaRuntime : IDisposable
     {
         public JavaEnvironment JavaEnvironment { get; private set; }
+
+        private IGateway Gateway { get; }
+
+        public JavaRuntime()
+        {
+            this.Gateway = new GatewayManager(this);
+        }
 
         public void Load(IDictionary<string, string> parameters = null, int jniVersion = JNIConstants.JNI_VERSION_1_8, bool attachToExistingJVM = false)
         {
@@ -113,15 +120,8 @@ namespace KD.Dova.Core
         /// <param name="pathOrName"></param>
         public void AddArchive(string pathOrName)
         {
-        }
-
-        /// <summary>
-        /// <see cref="IGateway"/>
-        /// </summary>
-        /// <param name="pathOrName"></param>
-        /// <returns></returns>
-        public JPackage GetPackage(string pathOrName)
-        {
+            JType javaType = this.Gateway.LoadClass("System");
+            javaType.InvokeStaticMethod<object>("loadLibrary", pathOrName);
         }
 
         /// <summary>
@@ -132,6 +132,8 @@ namespace KD.Dova.Core
         /// <returns></returns>
         public JObject New(string typeName, params object[] parameters)
         {
+            JObject obj = this.Gateway.New(typeName, parameters);
+            return obj;
         }
 
         /// <summary>
@@ -142,6 +144,8 @@ namespace KD.Dova.Core
         /// <returns></returns>
         public JType GetType(string typeName, params object[] genericTypes)
         {
+            JType jt = this.Gateway.LoadClass(typeName, genericTypes);
+            return jt;
         }
 
         #endregion

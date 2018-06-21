@@ -3,11 +3,12 @@
 // For more information go to: https://github.com/Sejoslaw/KD.Dova
 
 
+using KD.Dova.Core;
+using KD.Dova.Utils;
 using System;
-using KD.Dova.Commons;
 using System.Runtime.InteropServices;
 
-namespace KD.Dova.Proxy.Natives
+namespace KD.Dova.Natives
 {
     internal static unsafe class JNINativeImports_Windows
     {

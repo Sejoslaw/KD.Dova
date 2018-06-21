@@ -3,9 +3,11 @@
 // For more information go to: https://github.com/Sejoslaw/KD.Dova
 
 
+using KD.Dova.Core;
+using KD.Dova.Utils;
 using System;
 
-namespace KD.Dova.Proxy.Natives
+namespace KD.Dova.Natives
 {
     internal enum jobjectRefType
     {

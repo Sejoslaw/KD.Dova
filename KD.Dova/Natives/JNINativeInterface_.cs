@@ -3,14 +3,14 @@
 // For more information go to: https://github.com/Sejoslaw/KD.Dova
 
 
-using System;
 using KD.Dova.Core;
 using KD.Dova.Utils;
+using System;
 using System.Security;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-namespace KD.Dova.Proxy.Natives
+namespace KD.Dova.Natives
 {
     internal unsafe struct JNINativeInterface
     {
@@ -21,7 +21,7 @@ namespace KD.Dova.Proxy.Natives
         public delegate IntPtr DefineClass(IntPtr env, IntPtr name, IntPtr loader, IntPtr buf, IntPtr len);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr FindClass(IntPtr env, IntPtr name);
+        public delegate IntPtr FindClass(IntPtr env, [MarshalAs(UnmanagedType.LPStr)] string name);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr FromReflectedMethod(IntPtr env, IntPtr method);
@@ -87,7 +87,7 @@ namespace KD.Dova.Proxy.Natives
         public delegate IntPtr AllocObject(IntPtr env, IntPtr clazz);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewObject(IntPtr env, IntPtr clazz, IntPtr methodID, IntPtr args);
+        public delegate IntPtr NewObject(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetObjectClass(IntPtr env, IntPtr obj);
@@ -96,7 +96,7 @@ namespace KD.Dova.Proxy.Natives
         public delegate IntPtr IsInstanceOf(IntPtr env, IntPtr obj, IntPtr clazz);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetMethodID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig);
+        public delegate IntPtr GetMethodID(IntPtr env, IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr CallObjectMethod(IntPtr env, IntPtr obj, IntPtr methodID, params NativeValue[] args);
@@ -159,7 +159,7 @@ namespace KD.Dova.Proxy.Natives
         public delegate void CallNonvirtualVoidMethod(IntPtr env, IntPtr obj, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetFieldID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig);
+        public delegate IntPtr GetFieldID(IntPtr env, IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetObjectField(IntPtr env, IntPtr obj, IntPtr fieldID);
@@ -216,7 +216,7 @@ namespace KD.Dova.Proxy.Natives
         public delegate void SetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID, double val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetStaticMethodID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig);
+        public delegate IntPtr GetStaticMethodID(IntPtr env, IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr CallStaticObjectMethod(IntPtr env, IntPtr clazz, IntPtr methodID, params NativeValue[] args);
@@ -249,7 +249,7 @@ namespace KD.Dova.Proxy.Natives
         public delegate void CallStaticVoidMethod(IntPtr env, IntPtr cls, IntPtr methodID, params NativeValue[] args);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetStaticFieldID(IntPtr env, IntPtr clazz, IntPtr name, IntPtr sig);
+        public delegate IntPtr GetStaticFieldID(IntPtr env, IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetStaticObjectField(IntPtr env, IntPtr clazz, IntPtr fieldID);
@@ -726,7 +726,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr FindClass(IntPtr name)
+        public IntPtr FindClass([MarshalAs(UnmanagedType.LPStr)] string name)
         {
             if (findClass == null)
             {
@@ -941,7 +941,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr NewObject(IntPtr clazz, IntPtr methodID, IntPtr args)
+        public IntPtr NewObject(IntPtr clazz, IntPtr methodID, params NativeValue[] args)
         {
             if (newObject == null)
             {
@@ -971,7 +971,7 @@ namespace KD.Dova.Proxy.Natives
             return ret;
         }
 
-        public IntPtr GetMethodID(IntPtr clazz, IntPtr name, IntPtr sig)
+        public IntPtr GetMethodID(IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig)
         {
             if (getMethodID == null)
             {
@@ -1179,7 +1179,7 @@ namespace KD.Dova.Proxy.Natives
             callNonvirtualVoidMethod.Invoke(this.NativePointer, obj, clazz, methodID, args);
         }
 
-        public IntPtr GetFieldID(IntPtr clazz, IntPtr name, IntPtr sig)
+        public IntPtr GetFieldID(IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig)
         {
             if (getFieldID == null)
             {
@@ -1360,7 +1360,7 @@ namespace KD.Dova.Proxy.Natives
             setDoubleField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public IntPtr GetStaticMethodID(IntPtr clazz, IntPtr name, IntPtr sig)
+        public IntPtr GetStaticMethodID(IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig)
         {
             if (getStaticMethodID == null)
             {
@@ -1469,7 +1469,7 @@ namespace KD.Dova.Proxy.Natives
             callStaticVoidMethod.Invoke(this.NativePointer, cls, methodID, args);
         }
 
-        public IntPtr GetStaticFieldID(IntPtr clazz, IntPtr name, IntPtr sig)
+        public IntPtr GetStaticFieldID(IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig)
         {
             if (getStaticFieldID == null)
             {

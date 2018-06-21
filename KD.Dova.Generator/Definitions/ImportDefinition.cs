@@ -19,7 +19,6 @@ namespace KD.Dova.Generator.Definitions
 
         internal override void AddLibraries(List<string> fileLines)
         {
-            fileLines.Add("using KD.Dova.Commons;");
             fileLines.Add("using System.Runtime.InteropServices;");
         }
 

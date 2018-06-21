@@ -1,5 +1,4 @@
 ﻿using KD.Dova.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,8 +20,6 @@ namespace KD.Dova.Generator.Definitions
 
         internal override void AddLibraries(List<string> fileLines)
         {
-            fileLines.Add("using KD.Dova.Core;");
-            fileLines.Add("using KD.Dova.Utils;");
             fileLines.Add("using System.Security;");
             fileLines.Add("using System.Runtime.InteropServices;");
             fileLines.Add("using System.Runtime.CompilerServices;");

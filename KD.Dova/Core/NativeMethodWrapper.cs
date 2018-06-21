@@ -1,4 +1,4 @@
-﻿using KD.Dova.Proxy.Natives;
+﻿using KD.Dova.Natives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
