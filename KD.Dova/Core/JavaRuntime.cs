@@ -120,7 +120,7 @@ namespace KD.Dova.Core
         /// </summary>
         /// <param name="pathOrName"></param>
         /// <returns></returns>
-        public JArchive GetArchive(string pathOrName)
+        public JPackage GetPackage(string pathOrName)
         {
         }
 

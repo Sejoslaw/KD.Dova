@@ -14,12 +14,11 @@ namespace KD.Dova.API
         JavaRuntime Runtime { get; }
 
         /// <summary>
-        /// Returns specified Java archive.
-        /// In the most cases it will return the JAR file.
+        /// Returns specified Java package.
         /// </summary>
         /// <param name="pathOrName"></param>
         /// <returns></returns>
-        JArchive GetArchive(string pathOrName);
+        JPackage GetPackage(string pathOrName);
         /// <summary>
         /// Loads specified class.
         /// </summary>
