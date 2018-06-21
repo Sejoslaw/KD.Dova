@@ -123,7 +123,7 @@ namespace KD.Dova.Generator.Definitions
                     {
                         new FieldDefinition { IsOut = true, Type = AbstractGenerator.POINTER, Name = "pVM" },
                         new FieldDefinition { Type = "int", Name = "jSize1" },
-                        new FieldDefinition { IsUsingOutAttribute = true, IsOut = true, Type = "int", Name = "jSize2" }
+                        new FieldDefinition { CustomAttribute = "[Out]", IsOut = true, Type = "int", Name = "jSize2" }
                     })
             });
 

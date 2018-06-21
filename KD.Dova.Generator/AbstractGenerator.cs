@@ -11,6 +11,7 @@ namespace KD.Dova.Generator
     {
         internal static string POINTER = "IntPtr";
         internal static string JAVA_ARGS = "JavaVMInitArgs";
+        internal static string STRING_ATTRIBUTE = "[MarshalAs(UnmanagedType.LPStr)]";
 
         internal void Generate(string[] lines, string lineBeginning, string lineEnding, Action<int, string> CheckLine)
         {

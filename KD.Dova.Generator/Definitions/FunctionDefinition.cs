@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KD.Dova.Generator.Definitions.FunctionCleaners;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace KD.Dova.Generator.Definitions
@@ -11,10 +12,19 @@ namespace KD.Dova.Generator.Definitions
         public string ReturnType { get; set; }
         public string Name { get; set; }
         public List<FieldDefinition> Params { get; set; }
+        public List<FunctionCleaner> Cleaners { get; }
 
         public FunctionDefinition()
         {
             this.Params = new List<FieldDefinition>();
+            this.Cleaners = new List<FunctionCleaner>();
+
+            // Add custom functions cleaners
+            this.Cleaners.Add(new FindClassCleaner("FindClass"));
+            this.Cleaners.Add(new GetIdCleaner("GetField"));
+            this.Cleaners.Add(new GetIdCleaner("GetStaticField"));
+            this.Cleaners.Add(new GetIdCleaner("GetMethod"));
+            this.Cleaners.Add(new GetIdCleaner("GetStaticMethod"));
         }
 
         public override string ToString()
@@ -22,7 +32,7 @@ namespace KD.Dova.Generator.Definitions
             return this.ToString(true, true, true);
         }
 
-        public string ToString(bool includeReturnType, bool includeType, bool includeOutArgument)
+        public string ToString(bool includeReturnType, bool includeType, bool includeArgument)
         {
             string func = "";
 
@@ -32,7 +42,7 @@ namespace KD.Dova.Generator.Definitions
             }
 
             func += $"{ this.Name }(";
-            string parameters = this.BuildParameters(includeType, includeOutArgument);
+            string parameters = this.BuildParameters(includeType, includeArgument);
             func += parameters;
 
             if (!func.EndsWith(")"))
@@ -45,7 +55,7 @@ namespace KD.Dova.Generator.Definitions
             return func;
         }
 
-        public string BuildParameters(bool includeType, bool includeOutArgument)
+        public string BuildParameters(bool includeType, bool includeArgument)
         {
             string ret = "";
 
@@ -53,11 +63,11 @@ namespace KD.Dova.Generator.Definitions
             {
                 FieldDefinition fieldDef = this.Params[i];
 
-                if (includeOutArgument)
+                if (includeArgument)
                 {
-                    if (fieldDef.IsUsingOutAttribute)
+                    if (!string.IsNullOrEmpty(fieldDef.CustomAttribute))
                     {
-                        ret += $"[Out] ";
+                        ret += $"{ fieldDef.CustomAttribute } ";
                     }
                 }
 
@@ -117,7 +127,6 @@ namespace KD.Dova.Generator.Definitions
                 if (!string.IsNullOrEmpty(prim))
                 {
                     def.Type = prim + "*";
-                    return;
                 }
             }
 
@@ -135,12 +144,10 @@ namespace KD.Dova.Generator.Definitions
                         (def.Name.Equals("len") || (def.Name.Equals("len)"))))
                     {
                         def.Type = "int";
-                        return;
                     }
                     else
                     {
                         def.Type = prim;
-                        return;
                     }
                 }
             }
@@ -151,15 +158,20 @@ namespace KD.Dova.Generator.Definitions
                 if (!this.Name.ToLower().Contains("array"))
                 {
                     this.ReturnType = prim;
-                    return;
                 }
             }
 
             if (this.Name.ToLower().EndsWith("length"))
             {
                 this.ReturnType = "int";
-                return;
             }
+
+            this.RunFunctionCleaners();
+        }
+
+        private void RunFunctionCleaners()
+        {
+            this.Cleaners.ForEach(cleaner => cleaner.Clean(this));
         }
 
         private string GetPrimitiveType(string str)

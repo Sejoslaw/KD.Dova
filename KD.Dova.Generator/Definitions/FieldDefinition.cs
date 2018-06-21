@@ -13,10 +13,7 @@
         /// Use "out" keyword.
         /// </summary>
         public bool IsOut { get; set; }
-        /// <summary>
-        /// Use "[Out]" attribute.
-        /// </summary>
-        public bool IsUsingOutAttribute { get; set; }
+        public string CustomAttribute { get; set; }
 
         public override string ToString()
         {
