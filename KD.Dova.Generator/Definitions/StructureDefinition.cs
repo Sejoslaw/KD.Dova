@@ -106,7 +106,7 @@ namespace KD.Dova.Generator.Definitions
                     function = function.Substring(0, function.Length - 1);
                     string variableName = func.Name.WithFirstCharLower().ReplaceIfKeyWord();
 
-                    string parameters = func.BuildParameters(false);
+                    string parameters = func.BuildParameters(false, false);
                     if (parameters.EndsWith(")"))
                     {
                         parameters = parameters.Substring(0, parameters.Length - 1);
@@ -208,7 +208,7 @@ namespace KD.Dova.Generator.Definitions
             {
                 fileLines.Add("    [StructLayout(LayoutKind.Sequential), NativeCppClass]");
             }
-            
+
             fileLines.Add($"    internal unsafe struct { this.Name }");
             fileLines.Add("    {");
 

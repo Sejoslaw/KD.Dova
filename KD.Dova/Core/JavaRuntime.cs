@@ -1,4 +1,5 @@
-﻿using KD.Dova.Proxy.Natives;
+﻿using KD.Dova.Commons;
+using KD.Dova.Proxy.Natives;
 using KD.Dova.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,29 +19,11 @@ namespace KD.Dova.Core
     {
         public JavaEnvironment JavaEnvironment { get; private set; }
 
-        public bool IsWindows
-        {
-            get
-            {
-                int p = (int)Environment.OSVersion.Platform;
-                return (p == 0) || (p == 1) || (p == 2) || (p == 3);
-            }
-        }
-
-        public bool IsLinux
-        {
-            get
-            {
-                int p = (int)Environment.OSVersion.Platform;
-                return (p == 4) || (p == 6) || (p == 128);
-            }
-        }
-
         public void Load(IDictionary<string, string> parameters = null, int jniVersion = JNIConstants.JNI_VERSION_1_8, bool attachToExistingJVM = false)
         {
             string path = "";
 
-            if (this.IsWindows)
+            if (OS.IsWindows)
             {
                 path = this.GetWindowsPath();
             }

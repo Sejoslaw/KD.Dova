@@ -4,11 +4,12 @@
 
 
 using System;
+using KD.Dova.Commons;
 using System.Runtime.InteropServices;
 
 namespace KD.Dova.Proxy.Natives
 {
-    internal static unsafe class JNINativeImports
+    internal static unsafe class JNINativeImports_Windows
     {
         [DllImport("jvm.dll", CallingConvention = CallingConvention.Winapi)]
         internal static extern int JNI_GetDefaultJavaVMInitArgs(JavaVMInitArgs* args);
@@ -26,4 +27,93 @@ namespace KD.Dova.Proxy.Natives
         internal static extern int JNI_OnUnload(JavaVM_* javaVM);
 
     }
+
+    internal static unsafe class JNINativeImports_Linux
+    {
+        [DllImport("libjvm.so.6", CallingConvention = CallingConvention.Winapi)]
+        internal static extern int JNI_GetDefaultJavaVMInitArgs(JavaVMInitArgs* args);
+
+        [DllImport("libjvm.so.6", CallingConvention = CallingConvention.Winapi)]
+        internal static extern int JNI_CreateJavaVM(out IntPtr pVM, out IntPtr pEnv, JavaVMInitArgs* args);
+
+        [DllImport("libjvm.so.6", CallingConvention = CallingConvention.Winapi)]
+        internal static extern int JNI_GetCreatedJavaVMs(out IntPtr pVM, int jSize1, [Out] out int jSize2);
+
+        [DllImport("libjvm.so.6", CallingConvention = CallingConvention.Winapi)]
+        internal static extern int JNI_OnLoad(JavaVM_* javaVM);
+
+        [DllImport("libjvm.so.6", CallingConvention = CallingConvention.Winapi)]
+        internal static extern int JNI_OnUnload(JavaVM_* javaVM);
+
+    }
+
+    internal static unsafe class JNINativeImports
+    {
+        internal static int JNI_GetDefaultJavaVMInitArgs(JavaVMInitArgs* args)
+        {
+            if (OS.IsWindows)
+            {
+                return JNINativeImports_Windows.JNI_GetDefaultJavaVMInitArgs(args);
+            }
+            if (OS.IsLinux)
+            {
+                return JNINativeImports_Linux.JNI_GetDefaultJavaVMInitArgs(args);
+            }
+            throw new ArgumentException("Unknown OS. Please check if there is an implementation of KD.Dova for your operating system.");
+        }
+
+        internal static int JNI_CreateJavaVM(out IntPtr pVM, out IntPtr pEnv, JavaVMInitArgs* args)
+        {
+            if (OS.IsWindows)
+            {
+                return JNINativeImports_Windows.JNI_CreateJavaVM(out pVM, out pEnv, args);
+            }
+            if (OS.IsLinux)
+            {
+                return JNINativeImports_Linux.JNI_CreateJavaVM(out pVM, out pEnv, args);
+            }
+            throw new ArgumentException("Unknown OS. Please check if there is an implementation of KD.Dova for your operating system.");
+        }
+
+        internal static int JNI_GetCreatedJavaVMs(out IntPtr pVM, int jSize1, [Out] out int jSize2)
+        {
+            if (OS.IsWindows)
+            {
+                return JNINativeImports_Windows.JNI_GetCreatedJavaVMs(out pVM, jSize1, out jSize2);
+            }
+            if (OS.IsLinux)
+            {
+                return JNINativeImports_Linux.JNI_GetCreatedJavaVMs(out pVM, jSize1, out jSize2);
+            }
+            throw new ArgumentException("Unknown OS. Please check if there is an implementation of KD.Dova for your operating system.");
+        }
+
+        internal static int JNI_OnLoad(JavaVM_* javaVM)
+        {
+            if (OS.IsWindows)
+            {
+                return JNINativeImports_Windows.JNI_OnLoad(javaVM);
+            }
+            if (OS.IsLinux)
+            {
+                return JNINativeImports_Linux.JNI_OnLoad(javaVM);
+            }
+            throw new ArgumentException("Unknown OS. Please check if there is an implementation of KD.Dova for your operating system.");
+        }
+
+        internal static int JNI_OnUnload(JavaVM_* javaVM)
+        {
+            if (OS.IsWindows)
+            {
+                return JNINativeImports_Windows.JNI_OnUnload(javaVM);
+            }
+            if (OS.IsLinux)
+            {
+                return JNINativeImports_Linux.JNI_OnUnload(javaVM);
+            }
+            throw new ArgumentException("Unknown OS. Please check if there is an implementation of KD.Dova for your operating system.");
+        }
+
+    }
+
 }

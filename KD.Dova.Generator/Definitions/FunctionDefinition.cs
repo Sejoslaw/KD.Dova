@@ -19,8 +19,20 @@ namespace KD.Dova.Generator.Definitions
 
         public override string ToString()
         {
-            string func = $"{ this.ReturnType } { this.Name }(";
-            string parameters = this.BuildParameters(true);
+            return this.ToString(true, true, true);
+        }
+
+        public string ToString(bool includeReturnType, bool includeType, bool includeOutArgument)
+        {
+            string func = "";
+
+            if (includeReturnType)
+            {
+                func += $"{ this.ReturnType } ";
+            }
+
+            func += $"{ this.Name }(";
+            string parameters = this.BuildParameters(includeType, includeOutArgument);
             func += parameters;
 
             if (!func.EndsWith(")"))
@@ -33,7 +45,7 @@ namespace KD.Dova.Generator.Definitions
             return func;
         }
 
-        public string BuildParameters(bool includeType)
+        public string BuildParameters(bool includeType, bool includeOutArgument)
         {
             string ret = "";
 
@@ -41,9 +53,12 @@ namespace KD.Dova.Generator.Definitions
             {
                 FieldDefinition fieldDef = this.Params[i];
 
-                if (fieldDef.IsUsingOutAttribute)
+                if (includeOutArgument)
                 {
-                    ret += $"[Out] ";
+                    if (fieldDef.IsUsingOutAttribute)
+                    {
+                        ret += $"[Out] ";
+                    }
                 }
 
                 if (fieldDef.IsOut) // out pointer

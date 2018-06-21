@@ -12,4 +12,8 @@
     <RepositoryUrl>https://github.com/Sejoslaw/KD.Dova</RepositoryUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KD.Dova.Commons\KD.Dova.Commons.csproj" />
+  </ItemGroup>
+
 </Project>

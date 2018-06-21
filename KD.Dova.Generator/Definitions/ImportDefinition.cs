@@ -5,32 +5,84 @@ namespace KD.Dova.Generator.Definitions
     internal class ImportDefinition : FileConvertable
     {
         public List<SingleImportDefinition> Imports { get; }
+        public List<SingleImportPlatformDefinition> Platforms { get; }
 
         public ImportDefinition()
         {
             this.Imports = new List<SingleImportDefinition>();
+            this.Platforms = new List<SingleImportPlatformDefinition>();
+
             this.ImportImports();
+            this.ImportPlatforms();
             this.Name = "JNINativeImports";
         }
 
         internal override void AddLibraries(List<string> fileLines)
         {
+            fileLines.Add("using KD.Dova.Commons;");
             fileLines.Add("using System.Runtime.InteropServices;");
         }
 
         internal override void AddMainContent(List<string> fileLines)
         {
+            //Platform specific DllImport classes
+            foreach (var platform in this.Platforms)
+            {
+                fileLines.Add($"    internal static unsafe class { platform.PlatformFullName }");
+                fileLines.Add("    {");
+
+                foreach (SingleImportDefinition def in this.Imports)
+                {
+                    fileLines.Add($"        { platform.DllImport }");
+                    fileLines.Add($"        internal static extern { def.ToString() }");
+                    fileLines.Add("");
+                }
+
+                fileLines.Add("    }");
+                fileLines.Add("");
+            }
+
+            // Main class which will handle different platforms
+
             fileLines.Add($"    internal static unsafe class JNINativeImports");
             fileLines.Add("    {");
 
             foreach (SingleImportDefinition def in this.Imports)
             {
-                fileLines.Add($"        { def.ToAttribute() }");
-                fileLines.Add($"        internal static extern { def.ToString() }");
+                string functionName = def.ToString();
+                fileLines.Add($"        internal static { functionName.Substring(0, functionName.Length - 1) }");
+                fileLines.Add("        {");
+
+                foreach (var platform in this.Platforms)
+                {
+                    fileLines.Add($"            if ({ platform.FunctionName })");
+                    fileLines.Add("            {");
+                    fileLines.Add($"                return { platform.PlatformFullName }.{ def.ToString(false, false, false) }");
+                    fileLines.Add("            }");
+                }
+
+                fileLines.Add("            throw new ArgumentException(\"Unknown OS. Please check if there is an implementation of KD.Dova for your operating system.\");");
+                fileLines.Add("        }");
                 fileLines.Add("");
             }
 
             fileLines.Add("    }");
+            fileLines.Add("");
+        }
+
+        private void ImportPlatforms()
+        {
+            this.Platforms.Add(new SingleImportPlatformDefinition
+            {
+                PlatformName = "Windows",
+                DllImport = "[DllImport(\"jvm.dll\", CallingConvention = CallingConvention.Winapi)]"
+            });
+
+            this.Platforms.Add(new SingleImportPlatformDefinition
+            {
+                PlatformName = "Linux",
+                DllImport = "[DllImport(\"libjvm.so.6\", CallingConvention = CallingConvention.Winapi)]"
+            });
         }
 
         /// <summary>
