@@ -20,9 +20,10 @@ namespace KD.Dova.Generator.Definitions
 
         internal override void AddLibraries(List<string> fileLines)
         {
-            fileLines.Add("using System.Security;");
-            fileLines.Add("using System.Runtime.InteropServices;");
             fileLines.Add("using System.Runtime.CompilerServices;");
+            fileLines.Add("using System.Runtime.InteropServices;");
+            fileLines.Add("using System.Security;");
+            fileLines.Add("using System.Text;");
         }
 
         internal override void AddMainContent(List<string> fileLines)

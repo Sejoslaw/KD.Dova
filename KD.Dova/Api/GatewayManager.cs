@@ -1,5 +1,8 @@
 ﻿using System;
 using KD.Dova.Core;
+using KD.Dova.Core.Callers;
+using KD.Dova.Extensions;
+using KD.Dova.Utils;
 
 namespace KD.Dova.Api
 {
@@ -10,36 +13,45 @@ namespace KD.Dova.Api
     {
         public JavaRuntime Runtime { get; }
 
+        private CallersFactory CallersFactory { get; }
+
         internal GatewayManager(JavaRuntime runtime)
         {
             this.Runtime = runtime;
-        }
-
-        public JObject GetFieldRef(IntPtr objectId, string fieldName)
-        {
+            this.CallersFactory = new CallersFactory(this);
         }
 
         public T GetFieldValue<T>(IntPtr objectId, string fieldName)
         {
+            return this.ReturnFieldValue<T>(objectId, fieldName, false,
+                (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetFieldID(id, name, sig));
         }
 
         public T GetStaticFieldValue<T>(JType javaType, string fieldName)
         {
+            return this.ReturnFieldValue<T>(javaType.JavaType, fieldName, true,
+                (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetStaticFieldID(id, name, sig));
         }
 
         public T InvokeMethod<T>(IntPtr objectId, string methodName, params object[] parameters)
         {
+            return this.ReturnMethodInvoke<T>(objectId, methodName, parameters, false,
+                (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetMethodID(id, name, sig));
         }
 
-        public T InvokeStaticMethod<T>(IntPtr typeId, string methodName, params object[] parameters)
+        public T InvokeStaticMethod<T>(JType javaType, string methodName, params object[] parameters)
         {
+            return this.ReturnMethodInvoke<T>(javaType.JavaType, methodName, parameters, false,
+                (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetStaticMethodID(id, name, sig));
         }
 
         public JType LoadClass(string className, params object[] genericTypes)
         {
+            string name = className.Replace(".", "/");
+
             try
             {
-                IntPtr javaClass = this.Runtime.JavaEnvironment.JNIEnv.FindClass(className);
+                IntPtr javaClass = this.Runtime.JavaEnvironment.JNIEnv.FindClass(name);
                 JType type = new JType(this, className, javaClass);
                 return type;
             }
@@ -84,12 +96,56 @@ namespace KD.Dova.Api
 
         public void SetFieldValue(IntPtr objectId, string fieldName, object newValue)
         {
-            // TODO:
+            throw new NotSupportedException();
         }
 
         public void SetStaticFieldValue(JType javaType, string fieldName, object newValue)
         {
-            // TODO:
+            throw new NotSupportedException();
+        }
+
+        private T ReturnFieldValue<T>(IntPtr ptr, string fieldName, bool isStatic, Func<IntPtr, string, string, IntPtr> GetFieldId)
+        {
+            return this.ReturnValue<T>(ptr, fieldName,
+                (id, name, sig) =>
+                {
+                    IntPtr fieldId = GetFieldId(id, fieldName, sig);
+
+                    return this.CallersFactory.GetFieldValue<T>(ptr, fieldId, isStatic);
+                });
+        }
+
+        private T ReturnMethodInvoke<T>(IntPtr ptr, string methodName, object[] parameters, bool isStatic, Func<IntPtr, string, string, IntPtr> GetMethodId)
+        {
+            return this.ReturnValue<T>(ptr, methodName,
+                (id, name, sig) =>
+                {
+                    IntPtr methodId = GetMethodId(id, methodName, sig);
+                    NativeValue[] args = parameters.ToNativeValueArray(this.Runtime);
+
+                    return this.CallersFactory.InvokeMethod<T>(ptr, methodId, args, isStatic);
+                });
+        }
+
+        private T ReturnValue<T>(IntPtr id, string name, Func<IntPtr, string, string, T> GetId)
+        {
+            if (GetId == null)
+            {
+                return default(T);
+            }
+
+            try
+            {
+                Type retType = typeof(T);
+                JavaType sigType = retType.ToJniSignature();
+                string jniSignature = sigType.JniField;
+
+                return GetId(id, name, jniSignature);
+            }
+            catch
+            {
+                throw new ArgumentException(this.Runtime.JavaEnvironment.CatchJavaException());
+            }
         }
     }
 }

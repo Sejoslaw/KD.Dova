@@ -42,16 +42,6 @@ namespace KD.Dova.Api
         }
 
         /// <summary>
-        /// Returns value of the custom-type field.
-        /// </summary>
-        /// <param name="fieldName"></param>
-        /// <returns></returns>
-        public JObject GetFieldRef(string fieldName)
-        {
-            return this.Gateway.GetFieldRef(this.JavaObject, fieldName);
-        }
-
-        /// <summary>
         /// Sets the value of specified field.
         /// </summary>
         /// <param name="fieldName"></param>

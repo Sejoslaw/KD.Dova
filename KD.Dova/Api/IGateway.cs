@@ -48,7 +48,7 @@ namespace KD.Dova.Api
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        T InvokeStaticMethod<T>(IntPtr typeId, string methodName, params object[] parameters);
+        T InvokeStaticMethod<T>(JType javaType, string methodName, params object[] parameters);
         /// <summary>
         /// Returns value of specified field.
         /// </summary>
@@ -64,14 +64,6 @@ namespace KD.Dova.Api
         /// <param name="fieldName"></param>
         /// <returns></returns>
         T GetStaticFieldValue<T>(JType javaType, string fieldName);
-        /// <summary>
-        /// Returns reference to specified field.
-        /// This should be called when the field is an object.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="fieldName"></param>
-        /// <returns></returns>
-        JObject GetFieldRef(IntPtr objectId, string fieldName);
         /// <summary>
         /// Sets the new value of the field.
         /// </summary>

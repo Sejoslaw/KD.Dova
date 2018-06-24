@@ -26,6 +26,7 @@ namespace KD.Dova.Generator.Definitions
             this.Cleaners.Add(new GetIdCleaner("GetMethod"));
             this.Cleaners.Add(new GetIdCleaner("GetStaticMethod"));
             this.Cleaners.Add(new NewObjectCleaner("NewObject"));
+            this.Cleaners.Add(new NewStringCleaner("NewString"));
         }
 
         public override string ToString()
@@ -131,25 +132,17 @@ namespace KD.Dova.Generator.Definitions
                 }
             }
 
-            if (this.Name.ToLower().StartsWith("set") || this.Name.ToLower().StartsWith("new"))
+            foreach (FieldDefinition def in this.Params)
             {
-                FieldDefinition def = this.Params.LastOrDefault();
-                if (def == null)
+                if (def.Name.StartsWith("len") ||
+                    def.Name.StartsWith("capacity") ||
+                    def.Name.StartsWith("mode"))
                 {
-                    return;
+                    def.Type = "int";
                 }
-
-                if (!string.IsNullOrEmpty(prim))
+                else if (def.Name.StartsWith("buf"))
                 {
-                    if (this.Name.ToLower().Contains("array") &&
-                        (def.Name.Equals("len") || (def.Name.Equals("len)"))))
-                    {
-                        def.Type = "int";
-                    }
-                    else
-                    {
-                        def.Type = prim;
-                    }
+                    def.Type = "StringBuilder";
                 }
             }
 

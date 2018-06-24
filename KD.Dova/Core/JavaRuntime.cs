@@ -17,14 +17,9 @@ namespace KD.Dova.Core
     /// </summary>
     public unsafe sealed class JavaRuntime : IDisposable
     {
-        public JavaEnvironment JavaEnvironment { get; private set; }
+        internal JavaEnvironment JavaEnvironment { get; private set; }
 
-        private IGateway Gateway { get; }
-
-        public JavaRuntime()
-        {
-            this.Gateway = new GatewayManager(this);
-        }
+        private IGateway Gateway { get; set; }
 
         public void Load(IDictionary<string, string> parameters = null, int jniVersion = JNIConstants.JNI_VERSION_1_8, bool attachToExistingJVM = false)
         {
@@ -101,6 +96,13 @@ namespace KD.Dova.Core
             {
                 this.AttachToExistingJVM(jvmInitArgs);
             }
+
+            this.Gateway = new GatewayManager(this);
+        }
+
+        public string GetJavaVersion()
+        {
+            return this.JavaEnvironment.GetJavaVersion();
         }
 
         public void Dispose()

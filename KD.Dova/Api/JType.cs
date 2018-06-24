@@ -44,7 +44,7 @@ namespace KD.Dova.Api
         /// <returns></returns>
         public T InvokeStaticMethod<T>(string methodName, params object[] parameters)
         {
-            return this.Gateway.InvokeStaticMethod<T>(this.JavaType, methodName, parameters);
+            return this.Gateway.InvokeStaticMethod<T>(this, methodName, parameters);
         }
 
         /// <summary>

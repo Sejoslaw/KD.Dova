@@ -1,29 +1,24 @@
 ﻿using KD.Dova.Core;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace KD.Dova.Tests.BasicTests
+namespace KD.Dova.Tests.BasicMessageBox
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting Java Runtime...");
-
+            // Create Java Runtime Environment
             using (JavaRuntime jre = new JavaRuntime())
             {
-                Console.WriteLine("Loading library...");
-
-                Console.WriteLine("Adding custom options to Java Runtime...");
                 var options = new Dictionary<string, string>();
                 options.Add("-Djava.class.path", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
+                // Load Java Virtual Machine
                 jre.Load(options);
-
-                Console.WriteLine($"Java Runtime initialized.");
-                Console.WriteLine($"Java version: { jre.GetJavaVersion() }");
+                // Call sample Java static method.
+                jre.GetType("JOptionPane").InvokeStaticMethod<object>("showMessageDialog", null, "Hello C# from Java <3");
             }
         }
     }

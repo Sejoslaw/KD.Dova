@@ -6,9 +6,10 @@
 using KD.Dova.Core;
 using KD.Dova.Utils;
 using System;
-using System.Security;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Text;
 
 namespace KD.Dova.Natives
 {
@@ -18,7 +19,7 @@ namespace KD.Dova.Natives
         public delegate IntPtr GetVersion(IntPtr env);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr DefineClass(IntPtr env, IntPtr name, IntPtr loader, IntPtr buf, IntPtr len);
+        public delegate IntPtr DefineClass(IntPtr env, IntPtr name, IntPtr loader, StringBuilder buf, int len);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr FindClass(IntPtr env, [MarshalAs(UnmanagedType.LPStr)] string name);
@@ -60,7 +61,7 @@ namespace KD.Dova.Natives
         public delegate void FatalError(IntPtr env, IntPtr msg);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr PushLocalFrame(IntPtr env, IntPtr capacity);
+        public delegate IntPtr PushLocalFrame(IntPtr env, int capacity);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr PopLocalFrame(IntPtr env, IntPtr result);
@@ -81,7 +82,7 @@ namespace KD.Dova.Natives
         public delegate IntPtr NewLocalRef(IntPtr env, IntPtr reference);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr EnsureLocalCapacity(IntPtr env, IntPtr capacity);
+        public delegate IntPtr EnsureLocalCapacity(IntPtr env, int capacity);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr AllocObject(IntPtr env, IntPtr clazz);
@@ -192,28 +193,28 @@ namespace KD.Dova.Natives
         public delegate void SetObjectField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetBooleanField(IntPtr env, IntPtr obj, IntPtr fieldID, bool val);
+        public delegate void SetBooleanField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetByteField(IntPtr env, IntPtr obj, IntPtr fieldID, byte val);
+        public delegate void SetByteField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetCharField(IntPtr env, IntPtr obj, IntPtr fieldID, ushort val);
+        public delegate void SetCharField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetShortField(IntPtr env, IntPtr obj, IntPtr fieldID, short val);
+        public delegate void SetShortField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetIntField(IntPtr env, IntPtr obj, IntPtr fieldID, int val);
+        public delegate void SetIntField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetLongField(IntPtr env, IntPtr obj, IntPtr fieldID, long val);
+        public delegate void SetLongField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetFloatField(IntPtr env, IntPtr obj, IntPtr fieldID, float val);
+        public delegate void SetFloatField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID, double val);
+        public delegate void SetDoubleField(IntPtr env, IntPtr obj, IntPtr fieldID, IntPtr val);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetStaticMethodID(IntPtr env, IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig);
@@ -282,31 +283,31 @@ namespace KD.Dova.Natives
         public delegate void SetStaticObjectField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticBooleanField(IntPtr env, IntPtr clazz, IntPtr fieldID, bool value);
+        public delegate void SetStaticBooleanField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticByteField(IntPtr env, IntPtr clazz, IntPtr fieldID, byte value);
+        public delegate void SetStaticByteField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticCharField(IntPtr env, IntPtr clazz, IntPtr fieldID, ushort value);
+        public delegate void SetStaticCharField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticShortField(IntPtr env, IntPtr clazz, IntPtr fieldID, short value);
+        public delegate void SetStaticShortField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticIntField(IntPtr env, IntPtr clazz, IntPtr fieldID, int value);
+        public delegate void SetStaticIntField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticLongField(IntPtr env, IntPtr clazz, IntPtr fieldID, long value);
+        public delegate void SetStaticLongField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticFloatField(IntPtr env, IntPtr clazz, IntPtr fieldID, float value);
+        public delegate void SetStaticFloatField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetStaticDoubleField(IntPtr env, IntPtr clazz, IntPtr fieldID, double value);
+        public delegate void SetStaticDoubleField(IntPtr env, IntPtr clazz, IntPtr fieldID, IntPtr value);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewString(IntPtr env, IntPtr unicode, IntPtr len);
+        public delegate IntPtr NewString(IntPtr env, [MarshalAs(UnmanagedType.LPStr)] string unicode, int len);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate int GetStringLength(IntPtr env, IntPtr str);
@@ -333,7 +334,7 @@ namespace KD.Dova.Natives
         public delegate int GetArrayLength(IntPtr env, IntPtr array);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewObjectArray(IntPtr env, IntPtr len, IntPtr clazz, IntPtr init);
+        public delegate IntPtr NewObjectArray(IntPtr env, int len, IntPtr clazz, IntPtr init);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetObjectArrayElement(IntPtr env, IntPtr array, IntPtr index);
@@ -390,76 +391,76 @@ namespace KD.Dova.Natives
         public delegate IntPtr GetDoubleArrayElements(IntPtr env, IntPtr array, byte* isCopy);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseBooleanArrayElements(IntPtr env, IntPtr array, bool* elems, IntPtr mode);
+        public delegate void ReleaseBooleanArrayElements(IntPtr env, IntPtr array, bool* elems, int mode);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseByteArrayElements(IntPtr env, IntPtr array, byte* elems, IntPtr mode);
+        public delegate void ReleaseByteArrayElements(IntPtr env, IntPtr array, byte* elems, int mode);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseCharArrayElements(IntPtr env, IntPtr array, ushort* elems, IntPtr mode);
+        public delegate void ReleaseCharArrayElements(IntPtr env, IntPtr array, ushort* elems, int mode);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseShortArrayElements(IntPtr env, IntPtr array, short* elems, IntPtr mode);
+        public delegate void ReleaseShortArrayElements(IntPtr env, IntPtr array, short* elems, int mode);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseIntArrayElements(IntPtr env, IntPtr array, int* elems, IntPtr mode);
+        public delegate void ReleaseIntArrayElements(IntPtr env, IntPtr array, int* elems, int mode);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseLongArrayElements(IntPtr env, IntPtr array, long* elems, IntPtr mode);
+        public delegate void ReleaseLongArrayElements(IntPtr env, IntPtr array, long* elems, int mode);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseFloatArrayElements(IntPtr env, IntPtr array, float* elems, IntPtr mode);
+        public delegate void ReleaseFloatArrayElements(IntPtr env, IntPtr array, float* elems, int mode);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void ReleaseDoubleArrayElements(IntPtr env, IntPtr array, double* elems, IntPtr mode);
+        public delegate void ReleaseDoubleArrayElements(IntPtr env, IntPtr array, double* elems, int mode);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, IntPtr buf);
+        public delegate void GetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, bool buf);
+        public delegate void SetBooleanArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr l, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, byte buf);
+        public delegate void SetByteArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, ushort buf);
+        public delegate void SetCharArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, short buf);
+        public delegate void SetShortArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, int buf);
+        public delegate void SetIntArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, long buf);
+        public delegate void SetLongArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, float buf);
+        public delegate void SetFloatArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void SetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, IntPtr len, double buf);
+        public delegate void SetDoubleArrayRegion(IntPtr env, IntPtr array, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr RegisterNatives(IntPtr env, IntPtr clazz, IntPtr methods, IntPtr nMethods);
@@ -477,10 +478,10 @@ namespace KD.Dova.Natives
         public delegate IntPtr GetJavaVM(IntPtr env, out IntPtr vm);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetStringRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetStringRegion(IntPtr env, IntPtr str, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void GetStringUTFRegion(IntPtr env, IntPtr str, IntPtr start, IntPtr len, IntPtr buf);
+        public delegate void GetStringUTFRegion(IntPtr env, IntPtr str, IntPtr start, int len, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate void GetPrimitiveArrayCritical(IntPtr env, IntPtr array, byte* isCopy);
@@ -504,13 +505,13 @@ namespace KD.Dova.Natives
         public delegate IntPtr ExceptionCheck(IntPtr env);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr NewDirectByteBuffer(IntPtr env, IntPtr address, byte capacity);
+        public delegate IntPtr NewDirectByteBuffer(IntPtr env, IntPtr address, int capacity);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate void* GetDirectBufferAddress(IntPtr env, IntPtr buf);
+        public delegate void* GetDirectBufferAddress(IntPtr env, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr GetDirectBufferCapacity(IntPtr env, IntPtr buf);
+        public delegate IntPtr GetDirectBufferCapacity(IntPtr env, StringBuilder buf);
 
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr GetObjectRefType(IntPtr env, IntPtr obj);
@@ -716,7 +717,7 @@ namespace KD.Dova.Natives
             return ret;
         }
 
-        public IntPtr DefineClass(IntPtr name, IntPtr loader, IntPtr buf, IntPtr len)
+        public IntPtr DefineClass(IntPtr name, IntPtr loader, StringBuilder buf, int len)
         {
             if (defineClass == null)
             {
@@ -853,7 +854,7 @@ namespace KD.Dova.Natives
             fatalError.Invoke(this.NativePointer, msg);
         }
 
-        public IntPtr PushLocalFrame(IntPtr capacity)
+        public IntPtr PushLocalFrame(int capacity)
         {
             if (pushLocalFrame == null)
             {
@@ -921,7 +922,7 @@ namespace KD.Dova.Natives
             return ret;
         }
 
-        public IntPtr EnsureLocalCapacity(IntPtr capacity)
+        public IntPtr EnsureLocalCapacity(int capacity)
         {
             if (ensureLocalCapacity == null)
             {
@@ -1288,7 +1289,7 @@ namespace KD.Dova.Natives
             setObjectField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetBooleanField(IntPtr obj, IntPtr fieldID, bool val)
+        public void SetBooleanField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setBooleanField == null)
             {
@@ -1297,7 +1298,7 @@ namespace KD.Dova.Natives
             setBooleanField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetByteField(IntPtr obj, IntPtr fieldID, byte val)
+        public void SetByteField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setByteField == null)
             {
@@ -1306,7 +1307,7 @@ namespace KD.Dova.Natives
             setByteField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetCharField(IntPtr obj, IntPtr fieldID, ushort val)
+        public void SetCharField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setCharField == null)
             {
@@ -1315,7 +1316,7 @@ namespace KD.Dova.Natives
             setCharField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetShortField(IntPtr obj, IntPtr fieldID, short val)
+        public void SetShortField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setShortField == null)
             {
@@ -1324,7 +1325,7 @@ namespace KD.Dova.Natives
             setShortField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetIntField(IntPtr obj, IntPtr fieldID, int val)
+        public void SetIntField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setIntField == null)
             {
@@ -1333,7 +1334,7 @@ namespace KD.Dova.Natives
             setIntField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetLongField(IntPtr obj, IntPtr fieldID, long val)
+        public void SetLongField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setLongField == null)
             {
@@ -1342,7 +1343,7 @@ namespace KD.Dova.Natives
             setLongField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetFloatField(IntPtr obj, IntPtr fieldID, float val)
+        public void SetFloatField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setFloatField == null)
             {
@@ -1351,7 +1352,7 @@ namespace KD.Dova.Natives
             setFloatField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public void SetDoubleField(IntPtr obj, IntPtr fieldID, double val)
+        public void SetDoubleField(IntPtr obj, IntPtr fieldID, IntPtr val)
         {
             if (setDoubleField == null)
             {
@@ -1578,7 +1579,7 @@ namespace KD.Dova.Natives
             setStaticObjectField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticBooleanField(IntPtr clazz, IntPtr fieldID, bool value)
+        public void SetStaticBooleanField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticBooleanField == null)
             {
@@ -1587,7 +1588,7 @@ namespace KD.Dova.Natives
             setStaticBooleanField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticByteField(IntPtr clazz, IntPtr fieldID, byte value)
+        public void SetStaticByteField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticByteField == null)
             {
@@ -1596,7 +1597,7 @@ namespace KD.Dova.Natives
             setStaticByteField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticCharField(IntPtr clazz, IntPtr fieldID, ushort value)
+        public void SetStaticCharField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticCharField == null)
             {
@@ -1605,7 +1606,7 @@ namespace KD.Dova.Natives
             setStaticCharField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticShortField(IntPtr clazz, IntPtr fieldID, short value)
+        public void SetStaticShortField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticShortField == null)
             {
@@ -1614,7 +1615,7 @@ namespace KD.Dova.Natives
             setStaticShortField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticIntField(IntPtr clazz, IntPtr fieldID, int value)
+        public void SetStaticIntField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticIntField == null)
             {
@@ -1623,7 +1624,7 @@ namespace KD.Dova.Natives
             setStaticIntField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticLongField(IntPtr clazz, IntPtr fieldID, long value)
+        public void SetStaticLongField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticLongField == null)
             {
@@ -1632,7 +1633,7 @@ namespace KD.Dova.Natives
             setStaticLongField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticFloatField(IntPtr clazz, IntPtr fieldID, float value)
+        public void SetStaticFloatField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticFloatField == null)
             {
@@ -1641,7 +1642,7 @@ namespace KD.Dova.Natives
             setStaticFloatField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public void SetStaticDoubleField(IntPtr clazz, IntPtr fieldID, double value)
+        public void SetStaticDoubleField(IntPtr clazz, IntPtr fieldID, IntPtr value)
         {
             if (setStaticDoubleField == null)
             {
@@ -1650,7 +1651,7 @@ namespace KD.Dova.Natives
             setStaticDoubleField.Invoke(this.NativePointer, clazz, fieldID, value);
         }
 
-        public IntPtr NewString(IntPtr unicode, IntPtr len)
+        public IntPtr NewString([MarshalAs(UnmanagedType.LPStr)] string unicode, int len)
         {
             if (newString == null)
             {
@@ -1738,7 +1739,7 @@ namespace KD.Dova.Natives
             return ret;
         }
 
-        public IntPtr NewObjectArray(IntPtr len, IntPtr clazz, IntPtr init)
+        public IntPtr NewObjectArray(int len, IntPtr clazz, IntPtr init)
         {
             if (newObjectArray == null)
             {
@@ -1927,7 +1928,7 @@ namespace KD.Dova.Natives
             return ret;
         }
 
-        public void ReleaseBooleanArrayElements(IntPtr array, bool* elems, IntPtr mode)
+        public void ReleaseBooleanArrayElements(IntPtr array, bool* elems, int mode)
         {
             if (releaseBooleanArrayElements == null)
             {
@@ -1936,7 +1937,7 @@ namespace KD.Dova.Natives
             releaseBooleanArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseByteArrayElements(IntPtr array, byte* elems, IntPtr mode)
+        public void ReleaseByteArrayElements(IntPtr array, byte* elems, int mode)
         {
             if (releaseByteArrayElements == null)
             {
@@ -1945,7 +1946,7 @@ namespace KD.Dova.Natives
             releaseByteArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseCharArrayElements(IntPtr array, ushort* elems, IntPtr mode)
+        public void ReleaseCharArrayElements(IntPtr array, ushort* elems, int mode)
         {
             if (releaseCharArrayElements == null)
             {
@@ -1954,7 +1955,7 @@ namespace KD.Dova.Natives
             releaseCharArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseShortArrayElements(IntPtr array, short* elems, IntPtr mode)
+        public void ReleaseShortArrayElements(IntPtr array, short* elems, int mode)
         {
             if (releaseShortArrayElements == null)
             {
@@ -1963,7 +1964,7 @@ namespace KD.Dova.Natives
             releaseShortArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseIntArrayElements(IntPtr array, int* elems, IntPtr mode)
+        public void ReleaseIntArrayElements(IntPtr array, int* elems, int mode)
         {
             if (releaseIntArrayElements == null)
             {
@@ -1972,7 +1973,7 @@ namespace KD.Dova.Natives
             releaseIntArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseLongArrayElements(IntPtr array, long* elems, IntPtr mode)
+        public void ReleaseLongArrayElements(IntPtr array, long* elems, int mode)
         {
             if (releaseLongArrayElements == null)
             {
@@ -1981,7 +1982,7 @@ namespace KD.Dova.Natives
             releaseLongArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseFloatArrayElements(IntPtr array, float* elems, IntPtr mode)
+        public void ReleaseFloatArrayElements(IntPtr array, float* elems, int mode)
         {
             if (releaseFloatArrayElements == null)
             {
@@ -1990,7 +1991,7 @@ namespace KD.Dova.Natives
             releaseFloatArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void ReleaseDoubleArrayElements(IntPtr array, double* elems, IntPtr mode)
+        public void ReleaseDoubleArrayElements(IntPtr array, double* elems, int mode)
         {
             if (releaseDoubleArrayElements == null)
             {
@@ -1999,7 +2000,7 @@ namespace KD.Dova.Natives
             releaseDoubleArrayElements.Invoke(this.NativePointer, array, elems, mode);
         }
 
-        public void GetBooleanArrayRegion(IntPtr array, IntPtr start, IntPtr l, IntPtr buf)
+        public void GetBooleanArrayRegion(IntPtr array, IntPtr start, IntPtr l, StringBuilder buf)
         {
             if (getBooleanArrayRegion == null)
             {
@@ -2008,7 +2009,7 @@ namespace KD.Dova.Natives
             getBooleanArrayRegion.Invoke(this.NativePointer, array, start, l, buf);
         }
 
-        public void GetByteArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetByteArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (getByteArrayRegion == null)
             {
@@ -2017,7 +2018,7 @@ namespace KD.Dova.Natives
             getByteArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetCharArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetCharArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (getCharArrayRegion == null)
             {
@@ -2026,7 +2027,7 @@ namespace KD.Dova.Natives
             getCharArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetShortArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetShortArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (getShortArrayRegion == null)
             {
@@ -2035,7 +2036,7 @@ namespace KD.Dova.Natives
             getShortArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetIntArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetIntArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (getIntArrayRegion == null)
             {
@@ -2044,7 +2045,7 @@ namespace KD.Dova.Natives
             getIntArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetLongArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetLongArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (getLongArrayRegion == null)
             {
@@ -2053,7 +2054,7 @@ namespace KD.Dova.Natives
             getLongArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetFloatArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetFloatArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (getFloatArrayRegion == null)
             {
@@ -2062,7 +2063,7 @@ namespace KD.Dova.Natives
             getFloatArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void GetDoubleArrayRegion(IntPtr array, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetDoubleArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (getDoubleArrayRegion == null)
             {
@@ -2071,7 +2072,7 @@ namespace KD.Dova.Natives
             getDoubleArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetBooleanArrayRegion(IntPtr array, IntPtr start, IntPtr l, bool buf)
+        public void SetBooleanArrayRegion(IntPtr array, IntPtr start, IntPtr l, StringBuilder buf)
         {
             if (setBooleanArrayRegion == null)
             {
@@ -2080,7 +2081,7 @@ namespace KD.Dova.Natives
             setBooleanArrayRegion.Invoke(this.NativePointer, array, start, l, buf);
         }
 
-        public void SetByteArrayRegion(IntPtr array, IntPtr start, IntPtr len, byte buf)
+        public void SetByteArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (setByteArrayRegion == null)
             {
@@ -2089,7 +2090,7 @@ namespace KD.Dova.Natives
             setByteArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetCharArrayRegion(IntPtr array, IntPtr start, IntPtr len, ushort buf)
+        public void SetCharArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (setCharArrayRegion == null)
             {
@@ -2098,7 +2099,7 @@ namespace KD.Dova.Natives
             setCharArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetShortArrayRegion(IntPtr array, IntPtr start, IntPtr len, short buf)
+        public void SetShortArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (setShortArrayRegion == null)
             {
@@ -2107,7 +2108,7 @@ namespace KD.Dova.Natives
             setShortArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetIntArrayRegion(IntPtr array, IntPtr start, IntPtr len, int buf)
+        public void SetIntArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (setIntArrayRegion == null)
             {
@@ -2116,7 +2117,7 @@ namespace KD.Dova.Natives
             setIntArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetLongArrayRegion(IntPtr array, IntPtr start, IntPtr len, long buf)
+        public void SetLongArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (setLongArrayRegion == null)
             {
@@ -2125,7 +2126,7 @@ namespace KD.Dova.Natives
             setLongArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetFloatArrayRegion(IntPtr array, IntPtr start, IntPtr len, float buf)
+        public void SetFloatArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (setFloatArrayRegion == null)
             {
@@ -2134,7 +2135,7 @@ namespace KD.Dova.Natives
             setFloatArrayRegion.Invoke(this.NativePointer, array, start, len, buf);
         }
 
-        public void SetDoubleArrayRegion(IntPtr array, IntPtr start, IntPtr len, double buf)
+        public void SetDoubleArrayRegion(IntPtr array, IntPtr start, int len, StringBuilder buf)
         {
             if (setDoubleArrayRegion == null)
             {
@@ -2193,7 +2194,7 @@ namespace KD.Dova.Natives
             return ret;
         }
 
-        public void GetStringRegion(IntPtr str, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetStringRegion(IntPtr str, IntPtr start, int len, StringBuilder buf)
         {
             if (getStringRegion == null)
             {
@@ -2202,7 +2203,7 @@ namespace KD.Dova.Natives
             getStringRegion.Invoke(this.NativePointer, str, start, len, buf);
         }
 
-        public void GetStringUTFRegion(IntPtr str, IntPtr start, IntPtr len, IntPtr buf)
+        public void GetStringUTFRegion(IntPtr str, IntPtr start, int len, StringBuilder buf)
         {
             if (getStringUTFRegion == null)
             {
@@ -2277,7 +2278,7 @@ namespace KD.Dova.Natives
             return ret;
         }
 
-        public IntPtr NewDirectByteBuffer(IntPtr address, byte capacity)
+        public IntPtr NewDirectByteBuffer(IntPtr address, int capacity)
         {
             if (newDirectByteBuffer == null)
             {
@@ -2287,7 +2288,7 @@ namespace KD.Dova.Natives
             return ret;
         }
 
-        public void* GetDirectBufferAddress(IntPtr buf)
+        public void* GetDirectBufferAddress(StringBuilder buf)
         {
             if (getDirectBufferAddress == null)
             {
@@ -2297,7 +2298,7 @@ namespace KD.Dova.Natives
             return ret;
         }
 
-        public IntPtr GetDirectBufferCapacity(IntPtr buf)
+        public IntPtr GetDirectBufferCapacity(StringBuilder buf)
         {
             if (getDirectBufferCapacity == null)
             {
