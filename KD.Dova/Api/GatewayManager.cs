@@ -21,15 +21,15 @@ namespace KD.Dova.Api
             this.CallersFactory = new CallersFactory(this);
         }
 
-        public T GetFieldValue<T>(IntPtr objectId, string fieldName)
+        public T GetFieldValue<T>(IntPtr objectId, string fieldName, string fieldType = null)
         {
-            return this.ReturnFieldValue<T>(objectId, fieldName, false,
+            return this.ReturnFieldValue<T>(objectId, fieldName, fieldType, false,
                 (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetFieldID(id, name, sig));
         }
 
-        public T GetStaticFieldValue<T>(JType javaType, string fieldName)
+        public T GetStaticFieldValue<T>(JType javaType, string fieldName, string fieldType = null)
         {
-            return this.ReturnFieldValue<T>(javaType.JavaType, fieldName, true,
+            return this.ReturnFieldValue<T>(javaType.JavaType, fieldName, fieldType, true,
                 (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetStaticFieldID(id, name, sig));
         }
 
@@ -47,11 +47,9 @@ namespace KD.Dova.Api
 
         public JType LoadClass(string className, params object[] genericTypes)
         {
-            string name = className.Replace(".", "/");
-
             try
             {
-                IntPtr javaClass = this.Runtime.JavaEnvironment.JNIEnv.FindClass(name);
+                IntPtr javaClass = this.Runtime.JavaEnvironment.JNIEnv.FindClass(className.ToJniSignatureString());
                 JType type = new JType(this, className, javaClass);
                 return type;
             }
@@ -104,11 +102,16 @@ namespace KD.Dova.Api
             throw new NotSupportedException();
         }
 
-        private T ReturnFieldValue<T>(IntPtr ptr, string fieldName, bool isStatic, Func<IntPtr, string, string, IntPtr> GetFieldId)
+        private T ReturnFieldValue<T>(IntPtr ptr, string fieldName, string fieldType, bool isStatic, Func<IntPtr, string, string, IntPtr> GetFieldId)
         {
             return this.ReturnValue<T>(ptr, fieldName,
                 (id, name, sig) =>
                 {
+                    if (fieldType != null)
+                    {
+                        sig = fieldType.ToJniSignatureString();
+                    }
+
                     IntPtr fieldId = GetFieldId(id, fieldName, sig);
 
                     return this.CallersFactory.GetFieldValue<T>(ptr, fieldId, isStatic);

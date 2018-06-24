@@ -51,19 +51,21 @@ namespace KD.Dova.Api
         T InvokeStaticMethod<T>(JType javaType, string methodName, params object[] parameters);
         /// <summary>
         /// Returns value of specified field.
+        /// TODO: Find fieldType dynamically.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="fieldName"></param>
         /// <returns></returns>
-        T GetFieldValue<T>(IntPtr objectId, string fieldName);
+        T GetFieldValue<T>(IntPtr objectId, string fieldName, string fieldType = null);
         /// <summary>
         /// Returns value of the static field.
+        /// TODO: Find fieldType dynamically.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="className"></param>
         /// <param name="fieldName"></param>
         /// <returns></returns>
-        T GetStaticFieldValue<T>(JType javaType, string fieldName);
+        T GetStaticFieldValue<T>(JType javaType, string fieldName, string fieldType = null);
         /// <summary>
         /// Sets the new value of the field.
         /// </summary>

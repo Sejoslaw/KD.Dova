@@ -53,9 +53,9 @@ namespace KD.Dova.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="fieldName"></param>
         /// <returns></returns>
-        public T GetStaticFieldValue<T>(string fieldName)
+        public T GetStaticFieldValue<T>(string fieldName, string fieldType = null)
         {
-            return this.Gateway.GetStaticFieldValue<T>(this, fieldName);
+            return this.Gateway.GetStaticFieldValue<T>(this, fieldName, fieldType);
         }
 
         /// <summary>
