@@ -18,7 +18,7 @@ namespace KD.Dova.Tests.BasicMessageBox
                 // Load Java Virtual Machine
                 jre.Load(options);
                 // Call sample Java static method.
-                jre.GetType("JOptionPane").InvokeStaticMethod<object>("showMessageDialog", null, "Hello C# from Java <3");
+                jre.GetClass("JOptionPane").InvokeStaticMethod<object>("showMessageDialog", null, "Hello C# from Java <3");
             }
         }
     }

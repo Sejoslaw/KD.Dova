@@ -1361,7 +1361,7 @@ namespace KD.Dova.Natives
             setDoubleField.Invoke(this.NativePointer, obj, fieldID, val);
         }
 
-        public IntPtr GetStaticMethodID(IntPtr clazz, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string sig)
+        public IntPtr GetStaticMethodID(IntPtr clazz, string name, string sig)
         {
             if (getStaticMethodID == null)
             {

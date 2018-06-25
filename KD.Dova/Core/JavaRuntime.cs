@@ -122,8 +122,8 @@ namespace KD.Dova.Core
         /// <param name="pathOrName"></param>
         public void AddArchive(string pathOrName)
         {
-            JType javaType = this.Gateway.LoadClass("System");
-            javaType.InvokeStaticMethod<object>("loadLibrary", pathOrName);
+            JClass javaClass = this.Gateway.LoadClass("java.lang.System");
+            javaClass.InvokeStaticMethod<object>("loadLibrary", "V", pathOrName);
         }
 
         /// <summary>
@@ -139,14 +139,14 @@ namespace KD.Dova.Core
         }
 
         /// <summary>
-        /// Returns generic Java type with specified generic parameters.
+        /// Returns Java type with optional generic parameters.
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="genericTypes"></param>
         /// <returns></returns>
-        public JType GetType(string typeName, params object[] genericTypes)
+        public JClass GetClass(string typeName, params object[] genericTypes)
         {
-            JType jt = this.Gateway.LoadClass(typeName, genericTypes);
+            JClass jt = this.Gateway.LoadClass(typeName, genericTypes);
             return jt;
         }
 

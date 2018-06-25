@@ -5,7 +5,7 @@ namespace KD.Dova.Api
     /// <summary>
     /// Wrapper for a single Java object.
     /// </summary>
-    public sealed class JObject
+    public sealed class JObject : IDisposable
     {
         /// <summary>
         /// Name of the Java class.
@@ -58,9 +58,14 @@ namespace KD.Dova.Api
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public T Invoke<T>(string methodName, params object[] parameters)
+        public T Invoke<T>(string methodName, string javaReturnType, params object[] parameters)
         {
-            return this.Gateway.InvokeMethod<T>(this.JavaObject, methodName, parameters);
+            return this.Gateway.InvokeMethod<T>(this.JavaObject, methodName, javaReturnType, parameters);
+        }
+
+        public void Dispose()
+        {
+            this.Gateway.Runtime.JavaEnvironment.JNIEnv.DeleteLocalRef(this.JavaClass);
         }
     }
 }

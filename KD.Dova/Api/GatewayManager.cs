@@ -27,30 +27,31 @@ namespace KD.Dova.Api
                 (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetFieldID(id, name, sig));
         }
 
-        public T GetStaticFieldValue<T>(JType javaType, string fieldName, string fieldType = null)
+        public T GetStaticFieldValue<T>(JClass javaType, string fieldName, string fieldType = null)
         {
-            return this.ReturnFieldValue<T>(javaType.JavaType, fieldName, fieldType, true,
+            return this.ReturnFieldValue<T>(javaType.JavaClass, fieldName, fieldType, true,
                 (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetStaticFieldID(id, name, sig));
         }
 
-        public T InvokeMethod<T>(IntPtr objectId, string methodName, params object[] parameters)
+        public T InvokeMethod<T>(IntPtr objectId, string methodName, string javaReturnType, params object[] parameters)
         {
-            return this.ReturnMethodInvoke<T>(objectId, methodName, parameters, false,
+            return this.ReturnMethodInvoke<T>(objectId, methodName, javaReturnType, parameters, false,
                 (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetMethodID(id, name, sig));
         }
 
-        public T InvokeStaticMethod<T>(JType javaType, string methodName, params object[] parameters)
+        public T InvokeStaticMethod<T>(JClass javaType, string methodName, string javaReturnType, params object[] parameters)
         {
-            return this.ReturnMethodInvoke<T>(javaType.JavaType, methodName, parameters, false,
+            return this.ReturnMethodInvoke<T>(javaType.JavaClass, methodName, javaReturnType, parameters, false,
                 (id, name, sig) => this.Runtime.JavaEnvironment.JNIEnv.GetStaticMethodID(id, name, sig));
         }
 
-        public JType LoadClass(string className, params object[] genericTypes)
+        public JClass LoadClass(string className, params object[] genericTypes)
         {
             try
             {
-                IntPtr javaClass = this.Runtime.JavaEnvironment.JNIEnv.FindClass(className.ToJniSignatureString());
-                JType type = new JType(this, className, javaClass);
+                string jniSignature = className.ToJniSignatureString();
+                IntPtr javaClass = this.Runtime.JavaEnvironment.JNIEnv.FindClass(jniSignature);
+                JClass type = new JClass(this, className, javaClass);
                 return type;
             }
             catch
@@ -61,12 +62,12 @@ namespace KD.Dova.Api
 
         public JObject New(string typeName, params object[] parameters)
         {
-            JType type = this.LoadClass(typeName);
+            JClass type = this.LoadClass(typeName);
             JObject obj = type.New(parameters);
             return obj;
         }
 
-        public JObject New(JType type, params object[] parameters)
+        public JObject New(JClass type, params object[] parameters)
         {
             try
             {
@@ -76,15 +77,15 @@ namespace KD.Dova.Api
                 if (parameters == null ||
                     parameters.Length == 0)
                 {
-                    methodId = this.Runtime.JavaEnvironment.JNIEnv.GetMethodID(type.JavaType, "<init>", "()V");
+                    methodId = this.Runtime.JavaEnvironment.JNIEnv.GetMethodID(type.JavaClass, "<init>", "()V");
                 }
                 else
                 {
                     // TODO: Add support for calling constructor with parameters.
                 }
 
-                IntPtr javaObject = this.Runtime.JavaEnvironment.JNIEnv.NewObject(type.JavaType, methodId, new NativeValue());
-                return new JObject(this, type.JavaTypeName, type.JavaType, javaObject);
+                IntPtr javaObject = this.Runtime.JavaEnvironment.JNIEnv.NewObject(type.JavaClass, methodId, new NativeValue());
+                return new JObject(this, type.JavaClassName, type.JavaClass, javaObject);
             }
             catch
             {
@@ -97,7 +98,7 @@ namespace KD.Dova.Api
             throw new NotSupportedException();
         }
 
-        public void SetStaticFieldValue(JType javaType, string fieldName, object newValue)
+        public void SetStaticFieldValue(JClass javaType, string fieldName, object newValue)
         {
             throw new NotSupportedException();
         }
@@ -118,11 +119,12 @@ namespace KD.Dova.Api
                 });
         }
 
-        private T ReturnMethodInvoke<T>(IntPtr ptr, string methodName, object[] parameters, bool isStatic, Func<IntPtr, string, string, IntPtr> GetMethodId)
+        private T ReturnMethodInvoke<T>(IntPtr ptr, string methodName, string javaReturnType, object[] parameters, bool isStatic, Func<IntPtr, string, string, IntPtr> GetMethodId)
         {
             return this.ReturnValue<T>(ptr, methodName,
-                (id, name, sig) =>
+                (id, name, returnTypeJniSignature) =>
                 {
+                    string sig = parameters.ToJniSignatureArray().ToFullJniSignature(javaReturnType);
                     IntPtr methodId = GetMethodId(id, methodName, sig);
                     NativeValue[] args = parameters.ToNativeValueArray(this.Runtime);
 

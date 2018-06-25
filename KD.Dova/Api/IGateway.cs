@@ -18,7 +18,7 @@ namespace KD.Dova.Api
         /// </summary>
         /// <param name="className"></param>
         /// <returns></returns>
-        JType LoadClass(string className, params object[] genericTypes);
+        JClass LoadClass(string className, params object[] genericTypes);
         /// <summary>
         /// Returns new Java object by it's name, using the constructor with specified parameters.
         /// </summary>
@@ -32,14 +32,14 @@ namespace KD.Dova.Api
         /// <param name="type"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        JObject New(JType type, params object[] parameters);
+        JObject New(JClass type, params object[] parameters);
         /// <summary>
         /// Invokes method by it's name.
         /// </summary>
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        T InvokeMethod<T>(IntPtr objectId, string methodName, params object[] parameters);
+        T InvokeMethod<T>(IntPtr objectId, string methodName, string javaReturnType, params object[] parameters);
         /// <summary>
         /// Invokes static method from specified class.
         /// </summary>
@@ -48,7 +48,7 @@ namespace KD.Dova.Api
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        T InvokeStaticMethod<T>(JType javaType, string methodName, params object[] parameters);
+        T InvokeStaticMethod<T>(JClass javaType, string methodName, string javaReturnType, params object[] parameters);
         /// <summary>
         /// Returns value of specified field.
         /// TODO: Find fieldType dynamically.
@@ -65,7 +65,7 @@ namespace KD.Dova.Api
         /// <param name="className"></param>
         /// <param name="fieldName"></param>
         /// <returns></returns>
-        T GetStaticFieldValue<T>(JType javaType, string fieldName, string fieldType = null);
+        T GetStaticFieldValue<T>(JClass javaType, string fieldName, string fieldType = null);
         /// <summary>
         /// Sets the new value of the field.
         /// </summary>
@@ -79,6 +79,6 @@ namespace KD.Dova.Api
         /// <param name="className"></param>
         /// <param name="fieldName"></param>
         /// <param name="newValue"></param>
-        void SetStaticFieldValue(JType javaType, string fieldName, object newValue);
+        void SetStaticFieldValue(JClass javaType, string fieldName, object newValue);
     }
 }
